@@ -1,0 +1,219 @@
+import React, { useState } from 'react';
+import { Channel, Category } from '../types';
+import { ChevronLeft, ChevronRight, Search, Grid, List } from 'lucide-react';
+
+interface LiveTVProps {
+  onChannelSelect: (channel: Channel) => void;
+}
+
+const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+
+  // Mock data for categories and channels
+  const categories: Category[] = [
+    {
+      id: 'all',
+      name: 'All Channels',
+      channels: []
+    },
+    {
+      id: 'news',
+      name: 'News',
+      channels: []
+    },
+    {
+      id: 'sports',
+      name: 'Sports',
+      channels: []
+    },
+    {
+      id: 'entertainment',
+      name: 'Entertainment',
+      channels: []
+    },
+    {
+      id: 'demo',
+      name: 'Demo Streams',
+      channels: []
+    },
+    {
+      id: 'kids',
+      name: 'Kids',
+      channels: []
+    }
+  ];
+
+  const channels: Channel[] = [
+    {
+      id: '1',
+      name: 'Big Buck Bunny',
+      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
+      streamUrl: 'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8',
+      category: 'demo'
+    },
+    {
+      id: '2',
+      name: 'Sintel Demo',
+      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
+      streamUrl: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
+      category: 'demo'
+    },
+    {
+      id: '3',
+      name: 'Apple Test Stream',
+      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
+      streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
+      category: 'demo'
+    },
+    {
+      id: '4',
+      name: 'Akamai Test Stream',
+      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
+      streamUrl: 'https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8',
+      category: 'demo'
+    },
+    {
+      id: '5',
+      name: 'NASA Live',
+      logo: 'https://images.pexels.com/photos/2159/flight-sky-earth-space.jpg?auto=compress&cs=tinysrgb&w=100',
+      streamUrl: 'https://nasa-i.akamaihd.net/hls/live/253565/NASA-NTV1-HLS/master.m3u8',
+      category: 'news'
+    },
+    {
+      id: '6',
+      name: 'Red Bull TV',
+      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
+      streamUrl: 'https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8',
+      category: 'sports'
+    },
+    {
+      id: '7',
+      name: 'France 24 English',
+      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
+      streamUrl: 'https://static.france24.com/live/F24_EN_LO_HLS/live_web.m3u8',
+      category: 'news'
+    },
+    {
+      id: '8',
+      name: 'DW English',
+      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
+      streamUrl: 'https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8',
+      category: 'news'
+    },
+    {
+      id: '9',
+      name: 'RT News',
+      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
+      streamUrl: 'https://rt-glb.rttv.com/live/rtnews/playlist.m3u8',
+      category: 'news'
+    },
+    {
+      id: '10',
+      name: 'Bloomberg TV',
+      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
+      streamUrl: 'https://bloomberg.com/media-manifest/streams/asia.m3u8',
+      category: 'news'
+    }
+  ];
+
+  const filteredChannels = channels.filter(channel => {
+    const matchesCategory = selectedCategory === 'all' || channel.category === selectedCategory;
+    const matchesSearch = channel.name.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <h2 className="text-3xl font-bold text-white">Live TV</h2>
+        <div className="flex items-center gap-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+            <input
+              type="text"
+              placeholder="Search channels..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 pr-4 py-2 bg-slate-800 text-white rounded-lg border border-slate-700 focus:border-blue-500 focus:outline-none w-64"
+            />
+          </div>
+          <div className="flex bg-slate-800 rounded-lg p-1">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`p-2 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-slate-400'}`}
+            >
+              <Grid className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`p-2 rounded-md transition-colors ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'text-slate-400'}`}
+            >
+              <List className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Categories */}
+      <div className="flex flex-wrap gap-2">
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            onClick={() => setSelectedCategory(category.id)}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+              selectedCategory === category.id
+                ? 'bg-blue-600 text-white'
+                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+            }`}
+          >
+            {category.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Channels */}
+      <div className={`${viewMode === 'grid' ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4' : 'space-y-2'}`}>
+        {filteredChannels.map((channel) => (
+          <div
+            key={channel.id}
+            onClick={() => onChannelSelect(channel)}
+            className={`
+              cursor-pointer transition-all duration-200 hover:scale-105 group
+              ${viewMode === 'grid' 
+                ? 'bg-slate-800 rounded-lg p-4 hover:bg-slate-700' 
+                : 'bg-slate-800 rounded-lg p-3 hover:bg-slate-700 flex items-center gap-3'
+              }
+            `}
+          >
+            <div className={`${viewMode === 'grid' ? 'text-center' : 'flex items-center gap-3 w-full'}`}>
+              <div className={`${viewMode === 'grid' ? 'mb-3' : 'flex-shrink-0'}`}>
+                <div className={`${viewMode === 'grid' ? 'w-16 h-16' : 'w-12 h-12'} bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-lg mx-auto`}>
+                  {channel.name.charAt(0)}
+                </div>
+              </div>
+              <div className={`${viewMode === 'grid' ? 'text-center' : 'flex-1'}`}>
+                <h3 className={`${viewMode === 'grid' ? 'text-sm' : 'text-base'} font-medium text-white group-hover:text-blue-400 transition-colors`}>
+                  {channel.name}
+                </h3>
+                {viewMode === 'list' && (
+                  <p className="text-xs text-slate-400 capitalize">{channel.category}</p>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {filteredChannels.length === 0 && (
+        <div className="text-center py-20">
+          <p className="text-slate-400 text-lg">No channels found</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default LiveTV;
