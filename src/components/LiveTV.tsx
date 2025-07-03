@@ -268,52 +268,10 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "News"
     },
     {
-      "id": "72",
-      "name": "PMC (1080p)",
-      "logo": "https://i.imgur.com/AbrHI7K.png",
-      "streamUrl": "https://hls.pmc.live/hls/stream.m3u8",
-      "category": "Music"
-    },
-    {
-      "id": "73",
-      "name": "PMC Royale (720p)",
-      "logo": "https://www.lyngsat.com/logo/tv/pp/pmc-royale-ch.png",
-      "streamUrl": "https://rohls.pmc.live/hls/stream.m3u8",
-      "category": "Music"
-    },
-    {
-      "id": "74",
-      "name": "Qwest TV (1080p)",
-      "logo": "https://i.imgur.com/DjgNNHK.png",
-      "streamUrl": "https://qwestjazz-rakuten.amagi.tv/hls/amagi_hls_data_rakutenAA-qwestjazz-rakuten/CDN/master.m3u8",
-      "category": "Music"
-    },
-    {
       "id": "75",
       "name": "Rai Italia",
       "logo": "https://i.imgur.com/1nN4rEP.png",
       "streamUrl": "https://ilglobotv-live.akamaized.net/channels/RAIItaliaSudAfrica/Live.m3u8",
-      "category": "Undefined"
-    },
-    {
-      "id": "76",
-      "name": "Ramez (1080p)",
-      "logo": "https://i.imgur.com/aCJeVSr.png",
-      "streamUrl": "https://shls-live-enc.edgenextcdn.net/out/v1/0ef83323c0374a1187c182645db2a45f/index.m3u8",
-      "category": "Comedy"
-    },
-    {
-      "id": "77",
-      "name": "REFLET TV (1080p)",
-      "logo": "https://i.imgur.com/EauXR22.png",
-      "streamUrl": "https://edge-a3.evrideo.tv/8f37c9f0-fe22-44f4-b64a-76ad11730daf_1000026630_HLS/manifest.m3u8",
-      "category": "General"
-    },
-    {
-      "id": "78",
-      "name": "Romanza+ Africa (720p)",
-      "logo": "https://i.imgur.com/HYg75w2.png",
-      "streamUrl": "https://origin3.afxp.telemedia.co.za/PremiumFree/romanza/playlist.m3u8",
       "category": "Undefined"
     },
     {
@@ -322,13 +280,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "logo": "https://i.imgur.com/G8vGrn1.png",
       "streamUrl": "https://rt-arb.rttv.com/dvr/rtarab/playlist.m3u8",
       "category": "News"
-    },
-    {
-      "id": "80",
-      "name": "RTP África (504p) [Not 24/7]",
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/RTP_%C3%81frica_2016_%28Reduced_Version%29.svg/512px-RTP_%C3%81frica_2016_%28Reduced_Version%29.svg.png",
-      "streamUrl": "https://streaming-live.rtp.pt/liverepeater/smil:rtpafrica.smil/playlist.m3u8",
-      "category": "General"
     },
     {
       "id": "81",
@@ -343,20 +294,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "logo": "https://i.imgur.com/FjtzQQs.png",
       "streamUrl": "https://stream.skynewsarabia.com/vertical/vertical.m3u8",
       "category": "News"
-    },
-    {
-      "id": "83",
-      "name": "Spacetoon Arabic (1080p)",
-      "logo": "https://upload.wikimedia.org/wikipedia/en/2/2b/Spacetoon_logo.png",
-      "streamUrl": "https://shd-gcp-live.edgenextcdn.net/live/bitmovin-spacetoon/d8382fb9ab4b2307058f12c7ea90db54/index.m3u8",
-      "category": "Animation"
-    },
-    {
-      "id": "84",
-      "name": "StoryChannel TV (720p)",
-      "logo": "https://i.imgur.com/ZBV6xph.png",
-      "streamUrl": "https://136044159.r.cdnsun.net/storychannel.m3u8",
-      "category": "Culture"
     },
     {
       "id": "85",
