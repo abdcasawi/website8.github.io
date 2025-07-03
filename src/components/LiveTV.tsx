@@ -184,34 +184,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "Culture"
     },
     {
-      "id": "38",
-      "name": "BBC Arabic (720p)",
-      "logo": "https://i.imgur.com/ScyTG6P.png",
-      "streamUrl": "https://vs-cmaf-pushb-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_arabic_tv/pc_hd_abr_v2.mpd",
-      "category": "News"
-    },
-    {
-      "id": "39",
-      "name": "BBC News (720p)",
-      "logo": "https://i.imgur.com/vSz2WEp.png",
-      "streamUrl": "https://vs-cmaf-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/iptv_hd_abr_v1.mpd",
-      "category": "News"
-    },
-    {
-      "id": "40",
-      "name": "Bloomberg TV EMEA Live Event (720p)",
-      "logo": "https://i.imgur.com/OuogLHx.png",
-      "streamUrl": "https://bloomberg.com/media-manifest/streams/eu-event.m3u8",
-      "category": "Business"
-    },
-    {
-      "id": "41",
-      "name": "Canal 2 International",
-      "logo": "https://i.imgur.com/BzA2z7m.png",
-      "streamUrl": "http://69.64.57.208/canal2international/playlist.m3u8",
-      "category": "General"
-    },
-    {
       "id": "42",
       "name": "CGTN Arabic (1080p) [Not 24/7]",
       "logo": "https://i.imgur.com/AkFFrS7.png",
