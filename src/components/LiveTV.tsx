@@ -95,6 +95,82 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     "streamUrl": "https://fl1002.bozztv.com/ga-aflamtv7/index.m3u8",
     "category": "Morocco"
   }
+  {  
+    "id": "1",  
+    "name": "Al Arabiya (1080p)",  
+    "logo": "https://i.imgur.com/NXFkYFj.png",  
+    "streamUrl": "https://live.alarabiya.net/alarabiapublish/alarabiya.smil/playlist.m3u8",  
+    "category": "Arabic"  
+  },  
+  {  
+    "id": "2",  
+    "name": "Al Arabiya Al Hadath (1080p) [Not 24/7]",  
+    "logo": "https://i.imgur.com/De4SEWE.png",  
+    "streamUrl": "https://av.alarabiya.net/alarabiapublish/alhadath.smil/playlist.m3u8",  
+    "category": "Arabic"  
+  },  
+  {  
+    "id": "3",  
+    "name": "Al Arabiya Business (1080p)",  
+    "logo": "https://i.imgur.com/eEV4r6J.jpg",  
+    "streamUrl": "https://live.alarabiya.net/alarabiapublish/aswaaq.smil/playlist.m3u8",  
+    "category": "Arabic"  
+  },  
+  {  
+    "id": "4",  
+    "name": "Al Arabiya Programs (1080p)",  
+    "logo": "https://i.imgur.com/Hoc3cfO.png",  
+    "streamUrl": "https://d1j4r34gq3qw9y.cloudfront.net/out/v1/96804f3a14864641a21c25e8ca9afb74/index.m3u8",  
+    "category": "Arabic"  
+  },  
+  {  
+    "id": "5",  
+    "name": "Al Araby TV 2 (1080p)",  
+    "logo": "https://i.imgur.com/Gp5mNea.png",  
+    "streamUrl": "https://alarabyta.cdn.octivid.com/alaraby2n/smil:alaraby2n.stream.smil/chunklist.m3u8",  
+    "category": "Arabic"  
+  },  
+  {  
+    "id": "6",  
+    "name": "Al Araby TV (1080p)",  
+    "logo": "https://i.imgur.com/YMqWEe4.png",  
+    "streamUrl": "https://alarabyta.cdn.octivid.com/alaraby/smil:alaraby.stream.smil/chunklist.m3u8",  
+    "category": "Arabic"  
+  },  
+  {  
+    "id": "7",  
+    "name": "Al Hayat TV (720p)",  
+    "logo": "https://i.imgur.com/M8ZuzeB.png",  
+    "streamUrl": "https://cdn3.wowza.com/5/OE5HREpIcEkySlNT/alhayat-live/ngrp:livestream_all/playlist.m3u8",  
+    "category": "Arabic"  
+  },  
+  {  
+    "id": "8",  
+    "name": "Al Jazeera (1080p)",  
+    "logo": "https://i.imgur.com/7bRVpnu.png",  
+    "streamUrl": "https://live-hls-apps-aja-fa.getaj.net/AJA/index.m3u8",  
+    "category": "Arabic"  
+  },  
+  {  
+    "id": "9",  
+    "name": "Al Jazeera Documentary (1080p) [Geo-blocked]",  
+    "logo": "https://i.imgur.com/5dNJlLo.png",  
+    "streamUrl": "https://live-hls-apps-ajd-fa.getaj.net/AJD/index.m3u8",  
+    "category": "Arabic"  
+  },  
+  {  
+    "id": "10",  
+    "name": "Al Jazeera Mubasher 24 (1080p)",  
+    "logo": "https://yt3.googleusercontent.com/h0_bBdVgCAXIPJFnQ4hZtE87cDY_qO7rkDAue8qXdmOFxZ5NaO3AFD1uCUcst-EsBcGJ8zl8EQ=s160-c-k-c0x00ffffff-no-rj",  
+    "streamUrl": "https://live-hls-apps-ajm24-fa.getaj.net/AJM24/index.m3u8",  
+    "category": "Arabic"  
+  },  
+  {  
+    "id": "11",  
+    "name": "Al Jazeera Mubasher (1080p)",  
+    "logo": "https://yt3.googleusercontent.com/h0_bBdVgCAXIPJFnQ4hZtE87cDY" ,
+    "category": "Arabic"
+    }, 
   ];
 
   const filteredChannels = channels.filter(channel => {
