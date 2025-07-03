@@ -11,6 +11,13 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
+  const buttonBackgroundStyle = {
+    backgroundImage: 'url(/183887-4146907743 copy.jpg)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
+  };
+
   // Mock data for categories and channels
   const categories: Category[] = [
     {
@@ -326,16 +333,20 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
               className="pl-10 pr-4 py-2 bg-black/30 backdrop-blur-md text-white rounded-lg border border-white/20 focus:border-blue-500 focus:outline-none w-64 placeholder-slate-400"
             />
           </div>
-          <div className="flex bg-black/30 backdrop-blur-md rounded-lg p-1 border border-white/20">
+          <div 
+            className="flex rounded-lg p-1 border border-white/20 relative overflow-hidden"
+            style={buttonBackgroundStyle}
+          >
+            <div className="absolute inset-0 bg-black/60"></div>
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-2 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-slate-400'}`}
+              className={`p-2 rounded-md transition-colors relative z-10 ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-slate-300'}`}
             >
               <Grid className="w-4 h-4" />
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-2 rounded-md transition-colors ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'text-slate-400'}`}
+              className={`p-2 rounded-md transition-colors relative z-10 ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'text-slate-300'}`}
             >
               <List className="w-4 h-4" />
             </button>
@@ -349,13 +360,15 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
           <button
             key={category.id}
             onClick={() => setSelectedCategory(category.id)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all backdrop-blur-md border ${
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all backdrop-blur-md border relative overflow-hidden ${
               selectedCategory === category.id
-                ? 'bg-blue-600 text-white border-blue-500'
-                : 'bg-black/30 text-slate-300 hover:bg-black/50 border-white/20'
+                ? 'border-blue-500 text-white'
+                : 'border-white/20 text-slate-300 hover:text-white'
             }`}
+            style={buttonBackgroundStyle}
           >
-            {category.name}
+            <div className={`absolute inset-0 ${selectedCategory === category.id ? 'bg-blue-600/80' : 'bg-black/60 hover:bg-black/50'}`}></div>
+            <span className="relative z-10">{category.name}</span>
           </button>
         ))}
       </div>
@@ -367,14 +380,16 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
             key={channel.id}
             onClick={() => onChannelSelect(channel)}
             className={`
-              cursor-pointer transition-all duration-200 hover:scale-105 group backdrop-blur-md border border-white/20
+              cursor-pointer transition-all duration-200 hover:scale-105 group backdrop-blur-md border border-white/20 relative overflow-hidden
               ${viewMode === 'grid' 
-                ? 'bg-black/30 rounded-lg p-4 hover:bg-black/50' 
-                : 'bg-black/30 rounded-lg p-3 hover:bg-black/50 flex items-center gap-3'
+                ? 'rounded-lg p-4 hover:shadow-lg' 
+                : 'rounded-lg p-3 hover:shadow-lg flex items-center gap-3'
               }
             `}
+            style={buttonBackgroundStyle}
           >
-            <div className={`${viewMode === 'grid' ? 'text-center' : 'flex items-center gap-3 w-full'}`}>
+            <div className="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors"></div>
+            <div className={`relative z-10 ${viewMode === 'grid' ? 'text-center' : 'flex items-center gap-3 w-full'}`}>
               <div className={`${viewMode === 'grid' ? 'mb-3' : 'flex-shrink-0'}`}>
                 <div className={`${viewMode === 'grid' ? 'w-16 h-16' : 'w-12 h-12'} bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-lg mx-auto shadow-lg`}>
                   {channel.name.charAt(0)}

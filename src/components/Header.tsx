@@ -33,6 +33,13 @@ const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => {
     });
   };
 
+  const buttonStyle = {
+    backgroundImage: 'url(/183887-4146907743 copy.jpg)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
+  };
+
   return (
     <header className="bg-black/30 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -63,17 +70,33 @@ const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-            <button className="p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-all backdrop-blur-sm">
-              <Search className="w-5 h-5" />
+            <button 
+              className="p-2 text-white hover:text-blue-300 rounded-lg transition-all backdrop-blur-sm border border-white/20 relative overflow-hidden"
+              style={buttonStyle}
+            >
+              <div className="absolute inset-0 bg-black/50"></div>
+              <Search className="w-5 h-5 relative z-10" />
             </button>
-            <button className="p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-all backdrop-blur-sm">
-              <RotateCw className="w-5 h-5" />
+            <button 
+              className="p-2 text-white hover:text-blue-300 rounded-lg transition-all backdrop-blur-sm border border-white/20 relative overflow-hidden"
+              style={buttonStyle}
+            >
+              <div className="absolute inset-0 bg-black/50"></div>
+              <RotateCw className="w-5 h-5 relative z-10" />
             </button>
-            <button className="p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-all backdrop-blur-sm">
-              <User className="w-5 h-5" />
+            <button 
+              className="p-2 text-white hover:text-blue-300 rounded-lg transition-all backdrop-blur-sm border border-white/20 relative overflow-hidden"
+              style={buttonStyle}
+            >
+              <div className="absolute inset-0 bg-black/50"></div>
+              <User className="w-5 h-5 relative z-10" />
             </button>
-            <button className="p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-all backdrop-blur-sm">
-              <Settings className="w-5 h-5" />
+            <button 
+              className="p-2 text-white hover:text-blue-300 rounded-lg transition-all backdrop-blur-sm border border-white/20 relative overflow-hidden"
+              style={buttonStyle}
+            >
+              <div className="absolute inset-0 bg-black/50"></div>
+              <Settings className="w-5 h-5 relative z-10" />
             </button>
           </div>
         </div>

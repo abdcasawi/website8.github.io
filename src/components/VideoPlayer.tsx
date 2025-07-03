@@ -19,6 +19,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   const [retryCount, setRetryCount] = useState(0);
   const [canPlay, setCanPlay] = useState(false);
 
+  const buttonBackgroundStyle = {
+    backgroundImage: 'url(/183887-4146907743 copy.jpg)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
+  };
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -269,24 +276,32 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             {/* Back to Channels Button */}
             <button
               onClick={onClose}
-              className="flex items-center gap-2 bg-black/50 hover:bg-black/70 text-white px-4 py-2 rounded-lg transition-all hover:scale-105"
+              className="flex items-center gap-2 text-white px-4 py-2 rounded-lg transition-all hover:scale-105 relative overflow-hidden border border-white/20"
+              style={buttonBackgroundStyle}
             >
-              <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">Back to Channels</span>
+              <div className="absolute inset-0 bg-black/60"></div>
+              <ArrowLeft className="w-5 h-5 relative z-10" />
+              <span className="font-medium relative z-10">Back to Channels</span>
             </button>
 
             {/* Channel Info */}
-            <div className="text-center bg-black/50 text-white px-4 py-2 rounded-lg">
-              <h2 className="text-xl font-bold">{channel.name}</h2>
-              <p className="text-sm text-slate-300 capitalize">{channel.category}</p>
+            <div 
+              className="text-center text-white px-4 py-2 rounded-lg relative overflow-hidden border border-white/20"
+              style={buttonBackgroundStyle}
+            >
+              <div className="absolute inset-0 bg-black/60"></div>
+              <h2 className="text-xl font-bold relative z-10">{channel.name}</h2>
+              <p className="text-sm text-slate-300 capitalize relative z-10">{channel.category}</p>
             </div>
 
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg transition-colors"
+              className="text-white p-2 rounded-lg transition-colors relative overflow-hidden border border-white/20"
+              style={buttonBackgroundStyle}
             >
-              <X className="w-6 h-6" />
+              <div className="absolute inset-0 bg-black/60"></div>
+              <X className="w-6 h-6 relative z-10" />
             </button>
           </div>
         </div>
@@ -312,17 +327,21 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 <div className="space-y-3">
                   <button
                     onClick={retryLoad}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors flex items-center gap-2 mx-auto"
+                    className="px-6 py-2 rounded-lg transition-colors flex items-center gap-2 mx-auto relative overflow-hidden border border-white/20"
+                    style={buttonBackgroundStyle}
                   >
-                    <RefreshCw className="w-4 h-4" />
-                    Retry
+                    <div className="absolute inset-0 bg-blue-600/80"></div>
+                    <RefreshCw className="w-4 h-4 relative z-10" />
+                    <span className="relative z-10">Retry</span>
                   </button>
                   <button
                     onClick={onClose}
-                    className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded-lg transition-colors flex items-center gap-2 mx-auto"
+                    className="px-6 py-2 rounded-lg transition-colors flex items-center gap-2 mx-auto relative overflow-hidden border border-white/20"
+                    style={buttonBackgroundStyle}
                   >
-                    <ArrowLeft className="w-4 h-4" />
-                    Back to Channels
+                    <div className="absolute inset-0 bg-black/60"></div>
+                    <ArrowLeft className="w-4 h-4 relative z-10" />
+                    <span className="relative z-10">Back to Channels</span>
                   </button>
                   <p className="text-xs text-slate-500">
                     Some streams may be geo-blocked or require special access
@@ -365,18 +384,22 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
               <div className="flex items-center gap-4">
                 <button
                   onClick={togglePlay}
-                  className="text-white hover:text-blue-400 transition-colors p-2 bg-black/30 rounded-full hover:bg-black/50"
+                  className="text-white hover:text-blue-400 transition-colors p-2 rounded-full relative overflow-hidden border border-white/20"
                   disabled={!canPlay}
+                  style={buttonBackgroundStyle}
                 >
-                  {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+                  <div className="absolute inset-0 bg-black/60"></div>
+                  {isPlaying ? <Pause className="w-6 h-6 relative z-10" /> : <Play className="w-6 h-6 relative z-10" />}
                 </button>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={toggleMute}
-                    className="text-white hover:text-blue-400 transition-colors"
+                    className="text-white hover:text-blue-400 transition-colors p-2 rounded relative overflow-hidden border border-white/20"
+                    style={buttonBackgroundStyle}
                   >
-                    {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                    <div className="absolute inset-0 bg-black/60"></div>
+                    {isMuted ? <VolumeX className="w-5 h-5 relative z-10" /> : <Volume2 className="w-5 h-5 relative z-10" />}
                   </button>
                   <input
                     type="range"
@@ -397,9 +420,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
 
                 <button
                   onClick={toggleFullscreen}
-                  className="text-white hover:text-blue-400 transition-colors"
+                  className="text-white hover:text-blue-400 transition-colors p-2 rounded relative overflow-hidden border border-white/20"
+                  style={buttonBackgroundStyle}
                 >
-                  {isFullscreen ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+                  <div className="absolute inset-0 bg-black/60"></div>
+                  {isFullscreen ? <Minimize className="w-5 h-5 relative z-10" /> : <Maximize className="w-5 h-5 relative z-10" />}
                 </button>
               </div>
             </div>
@@ -410,9 +435,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             <div className="absolute inset-0 flex items-center justify-center">
               <button
                 onClick={togglePlay}
-                className="bg-black/50 hover:bg-black/70 text-white p-6 rounded-full transition-all hover:scale-110"
+                className="text-white p-6 rounded-full transition-all hover:scale-110 relative overflow-hidden border border-white/20"
+                style={buttonBackgroundStyle}
               >
-                <Play className="w-16 h-16 ml-1" />
+                <div className="absolute inset-0 bg-black/60"></div>
+                <Play className="w-16 h-16 ml-1 relative z-10" />
               </button>
             </div>
           )}
