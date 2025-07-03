@@ -314,7 +314,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <h2 className="text-3xl font-bold text-white">Live TV</h2>
+        <h2 className="text-3xl font-bold text-white drop-shadow-lg">Live TV</h2>
         <div className="flex items-center gap-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
@@ -323,10 +323,10 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
               placeholder="Search channels..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 bg-slate-800 text-white rounded-lg border border-slate-700 focus:border-blue-500 focus:outline-none w-64"
+              className="pl-10 pr-4 py-2 bg-black/30 backdrop-blur-md text-white rounded-lg border border-white/20 focus:border-blue-500 focus:outline-none w-64 placeholder-slate-400"
             />
           </div>
-          <div className="flex bg-slate-800 rounded-lg p-1">
+          <div className="flex bg-black/30 backdrop-blur-md rounded-lg p-1 border border-white/20">
             <button
               onClick={() => setViewMode('grid')}
               className={`p-2 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-slate-400'}`}
@@ -349,10 +349,10 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
           <button
             key={category.id}
             onClick={() => setSelectedCategory(category.id)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all backdrop-blur-md border ${
               selectedCategory === category.id
-                ? 'bg-blue-600 text-white'
-                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                ? 'bg-blue-600 text-white border-blue-500'
+                : 'bg-black/30 text-slate-300 hover:bg-black/50 border-white/20'
             }`}
           >
             {category.name}
@@ -367,21 +367,21 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
             key={channel.id}
             onClick={() => onChannelSelect(channel)}
             className={`
-              cursor-pointer transition-all duration-200 hover:scale-105 group
+              cursor-pointer transition-all duration-200 hover:scale-105 group backdrop-blur-md border border-white/20
               ${viewMode === 'grid' 
-                ? 'bg-slate-800 rounded-lg p-4 hover:bg-slate-700' 
-                : 'bg-slate-800 rounded-lg p-3 hover:bg-slate-700 flex items-center gap-3'
+                ? 'bg-black/30 rounded-lg p-4 hover:bg-black/50' 
+                : 'bg-black/30 rounded-lg p-3 hover:bg-black/50 flex items-center gap-3'
               }
             `}
           >
             <div className={`${viewMode === 'grid' ? 'text-center' : 'flex items-center gap-3 w-full'}`}>
               <div className={`${viewMode === 'grid' ? 'mb-3' : 'flex-shrink-0'}`}>
-                <div className={`${viewMode === 'grid' ? 'w-16 h-16' : 'w-12 h-12'} bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-lg mx-auto`}>
+                <div className={`${viewMode === 'grid' ? 'w-16 h-16' : 'w-12 h-12'} bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-lg mx-auto shadow-lg`}>
                   {channel.name.charAt(0)}
                 </div>
               </div>
               <div className={`${viewMode === 'grid' ? 'text-center' : 'flex-1'}`}>
-                <h3 className={`${viewMode === 'grid' ? 'text-sm' : 'text-base'} font-medium text-white group-hover:text-blue-400 transition-colors`}>
+                <h3 className={`${viewMode === 'grid' ? 'text-sm' : 'text-base'} font-medium text-white group-hover:text-blue-400 transition-colors drop-shadow-lg`}>
                   {channel.name}
                 </h3>
                 {viewMode === 'list' && (
@@ -395,7 +395,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
 
       {filteredChannels.length === 0 && (
         <div className="text-center py-20">
-          <p className="text-slate-400 text-lg">No channels found</p>
+          <p className="text-slate-400 text-lg drop-shadow-lg">No channels found</p>
         </div>
       )}
     </div>

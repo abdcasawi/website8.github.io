@@ -21,39 +21,54 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <Header currentView={currentView} onViewChange={setCurrentView} />
+    <div 
+      className="min-h-screen relative"
+      style={{
+        backgroundImage: 'url(/183887-4146907743.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
       
-      <main className="px-4 py-6 max-w-7xl mx-auto">
-        {currentView === 'dashboard' && (
-          <Dashboard onNavigate={setCurrentView} />
-        )}
+      {/* Content */}
+      <div className="relative z-10">
+        <Header currentView={currentView} onViewChange={setCurrentView} />
         
-        {currentView === 'live' && (
-          <LiveTV onChannelSelect={handleChannelSelect} />
-        )}
-        
-        {currentView === 'movies' && (
-          <div className="text-center py-20">
-            <h2 className="text-3xl font-bold text-white mb-4">Movies</h2>
-            <p className="text-slate-400">Movies section coming soon...</p>
-          </div>
-        )}
-        
-        {currentView === 'series' && (
-          <div className="text-center py-20">
-            <h2 className="text-3xl font-bold text-white mb-4">Series</h2>
-            <p className="text-slate-400">Series section coming soon...</p>
-          </div>
-        )}
-      </main>
+        <main className="px-4 py-6 max-w-7xl mx-auto">
+          {currentView === 'dashboard' && (
+            <Dashboard onNavigate={setCurrentView} />
+          )}
+          
+          {currentView === 'live' && (
+            <LiveTV onChannelSelect={handleChannelSelect} />
+          )}
+          
+          {currentView === 'movies' && (
+            <div className="text-center py-20">
+              <h2 className="text-3xl font-bold text-white mb-4">Movies</h2>
+              <p className="text-slate-400">Movies section coming soon...</p>
+            </div>
+          )}
+          
+          {currentView === 'series' && (
+            <div className="text-center py-20">
+              <h2 className="text-3xl font-bold text-white mb-4">Series</h2>
+              <p className="text-slate-400">Series section coming soon...</p>
+            </div>
+          )}
+        </main>
 
-      {isPlayerOpen && selectedChannel && (
-        <VideoPlayer
-          channel={selectedChannel}
-          onClose={handleClosePlayer}
-        />
-      )}
+        {isPlayerOpen && selectedChannel && (
+          <VideoPlayer
+            channel={selectedChannel}
+            onClose={handleClosePlayer}
+          />
+        )}
+      </div>
     </div>
   );
 }

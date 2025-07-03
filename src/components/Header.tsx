@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => {
   };
 
   return (
-    <header className="bg-slate-900/50 backdrop-blur-sm border-b border-slate-700/50">
+    <header className="bg-black/30 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -42,37 +42,37 @@ const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => {
             className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => onViewChange('dashboard')}
           >
-            <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-2 rounded-lg">
+            <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-2 rounded-lg shadow-lg">
               <Tv className="w-6 h-6 text-white" />
             </div>
             <div>
               <h1 className="text-white font-bold text-xl">IPTV</h1>
-              <p className="text-slate-400 text-xs">SMARTERS PRO</p>
+              <p className="text-slate-300 text-xs">SMARTERS PRO</p>
             </div>
           </div>
 
           {/* Time & Date */}
           <div className="text-center">
-            <div className="text-white text-xl font-semibold">
+            <div className="text-white text-xl font-semibold drop-shadow-lg">
               {formatTime(currentTime)}
             </div>
-            <div className="text-slate-400 text-sm">
+            <div className="text-slate-300 text-sm">
               {formatDate(currentTime)}
             </div>
           </div>
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-            <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-all">
+            <button className="p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-all backdrop-blur-sm">
               <Search className="w-5 h-5" />
             </button>
-            <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-all">
+            <button className="p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-all backdrop-blur-sm">
               <RotateCw className="w-5 h-5" />
             </button>
-            <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-all">
+            <button className="p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-all backdrop-blur-sm">
               <User className="w-5 h-5" />
             </button>
-            <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-all">
+            <button className="p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-all backdrop-blur-sm">
               <Settings className="w-5 h-5" />
             </button>
           </div>
