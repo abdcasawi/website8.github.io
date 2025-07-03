@@ -640,49 +640,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "logo": "https://i.imgur.com/fm6S7we.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/ts_corp/73_tamazight_tccybxt/playlist_dvr.m3u8",
       "category": "General"
-    },
-    {
-  "id": "84",
-  "name": "StoryChannel TV (720p)",
-  "logo": "https://i.imgur.com/ZBV6xph.png",
-  "streamUrl": "https://136044159.r.cdnsun.net/storychannel.m3u8",
-  "category": "Culture",
-  "m3uList": [
-    {
-      "tvg-id": "TRTArabi.tr",
-      "tvg-logo": "https://i.imgur.com/dEfI2M9.png",
-      "group-title": "News",
-      "name": "TRT Arabi (1080p)",
-      "url": "http://185.234.111.229:8000/play/a002"
-    },
-    {
-      "tvg-id": "TVBRICSAfrica.za",
-      "tvg-logo": "https://admango.cdn.mangomolo.com/analytics/uploads/188/666abcee75.jpeg",
-      "group-title": "General",
-      "name": "TV BRICS Africa (1080p)",
-      "url": "https://cdn.freevisiontv.co.za/sttv/smil:brics.stream.smil/playlist.m3u8"
-    },
-    {
-      "tvg-id": "TVIAfrica.pt",
-      "tvg-logo": "https://i.ibb.co/vBbSHB4/Tvi-africa.png",
-      "group-title": "General",
-      "name": "TVI África (480p) [Not 24/7]",
-      "url": "https://video-auth4.iol.pt/live_tvi_africa/live_tvi_africa/edge_servers/tviafrica-480p/playlist.m3u8"
-    },
-    {
-      "tvg-id": "Wanasah.ae",
-      "tvg-logo": "https://i.imgur.com/nLtiXNf.png",
-      "group-title": "Music",
-      "name": "Wanasah (1080p)",
-      "url": "https://shls-wanasah-prod-dub.shahid.net/out/v1/c84ef3128e564b74a6a796e8b6287de6/index.m3u8"
-    },
-    {
-      "tvg-id": "ZeeWorld.za@SD",
-      "tvg-logo": "https://i.imgur.com/UokbZaU.png",
-      "group-title": "Undefined",
-      "name": "Zee World",
-      "url": "https://live20.bozztv.com/dvrfl06/astv/astv-zeemagicafrica/index.m3u8"
-    }, 
+    }
   ];
 
   const filteredChannels = channels.filter(channel => {
