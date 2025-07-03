@@ -128,13 +128,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "News"
     },
     {
-      "id": "23",
-      "name": "Al Jazeera Documentary (1080p) [Geo-blocked]",
-      "logo": "https://i.imgur.com/5dNJlLo.png",
-      "streamUrl": "https://live-hls-apps-ajd-fa.getaj.net/AJD/index.m3u8",
-      "category": "News"
-    },
-    {
       "id": "24",
       "name": "Al Jazeera Mubasher 24 (1080p)",
       "logo": "https://yt3.googleusercontent.com/h0_bBdVgCAXIPJFnQ4hZtE87cDY_qO7rkDAue8qXdmOFxZ5NaO3AFD1uCUcst-EsBcGJ8zl8EQ=s160-c-k-c0x00ffffff-no-rj",
