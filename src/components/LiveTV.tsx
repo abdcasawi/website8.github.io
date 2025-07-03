@@ -212,13 +212,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "News"
     },
     {
-      "id": "50",
-      "name": "EWTN Africa Asia (720p)",
-      "logo": "https://i.imgur.com/sua70RO.png",
-      "streamUrl": "https://cdn3.wowza.com/1/ZVBYYXFLLzE0c3NC/Qk1FMURC/hls/live/playlist.m3u8",
-      "category": "Religious"
-    },
-    {
       "id": "51",
       "name": "For You TV (480p)",
       "logo": "https://i.imgur.com/1oMboXL.png",
