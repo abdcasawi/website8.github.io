@@ -135,20 +135,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "News"
     },
     {
-      "id": "25",
-      "name": "Al Jazeera Mubasher (1080p)",
-      "logo": "https://yt3.googleusercontent.com/h0_bBdVgCAXIPJFnQ4hZtE87cDY_qO7rkDAue8qXdmOFxZ5NaO3AFD1uCUcst-EsBcGJ8zl8EQ=s160-c-k-c0x00ffffff-no-rj",
-      "streamUrl": "https://live-hls-apps-ajm-fa.getaj.net/AJM/index.m3u8",
-      "category": "News"
-    },
-    {
-      "id": "26",
-      "name": "Al Jazeera Mubasher Broadcast 2 (1080p)",
-      "logo": "https://yt3.googleusercontent.com/h0_bBdVgCAXIPJFnQ4hZtE87cDY_qO7rkDAue8qXdmOFxZ5NaO3AFD1uCUcst-EsBcGJ8zl8EQ=s160-c-k-c0x00ffffff-no-rj",
-      "streamUrl": "https://live-hls-apps-ajm2-fa.getaj.net/AJM2/index.m3u8",
-      "category": "News"
-    },
-    {
       "id": "27",
       "name": "Al Maghribia (480p)",
       "logo": "https://i.imgur.com/7GaahYh.png",
