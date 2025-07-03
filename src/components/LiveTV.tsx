@@ -184,13 +184,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "Culture"
     },
     {
-      "id": "37",
-      "name": "Bab Al Hara (1080p)",
-      "logo": "https://i.imgur.com/QtlnZbq.png",
-      "streamUrl": "https://shls-live-enc.edgenextcdn.net/out/v1/948c54279b594944adde578c95f1d7d1/index.m3u8",
-      "category": "Series"
-    },
-    {
       "id": "38",
       "name": "BBC Arabic (720p)",
       "logo": "https://i.imgur.com/ScyTG6P.png",
