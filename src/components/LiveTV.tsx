@@ -63,48 +63,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "streamUrl": "https://d2qh3gh0k5vp3v.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-n6pess5lwbghr/2M_ES.m3u8",
       "category": "General"
     },
-    {
-      "id": "7",
-      "name": "Aflam TV",
-      "logo": "https://i.imgur.com/XqQxO9J.png",
-      "streamUrl": "https://fl1002.bozztv.com/ga-aflamtv7/index.m3u8",
-      "category": "Movies"
-    },
-    {
-      "id": "8",
-      "name": "Africa 24 (1080p)",
-      "logo": "https://i.imgur.com/YWIJdai.png",
-      "streamUrl": "https://africa24.vedge.infomaniak.com/livecast/ik:africa24/manifest.m3u8",
-      "category": "News"
-    },
-    {
-      "id": "9",
-      "name": "Africa 24 Sport (1080p)",
-      "logo": "https://i.imgur.com/YWIJdai.png",
-      "streamUrl": "https://africa24.vedge.infomaniak.com/livecast/ik:africa24sport/manifest.m3u8",
-      "category": "Sports"
-    },
-    {
-      "id": "10",
-      "name": "Africanews",
-      "logo": "https://i.imgur.com/5UxU4zc.png",
-      "streamUrl": "https://rakuten-africanews-1-pt.samsung.wurl.tv/manifest/playlist.m3u8",
-      "category": "News"
-    },
-    {
-      "id": "11",
-      "name": "Africanews French (720p)",
-      "logo": "https://i.imgur.com/5UxU4zc.png",
-      "streamUrl": "https://2767164d5ee04887b96812a9eea74d32.mediatailor.eu-west-1.amazonaws.com/v1/manifest/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6573/44d3df93-4a3e-43e0-990f-a5d196bbe3aa/5.m3u8",
-      "category": "News"
-    },
-    {
-      "id": "12",
-      "name": "Afroturk TV (1080p)",
-      "logo": "https://i.imgur.com/fWlLvRA.png",
-      "streamUrl": "https://edge.socialsmart.tv/naturaltv/bant1/playlist.m3u8",
-      "category": "General"
-    },
+    
     {
       "id": "13",
       "name": "Al Aoula Inter (480p)",
