@@ -64,13 +64,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "General"
     },
     {
-      "id": "6",
-      "name": "Aflam (1080p)",
-      "logo": "https://i.imgur.com/cTLj7Yt.png",
-      "streamUrl": "https://shls-live-enc.edgenextcdn.net/out/v1/0044dd4b001a466c941ad77b04a574a2/index.m3u8",
-      "category": "Movies"
-    },
-    {
       "id": "7",
       "name": "Aflam TV",
       "logo": "https://i.imgur.com/XqQxO9J.png",
