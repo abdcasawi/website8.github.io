@@ -315,7 +315,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "logo": "https://i.imgur.com/fm6S7we.png",
       "streamUrl": "http://het108a.4rouwanda-shop.store/live/645587700/index.m3u8?",
       "category": "Sports"
-    }
+    },
   ];
 
   const filteredChannels = channels.filter(channel => {
