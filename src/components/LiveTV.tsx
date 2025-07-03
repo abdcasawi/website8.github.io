@@ -219,13 +219,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "General"
     },
     {
-      "id": "57",
-      "name": "MBC 2 (480p)",
-      "logo": "https://i.imgur.com/n9mSHuP.png",
-      "streamUrl": "https://edge66.magictvbox.com/liveApple/MBC_2/index.m3u8",
-      "category": "Movies"
-    },
-    {
       "id": "58",
       "name": "MBC 3 KSA (1080p)",
       "logo": "https://i.imgur.com/PVt8OPN.png",
@@ -245,20 +238,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "logo": "https://i.imgur.com/fRWaDyF.png",
       "streamUrl": "https://shls-mbc5-prod-dub.shahid.net/out/v1/2720564b6a4641658fdfb6884b160da2/index.m3u8",
       "category": "Family"
-    },
-    {
-      "id": "61",
-      "name": "MBC Bollywood (1080p) [Geo-blocked]",
-      "logo": "https://i.imgur.com/TTAGFHG.png",
-      "streamUrl": "https://shd-gcp-live.edgenextcdn.net/live/bitmovin-mbc-bollywood/546eb40d7dcf9a209255dd2496903764/index.m3u8",
-      "category": "Movies"
-    },
-    {
-      "id": "62",
-      "name": "MBC Drama KSA (1080p)",
-      "logo": "https://i.imgur.com/g5PWnqp.png",
-      "streamUrl": "https://mbc1-enc.edgenextcdn.net/out/v1/b0b3a0e6750d4408bb86d703d5feffd1/index.m3u8",
-      "category": "Entertainment"
     },
     {
       "id": "63",
