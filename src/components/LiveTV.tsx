@@ -310,11 +310,11 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "Morocco"
       },
       {
-      "id": "85",
-      "name": "Tamazight TV (480p)",
+      "id": "86",
+      "name": "BEIN SPORT 3 HD",
       "logo": "https://i.imgur.com/fm6S7we.png",
-      "streamUrl": "https://cdn.live.easybroadcast.io/ts_corp/73_tamazight_tccybxt/playlist_dvr.m3u8",
-      "category": "Morocco"
+      "streamUrl": "http://het108a.4rouwanda-shop.store/live/645587700/index.m3u8?",
+      "category": "Sports"
     }
   ];
 
