@@ -61,7 +61,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "2M Monde +1 (1080p)",
       "logo": "https://i.imgur.com/MvpntzA.png",
       "streamUrl": "https://d2qh3gh0k5vp3v.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-n6pess5lwbghr/2M_ES.m3u8",
-      "category": "General"
+      "category": "Morocco"
     },
     
     {
@@ -69,14 +69,14 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "Al Aoula Inter (480p)",
       "logo": "https://i.imgur.com/nq53d2N.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/ts_corp/73_aloula_w1dqfwm/playlist_dvr.m3u8",
-      "category": "General"
+      "category": "Morocco"
     },
     {
       "id": "14",
       "name": "Al Aoula Laâyoune (480p)",
       "logo": "https://www.snrt.ma/sites/default/files/2023-04/laayoune.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/abr_corp/73_laayoune_pgagr52/corp/73_laayoune_pgagr52_480p/chunks_dvr.m3u8",
-      "category": "General"
+      "category": "Morocco"
     },
     {
       "id": "15",
@@ -153,7 +153,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "Arryadia (480p)",
       "logo": "https://i.imgur.com/XjzK3gZ.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/abr_corp/73_arryadia_k2tgcj0/corp/73_arryadia_k2tgcj0_480p/chunks_dvr.m3u8",
-      "category": "Sports"
+      "category": "Morocco"
     },
     {
       "id": "33",
@@ -251,21 +251,21 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "Medi 1 TV Afrique (1080p) [Not 24/7]",
       "logo": "https://i.imgur.com/OioFepy.jpeg",
       "streamUrl": "https://streaming1.medi1tv.com/live/smil:medi1fr.smil/playlist.m3u8",
-      "category": "News"
+      "category": "Morocco"
     },
     {
       "id": "66",
       "name": "Medi 1 TV Arabic (1080p) [Not 24/7]",
       "logo": "https://i.imgur.com/jWKH922.jpeg",
       "streamUrl": "https://streaming1.medi1tv.com/live/smil:medi1ar.smil/playlist.m3u8",
-      "category": "News"
+      "category": "Morocco"
     },
     {
       "id": "67",
       "name": "Medi 1 TV Maghreb (1080p) [Not 24/7]",
       "logo": "https://i.imgur.com/LbeChWy.jpeg",
       "streamUrl": "https://streaming1.medi1tv.com/live/smil:medi1tv.smil/playlist.m3u8",
-      "category": "News"
+      "category": "Morocco"
     },
     {
       "id": "75",
@@ -300,7 +300,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "Tamazight TV (480p)",
       "logo": "https://i.imgur.com/fm6S7we.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/ts_corp/73_tamazight_tccybxt/playlist_dvr.m3u8",
-      "category": "General"
+      "category": "Morocco"
     }
   ];
 
