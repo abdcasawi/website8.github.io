@@ -34,8 +34,8 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       channels: []
     },
     {
-      id: 'demo',
-      name: 'Demo Streams',
+      id: 'arabic',
+      name: 'arabic',
       channels: []
     },
     {
