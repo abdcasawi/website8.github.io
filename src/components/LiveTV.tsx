@@ -39,6 +39,11 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       channels: []
     },
     {
+      id: 'Morocco',
+      name: 'Morocco',
+      channels: []
+    },
+    {
       id: 'arabic',
       name: 'arabic',
       channels: []
@@ -51,20 +56,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
   ];
 
   const channels: Channel[] = [
-    {
-      "id": "1",
-      "name": "2M",
-      "logo": "https://i.imgur.com/PJYTfHi.png",
-      "streamUrl": "https://fl1002.bozztv.com/ga-2mmaroc-hd/index.m3u8",
-      "category": "General"
-    },
-    {
-      "id": "2",
-      "name": "2M Monde",
-      "logo": "https://i.imgur.com/MvpntzA.png",
-      "streamUrl": "https://cdn-globecast.akamaized.net/live/eds/2m_monde/hls_video_ts_tuhawxpiemz257adfc/2m_monde.m3u8",
-      "category": "General"
-    },
     {
       "id": "3",
       "name": "2M Monde +1 (1080p)",
