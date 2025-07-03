@@ -64,13 +64,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "General"
     },
     {
-      "id": "4",
-      "name": "ABN Africa (480p)",
-      "logo": "https://i.imgur.com/SLrX8Ef.png",
-      "streamUrl": "https://mediaserver.abnvideos.com/streams/abnafrica.m3u8",
-      "category": "Religious"
-    },
-    {
       "id": "5",
       "name": "Abu Dhabi Sports 1 (1080p)",
       "logo": "https://i.imgur.com/6BVWk8z.png",
