@@ -47,130 +47,110 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
 
   const channels: Channel[] = [
     {
-    "id": "1",
-    "name": "2M",
-    "logo": "https://i.imgur.com/PJYTfHi.png",
-    "streamUrl": "https://fl1002.bozztv.com/ga-2mmaroc-hd/index.m3u8",
-    "category": "Morocco"
-  },
-  {
-    "id": "2",
-    "name": "2M Monde",
-    "logo": "https://i.imgur.com/MvpntzA.png",
-    "streamUrl": "https://cdn-globecast.akamaized.net/live/eds/2m_monde/hls_video_ts_tuhawxpiemz257adfc/2m_monde.m3u8",
-    "category": "Morocco"
-  },
-  {
-    "id": "3",
-    "name": "2M Monde +1 (1080p)",
-    "logo": "https://i.imgur.com/MvpntzA.png",
-    "streamUrl": "https://d2qh3gh0k5vp3v.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-n6pess5lwbghr/2M_ES.m3u8",
-    "category": "Morocco"
-  },
-  {
-    "id": "4",
-    "name": "ABN Africa (480p)",
-    "logo": "https://i.imgur.com/SLrX8Ef.png",
-    "streamUrl": "https://mediaserver.abnvideos.com/streams/abnafrica.m3u8",
-    "category": "Morocco"
-  },
-  {
-    "id": "5",
-    "name": "Abu Dhabi Sports 1 (1080p)",
-    "logo": "https://i.imgur.com/6BVWk8z.png",
-    "streamUrl": "https://vo-live-media.cdb.cdn.orange.com/Content/Channel/AbuDhabiSportsChannel1/HLS/index.m3u8",
-    "category": "Morocco"
-  },
-  {
-    "id": "6",
-    "name": "Aflam (1080p)",
-    "logo": "https://i.imgur.com/cTLj7Yt.png",
-    "streamUrl": "https://shls-live-enc.edgenextcdn.net/out/v1/0044dd4b001a466c941ad77b04a574a2/index.m3u8",
-    "category": "Morocco"
-  },
-  {
-    "id": "7",
-    "name": "Aflam TV",
-    "logo": "https://i.imgur.com/XqQxO9J.png",
-    "streamUrl": "https://fl1002.bozztv.com/ga-aflamtv7/index.m3u8",
-    "category": "Morocco"
-  },
-  {  
-    "id": "1",  
-    "name": "Al Arabiya (1080p)",  
-    "logo": "https://i.imgur.com/NXFkYFj.png",  
-    "streamUrl": "https://live.alarabiya.net/alarabiapublish/alarabiya.smil/playlist.m3u8",  
-    "category": "Arabic"  
-  },  
-  {  
-    "id": "2",  
-    "name": "Al Arabiya Al Hadath (1080p) [Not 24/7]",  
-    "logo": "https://i.imgur.com/De4SEWE.png",  
-    "streamUrl": "https://av.alarabiya.net/alarabiapublish/alhadath.smil/playlist.m3u8",  
-    "category": "Arabic"  
-  },  
-  {  
-    "id": "3",  
-    "name": "Al Arabiya Business (1080p)",  
-    "logo": "https://i.imgur.com/eEV4r6J.jpg",  
-    "streamUrl": "https://live.alarabiya.net/alarabiapublish/aswaaq.smil/playlist.m3u8",  
-    "category": "Arabic"  
-  },  
-  {  
-    "id": "4",  
-    "name": "Al Arabiya Programs (1080p)",  
-    "logo": "https://i.imgur.com/Hoc3cfO.png",  
-    "streamUrl": "https://d1j4r34gq3qw9y.cloudfront.net/out/v1/96804f3a14864641a21c25e8ca9afb74/index.m3u8",  
-    "category": "Arabic"  
-  },  
-  {  
-    "id": "5",  
-    "name": "Al Araby TV 2 (1080p)",  
-    "logo": "https://i.imgur.com/Gp5mNea.png",  
-    "streamUrl": "https://alarabyta.cdn.octivid.com/alaraby2n/smil:alaraby2n.stream.smil/chunklist.m3u8",  
-    "category": "Arabic"  
-  },  
-  {  
-    "id": "6",  
-    "name": "Al Araby TV (1080p)",  
-    "logo": "https://i.imgur.com/YMqWEe4.png",  
-    "streamUrl": "https://alarabyta.cdn.octivid.com/alaraby/smil:alaraby.stream.smil/chunklist.m3u8",  
-    "category": "Arabic"  
-  },  
-  {  
-    "id": "7",  
-    "name": "Al Hayat TV (720p)",  
-    "logo": "https://i.imgur.com/M8ZuzeB.png",  
-    "streamUrl": "https://cdn3.wowza.com/5/OE5HREpIcEkySlNT/alhayat-live/ngrp:livestream_all/playlist.m3u8",  
-    "category": "Arabic"  
-  },  
-  {  
-    "id": "8",  
-    "name": "Al Jazeera (1080p)",  
-    "logo": "https://i.imgur.com/7bRVpnu.png",  
-    "streamUrl": "https://live-hls-apps-aja-fa.getaj.net/AJA/index.m3u8",  
-    "category": "Arabic"  
-  },  
-  {  
-    "id": "9",  
-    "name": "Al Jazeera Documentary (1080p) [Geo-blocked]",  
-    "logo": "https://i.imgur.com/5dNJlLo.png",  
-    "streamUrl": "https://live-hls-apps-ajd-fa.getaj.net/AJD/index.m3u8",  
-    "category": "Arabic"  
-  },  
-  {  
-    "id": "10",  
-    "name": "Al Jazeera Mubasher 24 (1080p)",  
-    "logo": "https://yt3.googleusercontent.com/h0_bBdVgCAXIPJFnQ4hZtE87cDY_qO7rkDAue8qXdmOFxZ5NaO3AFD1uCUcst-EsBcGJ8zl8EQ=s160-c-k-c0x00ffffff-no-rj",  
-    "streamUrl": "https://live-hls-apps-ajm24-fa.getaj.net/AJM24/index.m3u8",  
-    "category": "Arabic"  
-  },  
-  {  
-    "id": "11",  
-    "name": "Al Jazeera Mubasher (1080p)",  
-    "logo": "https://yt3.googleusercontent.com/h0_bBdVgCAXIPJFnQ4hZtE87cDY" ,
-    "category": "Arabic"
-    }, 
+      "id": "1",
+      "name": "Al Arabiya (1080p)",
+      "logo": "https://i.imgur.com/NXFkYFj.png",
+      "streamUrl": "https://live.alarabiya.net/alarabiapublish/alarabiya.smil/playlist.m3u8",
+      "category": "News"
+    },
+    {
+      "id": "2",
+      "name": "Al Arabiya Al Hadath (1080p) [Not 24/7]",
+      "logo": "https://i.imgur.com/De4SEWE.png",
+      "streamUrl": "https://av.alarabiya.net/alarabiapublish/alhadath.smil/playlist.m3u8",
+      "category": "News"
+    },
+    {
+      "id": "3",
+      "name": "Al Arabiya Business (1080p)",
+      "logo": "https://i.imgur.com/eEV4r6J.jpg",
+      "streamUrl": "https://live.alarabiya.net/alarabiapublish/aswaaq.smil/playlist.m3u8",
+      "category": "Business"
+    },
+    {
+      "id": "4",
+      "name": "Al Arabiya Programs (1080p)",
+      "logo": "https://i.imgur.com/Hoc3cfO.png",
+      "streamUrl": "https://d1j4r34gq3qw9y.cloudfront.net/out/v1/96804f3a14864641a21c25e8ca9afb74/index.m3u8",
+      "category": "Undefined"
+    },
+    {
+      "id": "5",
+      "name": "Al Araby TV 2 (1080p)",
+      "logo": "https://i.imgur.com/Gp5mNea.png",
+      "streamUrl": "https://alarabyta.cdn.octivid.com/alaraby2n/smil:alaraby2n.stream.smil/chunklist.m3u8",
+      "category": "News"
+    },
+    {
+      "id": "6",
+      "name": "Al Araby TV (1080p)",
+      "logo": "https://i.imgur.com/YMqWEe4.png",
+      "streamUrl": "https://alarabyta.cdn.octivid.com/alaraby/smil:alaraby.stream.smil/chunklist.m3u8",
+      "category": "News"
+    },
+    {
+      "id": "7",
+      "name": "Al Hayat TV (720p)",
+      "logo": "https://i.imgur.com/M8ZuzeB.png",
+      "streamUrl": "https://cdn3.wowza.com/5/OE5HREpIcEkySlNT/alhayat-live/ngrp:livestream_all/playlist.m3u8",
+      "category": "Religious"
+    },
+    {
+      "id": "8",
+      "name": "Al Jazeera (1080p)",
+      "logo": "https://i.imgur.com/7bRVpnu.png",
+      "streamUrl": "https://live-hls-apps-aja-fa.getaj.net/AJA/index.m3u8",
+      "category": "News"
+    },
+    {
+      "id": "9",
+      "name": "Al Jazeera Documentary (1080p) [Geo-blocked]",
+      "logo": "https://i.imgur.com/5dNJlLo.png",
+      "streamUrl": "https://live-hls-apps-ajd-fa.getaj.net/AJD/index.m3u8",
+      "category": "News"
+    },
+    {
+      "id": "10",
+      "name": "Al Jazeera Mubasher 24 (1080p)",
+      "logo": "https://yt3.googleusercontent.com/h0_bBdVgCAXIPJFnQ4hZtE87cDY_qO7rkDAue8qXdmOFxZ5NaO3AFD1uCUcst-EsBcGJ8zl8EQ=s160-c-k-c0x00ffffff-no-rj",
+      "streamUrl": "https://live-hls-apps-ajm24-fa.getaj.net/AJM24/index.m3u8",
+      "category": "News"
+    },
+    {
+      "id": "11",
+      "name": "Al Jazeera Mubasher (1080p)",
+      "logo": "https://yt3.googleusercontent.com/h0_bBdVgCAXIPJFnQ4hZtE87cDY_qO7rkDAue8qXdmOFxZ5NaO3AFD1uCUcst-EsBcGJ8zl8EQ=s160-c-k-c0x00ffffff-no-rj",
+      "streamUrl": "https://live-hls-apps-ajm-fa.getaj.net/AJM/index.m3u8",
+      "category": "News"
+    },
+    {
+      "id": "12",
+      "name": "Al Jazeera Mubasher Broadcast 2 (1080p)",
+      "logo": "https://yt3.googleusercontent.com/h0_bBdVgCAXIPJFnQ4hZtE87cDY_qO7rkDAue8qXdmOFxZ5NaO3AFD1uCUcst-EsBcGJ8zl8EQ=s160-c-k-c0x00ffffff-no-rj",
+      "streamUrl": "https://live-hls-apps-ajm2-fa.getaj.net/AJM2/index.m3u8",
+      "category": "News"
+    },
+    {
+      "id": "13",
+      "name": "Al Maghribia (480p)",
+      "logo": "https://i.imgur.com/7GaahYh.png",
+      "streamUrl": "https://cdn.live.easybroadcast.io/abr_corp/73_almaghribia_83tz85q/corp/73_almaghribia_83tz85q_480p/chunks_dvr.m3u8",
+      "category": "General"
+    },
+    {
+      "id": "14",
+      "name": "Al Qamar TV (1080p)",
+      "logo": "https://i.imgur.com/zkBT0C8.png",
+      "streamUrl": "https://streamer3.premio.link/alqamar/playlist.m3u8",
+      "category": "Undefined"
+    },
+    {
+      "id": "15",
+      "name": "Amani TV (1080p) [Not 24/7]",
+      "logo": "https://i.imgur.com/0cY4K7G.png",
+      "streamUrl": "https://goccn.cloud/hls/amanitv/index.m3u8",
+      "category": "Culture"
+    } 
   ];
 
   const filteredChannels = channels.filter(channel => {
