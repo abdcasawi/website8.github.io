@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { X, Play, Pause, Volume2, VolumeX, Maximize, Minimize, AlertCircle, RefreshCw } from 'lucide-react';
+import { X, Play, Pause, Volume2, VolumeX, Maximize, Minimize, AlertCircle, RefreshCw, ArrowLeft } from 'lucide-react';
 import { Channel } from '../types';
 
 interface VideoPlayerProps {
@@ -263,18 +263,32 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center">
       <div className="relative w-full h-full max-w-7xl max-h-full">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
-        >
-          <X className="w-6 h-6" />
-        </button>
+        {/* Top Controls Bar */}
+        <div className="absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-black/80 to-transparent p-4">
+          <div className="flex items-center justify-between">
+            {/* Back to Channels Button */}
+            <button
+              onClick={onClose}
+              className="flex items-center gap-2 bg-black/50 hover:bg-black/70 text-white px-4 py-2 rounded-lg transition-all hover:scale-105"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <span className="font-medium">Back to Channels</span>
+            </button>
 
-        {/* Channel Info */}
-        <div className="absolute top-4 left-4 z-10 bg-black/50 text-white p-3 rounded-lg">
-          <h2 className="text-xl font-bold">{channel.name}</h2>
-          <p className="text-sm text-slate-300 capitalize">{channel.category}</p>
+            {/* Channel Info */}
+            <div className="text-center bg-black/50 text-white px-4 py-2 rounded-lg">
+              <h2 className="text-xl font-bold">{channel.name}</h2>
+              <p className="text-sm text-slate-300 capitalize">{channel.category}</p>
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
         </div>
 
         {/* Video Container */}
@@ -302,6 +316,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   >
                     <RefreshCw className="w-4 h-4" />
                     Retry
+                  </button>
+                  <button
+                    onClick={onClose}
+                    className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded-lg transition-colors flex items-center gap-2 mx-auto"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    Back to Channels
                   </button>
                   <p className="text-xs text-slate-500">
                     Some streams may be geo-blocked or require special access
@@ -338,7 +359,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             />
           )}
 
-          {/* Controls */}
+          {/* Bottom Controls */}
           {!error && !isLoading && canPlay && (
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
               <div className="flex items-center gap-4">
