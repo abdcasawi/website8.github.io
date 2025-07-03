@@ -17,6 +17,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [retryCount, setRetryCount] = useState(0);
+  const [canPlay, setCanPlay] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -26,6 +27,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       try {
         setIsLoading(true);
         setError(null);
+        setCanPlay(false);
 
         // Clean up previous HLS instance
         if (hlsRef.current) {
@@ -42,7 +44,15 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
           
           const handleLoadedData = () => {
             setIsLoading(false);
+            setCanPlay(true);
             console.log('Video loaded successfully');
+            // Auto-play when ready
+            video.play().then(() => {
+              setIsPlaying(true);
+            }).catch(err => {
+              console.log('Auto-play prevented:', err);
+              // Auto-play was prevented, user needs to click play
+            });
           };
           
           const handleError = (e: any) => {
@@ -95,7 +105,15 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
               setIsLoading(false);
+              setCanPlay(true);
               console.log('HLS manifest parsed successfully');
+              // Auto-play when ready
+              video.play().then(() => {
+                setIsPlaying(true);
+              }).catch(err => {
+                console.log('Auto-play prevented:', err);
+                // Auto-play was prevented, user needs to click play
+              });
             });
 
             hls.on(Hls.Events.FRAG_LOADED, () => {
@@ -165,17 +183,21 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
     };
   }, [channel.streamUrl, retryCount]);
 
-  const togglePlay = () => {
+  const togglePlay = async () => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !canPlay) return;
 
-    if (isPlaying) {
-      video.pause();
-    } else {
-      video.play().catch(err => {
-        console.error('Play error:', err);
-        setError('Unable to play video - Stream may be unavailable');
-      });
+    try {
+      if (isPlaying) {
+        video.pause();
+        setIsPlaying(false);
+      } else {
+        await video.play();
+        setIsPlaying(true);
+      }
+    } catch (err) {
+      console.error('Play/pause error:', err);
+      setError('Unable to play video - Stream may be unavailable');
     }
   };
 
@@ -217,6 +239,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
     setError(null);
     setIsLoading(true);
     setRetryCount(0);
+    setCanPlay(false);
     
     // Clean up and reload
     if (hlsRef.current) {
@@ -301,22 +324,28 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   video.muted = isMuted;
                 }
               }}
-              onCanPlay={() => setIsLoading(false)}
+              onCanPlay={() => {
+                setIsLoading(false);
+                setCanPlay(true);
+              }}
               onError={() => {
                 setError('Video playback error - Stream format may not be supported');
                 setIsLoading(false);
               }}
               crossOrigin="anonymous"
+              playsInline
+              muted={false}
             />
           )}
 
           {/* Controls */}
-          {!error && !isLoading && (
+          {!error && !isLoading && canPlay && (
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
               <div className="flex items-center gap-4">
                 <button
                   onClick={togglePlay}
-                  className="text-white hover:text-blue-400 transition-colors"
+                  className="text-white hover:text-blue-400 transition-colors p-2 bg-black/30 rounded-full hover:bg-black/50"
+                  disabled={!canPlay}
                 >
                   {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
                 </button>
@@ -339,7 +368,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   />
                 </div>
 
-                <div className="flex-1"></div>
+                <div className="flex-1 text-center">
+                  <span className="text-white text-sm">
+                    {isPlaying ? 'Playing' : 'Paused'} • {channel.name}
+                  </span>
+                </div>
 
                 <button
                   onClick={toggleFullscreen}
@@ -348,6 +381,18 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   {isFullscreen ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
                 </button>
               </div>
+            </div>
+          )}
+
+          {/* Large Play Button Overlay for Initial Play */}
+          {!error && !isLoading && canPlay && !isPlaying && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <button
+                onClick={togglePlay}
+                className="bg-black/50 hover:bg-black/70 text-white p-6 rounded-full transition-all hover:scale-110"
+              >
+                <Play className="w-16 h-16 ml-1" />
+              </button>
             </div>
           )}
         </div>
