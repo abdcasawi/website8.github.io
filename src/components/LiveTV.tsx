@@ -149,27 +149,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "Undefined"
     },
     {
-      "id": "29",
-      "name": "Amani TV (1080p) [Not 24/7]",
-      "logo": "https://i.imgur.com/0cY4K7G.png",
-      "streamUrl": "https://goccn.cloud/hls/amanitv/index.m3u8",
-      "category": "Culture"
-    },
-    {
-      "id": "30",
-      "name": "Angel TV Africa (720p)",
-      "logo": "https://i.imgur.com/qKLEGU7.png",
-      "streamUrl": "https://cdn3.wowza.com/5/TDJ0aWNkNXFxWWta/angeltvcloud/ngrp:angelafrica_all/playlist.m3u8",
-      "category": "Religious"
-    },
-    {
-      "id": "31",
-      "name": "Angel TV Arabia (720p)",
-      "logo": "https://i.imgur.com/qKLEGU7.png",
-      "streamUrl": "https://cdn3.wowza.com/5/TDJ0aWNkNXFxWWta/angeltvcloud/ngrp:angelarabia_all/playlist.m3u8",
-      "category": "Religious"
-    },
-    {
       "id": "32",
       "name": "Arryadia (480p)",
       "logo": "https://i.imgur.com/XjzK3gZ.png",
