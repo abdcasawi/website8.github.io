@@ -212,41 +212,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "News"
     },
     {
-      "id": "51",
-      "name": "For You TV (480p)",
-      "logo": "https://i.imgur.com/1oMboXL.png",
-      "streamUrl": "https://stream.az-multimedia.com:3793/live/foryoutvlive.m3u8",
-      "category": "News"
-    },
-    {
-      "id": "52",
-      "name": "France 24 Arabic (1080p)",
-      "logo": "https://i.imgur.com/u8N6uoj.png",
-      "streamUrl": "https://live.france24.com/hls/live/2037222-b/F24_AR_HI_HLS/master_5000.m3u8",
-      "category": "News"
-    },
-    {
-      "id": "53",
-      "name": "GOD TV Africa (576p)",
-      "logo": "https://i.imgur.com/hW4g2oe.png",
-      "streamUrl": "https://webstreaming.viewmedia.tv/web_006/Stream/playlist.m3u8",
-      "category": "Religious"
-    },
-    {
-      "id": "54",
-      "name": "IBN TV Africa (720p)",
-      "logo": "https://i.imgur.com/eKy2ocd.png",
-      "streamUrl": "http://68.183.41.209:8080/live/5d9a537c64b9c/index.m3u8",
-      "category": "Religious"
-    },
-    {
-      "id": "55",
-      "name": "Majid TV (1080p)",
-      "logo": "https://i.imgur.com/TzOKMMy.png",
-      "streamUrl": "https://vo-live.cdb.cdn.orange.com/Content/Channel/MajidChildrenChannel/HLS/index.m3u8",
-      "category": "Kids"
-    },
-    {
       "id": "56",
       "name": "MBC 1 (1080p)",
       "logo": "https://i.imgur.com/CiA3plN.png",
