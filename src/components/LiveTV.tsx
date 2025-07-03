@@ -247,13 +247,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "Music"
     },
     {
-      "id": "64",
-      "name": "MBC+ Drama (1080p)",
-      "logo": "https://i.imgur.com/lxWdjXG.png",
-      "streamUrl": "https://mbcplusdrama-prod-dub-enc.edgenextcdn.net/out/v1/97ca0ce6fc6142f4b14c0a694af59eab/index.m3u8",
-      "category": "Movies"
-    },
-    {
       "id": "65",
       "name": "Medi 1 TV Afrique (1080p) [Not 24/7]",
       "logo": "https://i.imgur.com/OioFepy.jpeg",
@@ -273,34 +266,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "logo": "https://i.imgur.com/LbeChWy.jpeg",
       "streamUrl": "https://streaming1.medi1tv.com/live/smil:medi1tv.smil/playlist.m3u8",
       "category": "News"
-    },
-    {
-      "id": "68",
-      "name": "Movies Action (1080p)",
-      "logo": "https://i.imgur.com/NIVhISa.png",
-      "streamUrl": "https://shls-live-enc.edgenextcdn.net/out/v1/46079e838e65490c8299f902a7731168/index.m3u8",
-      "category": "Movies"
-    },
-    {
-      "id": "69",
-      "name": "Movies Thriller (1080p)",
-      "logo": "https://i.imgur.com/JWihdcl.png",
-      "streamUrl": "https://shls-live-enc.edgenextcdn.net/out/v1/f6d718e841f8442f8374de47f18c93a7/index.m3u8",
-      "category": "Movies"
-    },
-    {
-      "id": "70",
-      "name": "MTV Hits Europe",
-      "logo": "https://i.imgur.com/zNscEST.png",
-      "streamUrl": "http://45.88.92.3/tr3_MTVHits_SD/index.m3u8?token=test",
-      "category": "Music"
-    },
-    {
-      "id": "71",
-      "name": "National Geographic Abu Dhabi (1080p) [Geo-blocked]",
-      "logo": "https://i.imgur.com/fNA00VF.png",
-      "streamUrl": "https://vo-live.cdb.cdn.orange.com/Content/Channel/NationalGeographicHDChannel/HLS/index.m3u8",
-      "category": "Documentary"
     },
     {
       "id": "72",
