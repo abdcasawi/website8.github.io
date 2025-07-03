@@ -94,7 +94,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     "logo": "https://i.imgur.com/XqQxO9J.png",
     "streamUrl": "https://fl1002.bozztv.com/ga-aflamtv7/index.m3u8",
     "category": "Morocco"
-  }
+  },
   {  
     "id": "1",  
     "name": "Al Arabiya (1080p)",  
