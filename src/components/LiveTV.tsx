@@ -47,75 +47,54 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
 
   const channels: Channel[] = [
     {
-      id: '1',
-      name: 'Big Buck Bunny',
-      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
-      streamUrl: 'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8',
-      category: 'demo'
-    },
-    {
-      id: '2',
-      name: 'Sintel Demo',
-      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
-      streamUrl: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
-      category: 'demo'
-    },
-    {
-      id: '3',
-      name: 'Apple Test Stream',
-      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
-      streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
-      category: 'demo'
-    },
-    {
-      id: '4',
-      name: 'Akamai Test Stream',
-      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
-      streamUrl: 'https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8',
-      category: 'demo'
-    },
-    {
-      id: '5',
-      name: 'NASA Live',
-      logo: 'https://images.pexels.com/photos/2159/flight-sky-earth-space.jpg?auto=compress&cs=tinysrgb&w=100',
-      streamUrl: 'https://nasa-i.akamaihd.net/hls/live/253565/NASA-NTV1-HLS/master.m3u8',
-      category: 'news'
-    },
-    {
-      id: '6',
-      name: 'Red Bull TV',
-      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
-      streamUrl: 'https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8',
-      category: 'sports'
-    },
-    {
-      id: '7',
-      name: 'France 24 English',
-      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
-      streamUrl: 'https://static.france24.com/live/F24_EN_LO_HLS/live_web.m3u8',
-      category: 'news'
-    },
-    {
-      id: '8',
-      name: 'DW English',
-      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
-      streamUrl: 'https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8',
-      category: 'news'
-    },
-    {
-      id: '9',
-      name: 'RT News',
-      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
-      streamUrl: 'https://rt-glb.rttv.com/live/rtnews/playlist.m3u8',
-      category: 'news'
-    },
-    {
-      id: '10',
-      name: 'Bloomberg TV',
-      logo: 'https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=100',
-      streamUrl: 'https://bloomberg.com/media-manifest/streams/asia.m3u8',
-      category: 'news'
-    }
+    "id": "1",
+    "name": "2M",
+    "logo": "https://i.imgur.com/PJYTfHi.png",
+    "streamUrl": "https://fl1002.bozztv.com/ga-2mmaroc-hd/index.m3u8",
+    "category": "Morocco"
+  },
+  {
+    "id": "2",
+    "name": "2M Monde",
+    "logo": "https://i.imgur.com/MvpntzA.png",
+    "streamUrl": "https://cdn-globecast.akamaized.net/live/eds/2m_monde/hls_video_ts_tuhawxpiemz257adfc/2m_monde.m3u8",
+    "category": "Morocco"
+  },
+  {
+    "id": "3",
+    "name": "2M Monde +1 (1080p)",
+    "logo": "https://i.imgur.com/MvpntzA.png",
+    "streamUrl": "https://d2qh3gh0k5vp3v.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-n6pess5lwbghr/2M_ES.m3u8",
+    "category": "Morocco"
+  },
+  {
+    "id": "4",
+    "name": "ABN Africa (480p)",
+    "logo": "https://i.imgur.com/SLrX8Ef.png",
+    "streamUrl": "https://mediaserver.abnvideos.com/streams/abnafrica.m3u8",
+    "category": "Morocco"
+  },
+  {
+    "id": "5",
+    "name": "Abu Dhabi Sports 1 (1080p)",
+    "logo": "https://i.imgur.com/6BVWk8z.png",
+    "streamUrl": "https://vo-live-media.cdb.cdn.orange.com/Content/Channel/AbuDhabiSportsChannel1/HLS/index.m3u8",
+    "category": "Morocco"
+  },
+  {
+    "id": "6",
+    "name": "Aflam (1080p)",
+    "logo": "https://i.imgur.com/cTLj7Yt.png",
+    "streamUrl": "https://shls-live-enc.edgenextcdn.net/out/v1/0044dd4b001a466c941ad77b04a574a2/index.m3u8",
+    "category": "Morocco"
+  },
+  {
+    "id": "7",
+    "name": "Aflam TV",
+    "logo": "https://i.imgur.com/XqQxO9J.png",
+    "streamUrl": "https://fl1002.bozztv.com/ga-aflamtv7/index.m3u8",
+    "category": "Morocco"
+  }
   ];
 
   const filteredChannels = channels.filter(channel => {
