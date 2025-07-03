@@ -121,13 +121,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "News"
     },
     {
-      "id": "21",
-      "name": "Al Hayat TV (720p)",
-      "logo": "https://i.imgur.com/M8ZuzeB.png",
-      "streamUrl": "https://cdn3.wowza.com/5/OE5HREpIcEkySlNT/alhayat-live/ngrp:livestream_all/playlist.m3u8",
-      "category": "Religious"
-    },
-    {
       "id": "22",
       "name": "Al Jazeera (1080p)",
       "logo": "https://i.imgur.com/7bRVpnu.png",
