@@ -64,13 +64,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "General"
     },
     {
-      "id": "5",
-      "name": "Abu Dhabi Sports 1 (1080p)",
-      "logo": "https://i.imgur.com/6BVWk8z.png",
-      "streamUrl": "https://vo-live-media.cdb.cdn.orange.com/Content/Channel/AbuDhabiSportsChannel1/HLS/index.m3u8",
-      "category": "Sports"
-    },
-    {
       "id": "6",
       "name": "Aflam (1080p)",
       "logo": "https://i.imgur.com/cTLj7Yt.png",
