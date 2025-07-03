@@ -198,34 +198,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "General"
     },
     {
-      "id": "44",
-      "name": "CNA (Chaîne Nord Africaine) (360p) [Not 24/7]",
-      "logo": "https://i.imgur.com/Ki3ySUE.png",
-      "streamUrl": "https://live.creacast.com/cna/smil:cna.smil/playlist.m3u8",
-      "category": "Religious"
-    },
-    {
-      "id": "45",
-      "name": "CNBC Africa (480p)",
-      "logo": "https://i.imgur.com/BnNYzWI.png",
-      "streamUrl": "https://5be2f59e715dd.streamlock.net/CNBC/smil:CNBCSandton.smil/playlist.m3u8",
-      "category": "Business"
-    },
-    {
-      "id": "46",
-      "name": "CNBC Arabiya (1080p)",
-      "logo": "https://i.imgur.com/opBXx1K.png",
-      "streamUrl": "https://cnbc-live.akamaized.net/cnbc/master.m3u8",
-      "category": "Business"
-    },
-    {
-      "id": "47",
-      "name": "CuriosityStream (720p)",
-      "logo": "https://i.imgur.com/KUb4vEz.png",
-      "streamUrl": "https://fl3.moveonjoy.com/Curiosity_Stream/index.m3u8",
-      "category": "Education"
-    },
-    {
       "id": "48",
       "name": "Dubai One (1080p)",
       "logo": "https://i.imgur.com/Dj16oKL.png",
