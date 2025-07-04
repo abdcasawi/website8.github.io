@@ -304,7 +304,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     {
       "id": "85",
       "name": "Tamazight TV (480p)",
-      "logo": "https://i.imgur.com/fm6S7we.png",
+      "logo": "https://i.imgur.com/Vc3jdu8.jpeg",
       "streamUrl": "https://cdn.live.easybroadcast.io/ts_corp/73_tamazight_tccybxt/playlist_dvr.m3u8",
       "category": "Morocco"
     },
