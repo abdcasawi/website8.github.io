@@ -322,142 +322,9 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     },
     {
         "id": "87",
-        "name": "Rai 1",
+        "name": "Giallo",
         "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=2606803&output=7&forceUserAgent=raiplayappletv",
-        "category": "General"
-    },
-    {
-        "id": "88",
-        "name": "Rai 2",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308718&output=7&forceUserAgent=raiplayappletv",
-        "category": "General"
-    },
-    {
-        "id": "89",
-        "name": "Rai 3",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308709&output=7&forceUserAgent=raiplayappletv",
-        "category": "General"
-    },
-    {
-        "id": "90",
-        "name": "Rete 4",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-r4/r4-clr.isml/manifest.mpd",
-        "category": "General"
-    },
-    {
-        "id": "91",
-        "name": "Canale 5",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-c5/c5-clr.isml/manifest.mpd",
-        "category": "General"
-    },
-    {
-        "id": "92",
-        "name": "Italia 1",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-i1/i1-clr.isml/manifest.mpd",
-        "category": "General"
-    },
-    {
-        "id": "93",
-        "name": "LA7",
-        "logo": "",
-        "streamUrl": "https://d3749synfikwkv.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-74ylxpgd78bpb/Live.m3u8",
-        "category": "General"
-    },
-    {
-        "id": "94",
-        "name": "TV8",
-        "logo": "",
-        "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11223/tv8web/master.m3u8?hdnea=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
-        "category": "General"
-    },
-    {
-        "id": "95",
-        "name": "NOVE",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c1-samsung-it-1831.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-nove-samsungit/playlist.m3u8",
-        "category": "General"
-    },
-    {
-        "id": "96",
-        "name": "20",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-lb/lb-clr.isml/manifest.mpd",
-        "category": "General"
-    },
-    {
-        "id": "97",
-        "name": "Rai 4",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746966&output=7&forceUserAgent=raiplayappletv",
-        "category": "Entertainment"
-    },
-    {
-        "id": "98",
-        "name": "Iris",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-ki/ki-clr.isml/manifest.mpd",
-        "category": "Movies"
-    },
-    {
-        "id": "99",
-        "name": "Rai 5",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=395276&output=7&forceUserAgent=raiplayappletv",
-        "category": "Culture"
-    },
-    {
-        "id": "100",
-        "name": "Rai Movie",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=747002&output=7&forceUserAgent=raiplayappletv",
-        "category": "Movies"
-    },
-    {
-        "id": "101",
-        "name": "Rai Premium",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746992&output=7&forceUserAgent=raiplayappletv",
-        "category": "Entertainment"
-    },
-    {
-        "id": "102",
-        "name": "Cielo",
-        "logo": "",
-        "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11219/cieloweb/master.m3u8?hdnea=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
-        "category": "Entertainment"
-    },
-    {
-        "id": "103",
-        "name": "Twenty Seven",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-ts/ts-clr.isml/manifest.mpd",
-        "category": "Entertainment"
-    },
-    {
-        "id": "104",
-        "name": "TV2000",
-        "logo": "",
-        "streamUrl": "https://hls-live-tv2000.akamaized.net/hls/live/2028510/tv2000/master.m3u8",
-        "category": "Religion"
-    },
-    {
-        "id": "105",
-        "name": "LA7d",
-        "logo": "",
-        "streamUrl": "https://d15umi5iaezxgx.cloudfront.net/LA7D/CLN/HLS/Live.m3u8",
-        "category": "General"
-    },
-    {
-        "id": "106",
-        "name": "La 5",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-ka/ka-clr.isml/manifest.mpd",
+        "streamUrl": "https://amg16146-wbdi-amg16146c5-samsung-it-1838.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-giallo-samsungit/playlist.m3u8",
         "category": "Entertainment"
     },
     {
@@ -468,656 +335,236 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
         "category": "Lifestyle"
     },
     {
-        "id": "108",
-        "name": "QVC",
+        "id": "50",
+        "name": "Sky TG24",
         "logo": "",
-        "streamUrl": "https://qrg.akamaized.net/hls/live/2017383/lsqvc1it/master.m3u8",
-        "category": "Shopping"
-    },
-    {
-        "id": "109",
-        "name": "Food Network",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c3-samsung-it-1836.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-foodnetwork-samsungit/playlist.m3u8",
-        "category": "Lifestyle"
-    },
-    {
-        "id": "110",
-        "name": "Cine34",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-b6/b6-clr.isml/manifest.mpd",
-        "category": "Movies"
-    },
-    {
-        "id": "111",
-        "name": "FOCUS",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-fu/fu-clr.isml/manifest.mpd",
-        "category": "Documentary"
-    },
-    {
-        "id": "112",
-        "name": "RTL 102.5",
-        "logo": "",
-        "streamUrl": "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S97044836/tbbP8T1ZRPBL/playlist_video.m3u8",
-        "category": "Music"
-    },
-    {
-        "id": "113",
-        "name": "Warner TV",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c4-samsung-it-1837.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-warnertv-samsungit/playlist.m3u8",
-        "category": "Entertainment"
-    },
-    {
-        "id": "114",
-        "name": "Giallo",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c5-samsung-it-1838.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-giallo-samsungit/playlist.m3u8",
-        "category": "Entertainment"
-    },
-    {
-        "id": "115",
-        "name": "Top Crime",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-lt/lt-clr.isml/manifest.mpd",
-        "category": "Entertainment"
-    },
-    {
-        "id": "116",
-        "name": "Boing",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-kb/kb-clr.isml/manifest.mpd",
-        "category": "Kids"
-    },
-    {
-        "id": "117",
-        "name": "K2",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c6-samsung-it-1839.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-k2-samsungit/playlist.m3u8",
-        "category": "Kids"
-    },
-    {
-        "id": "118",
-        "name": "Rai Gulp",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746953&output=7&forceUserAgent=raiplayappletv",
-        "category": "Kids"
-    },
-    {
-        "id": "119",
-        "name": "Rai Yoyo",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746899&output=7&forceUserAgent=raiplayappletv",
-        "category": "Kids"
-    },
-    {
-        "id": "120",
-        "name": "Frisbee",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c7-samsung-it-1840.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-frisbee-samsungit/playlist.m3u8",
-        "category": "Kids"
-    },
-    {
-        "id": "121",
-        "name": "Cartoonito",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-la/la-clr.isml/manifest.mpd",
-        "category": "Kids"
-    },
-    {
-        "id": "122",
-        "name": "Super!",
-        "logo": "",
-        "streamUrl": "https://vimnitaly.akamaized.net/hls/live/2094034/super/master.m3u8",
-        "category": "Kids"
-    },
-    {
-        "id": "123",
-        "name": "Rai News 24",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=1&output=7&forceUserAgent=raiplayappletv",
+        "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/12221/web/master.m3u8?hdnts=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
         "category": "News"
     },
     {
-        "id": "124",
-        "name": "Italia 2",
+        "id": "51",
+        "name": "TGCOM 24",
         "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-i2/i2-clr.isml/manifest.mpd",
+        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-kf/kf-clr.isml/manifest.mpd",
+        "category": "News"
+    },
+    {
+        "id": "52",
+        "name": "DMAX",
+        "logo": "",
+        "streamUrl": "https://amg16146-wbdi-amg16146c8-samsung-it-1841.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-dmax-samsungit/playlist.m3u8",
+        "category": "Documentary"
+    },
+    {
+        "id": "54",
+        "name": "Rai Storia",
+        "logo": "",
+        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746990&output=7&forceUserAgent=raiplayappletv",
+        "category": "Documentary"
+    },
+    {
+        "id": "55",
+        "name": "Mediaset Extra",
+        "logo": "",
+        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-kq/kq-clr.isml/manifest.mpd",
         "category": "Entertainment"
     },
     {
-        "id": "87",
-        "name": "Rai 1",
+        "id": "56",
+        "name": "HGTV - Home&Garden",
         "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=2606803&output=7&forceUserAgent=raiplayappletv",
-        "category": "General"
+        "streamUrl": "https://amg16146-wbdi-amg16146c9-samsung-it-1842.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-hgtv-samsungit/playlist.m3u8",
+        "category": "Lifestyle"
     },
     {
-        "id": "88",
-        "name": "Rai 2",
+        "id": "57",
+        "name": "Rai Scuola",
         "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308718&output=7&forceUserAgent=raiplayappletv",
-        "category": "General"
+        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=747011&output=7&forceUserAgent=raiplayappletv",
+        "category": "Education"
     },
     {
-        "id": "89",
-        "name": "Rai 3",
+        "id": "58",
+        "name": "Rai Sport + HD",
         "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308709&output=7&forceUserAgent=raiplayappletv",
-        "category": "General"
+        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=358025&output=7&forceUserAgent=raiplayappletv",
+        "category": "Sports"
     },
     {
-        "id": "90",
-        "name": "Rete 4",
+        "id": "59",
+        "name": "Motor Trend",
         "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-r4/r4-clr.isml/manifest.mpd",
-        "category": "General"
+        "streamUrl": "https://amg16146-wbdi-amg16146c10-samsung-it-1843.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-motortrend-samsungit/playlist.m3u8",
+        "category": "Automotive"
     },
     {
-        "id": "91",
-        "name": "Canale 5",
+        "id": "60",
+        "name": "Sportitalia",
         "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-c5/c5-clr.isml/manifest.mpd",
-        "category": "General"
+        "streamUrl": "https://sportitaliaamd.akamaized.net/live/Sportitalia/hls/F59D8EB0332E783633CDDE8E265844975635D24F/index.m3u8",
+        "category": "Sports"
     },
     {
-        "id": "92",
-        "name": "Italia 1",
+        "id": "62",
+        "name": "Donna TV",
         "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-i1/i1-clr.isml/manifest.mpd",
-        "category": "General"
+        "streamUrl": "https://sportitaliaamd.akamaized.net/live/Donna_TV/hls/42EB42E58EA44362045EFEA804E3FCF0DB33C481/index.m3u8",
+        "category": "Lifestyle"
     },
     {
-        "id": "93",
-        "name": "LA7",
+        "id": "64",
+        "name": "Supertennis",
         "logo": "",
-        "streamUrl": "https://d3749synfikwkv.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-74ylxpgd78bpb/Live.m3u8",
-        "category": "General"
+        "streamUrl": "https://live-embed.supertennix.hiway.media/restreamer/supertennix_client/gpu-a-c0-16/restreamer/rtmp/hls/h24_supertennix/manifest.m3u8",
+        "category": "Sports"
     },
     {
-        "id": "94",
-        "name": "TV8",
+        "id": "65",
+        "name": "ALMA TV",
         "logo": "",
-        "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11223/tv8web/master.m3u8?hdnea=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
-        "category": "General"
-    },
-    {
-        "id": "95",
-        "name": "NOVE",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c1-samsung-it-1831.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-nove-samsungit/playlist.m3u8",
-        "category": "General"
-    },
-    {
-        "id": "96",
-        "name": "20",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-lb/lb-clr.isml/manifest.mpd",
-        "category": "General"
-    },
-    {
-        "id": "97",
-        "name": "Rai 4",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746966&output=7&forceUserAgent=raiplayappletv",
-        "category": "Entertainment"
-    },
-    {
-        "id": "98",
-        "name": "Iris",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-ki/ki-clr.isml/manifest.mpd",
-        "category": "Movies"
-    },
-    {
-        "id": "99",
-        "name": "Rai 5",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=395276&output=7&forceUserAgent=raiplayappletv",
-        "category": "Culture"
-    },
-    {
-        "id": "100",
-        "name": "Rai Movie",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=747002&output=7&forceUserAgent=raiplayappletv",
-        "category": "Movies"
-    },
-    {
-        "id": "101",
-        "name": "Rai Premium",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746992&output=7&forceUserAgent=raiplayappletv",
-        "category": "Entertainment"
-    },
-    {
-        "id": "102",
-        "name": "Cielo",
-        "logo": "",
-        "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11219/cieloweb/master.m3u8?hdnea=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
-        "category": "Entertainment"
-    },
-    {
-        "id": "103",
-        "name": "Twenty Seven",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-ts/ts-clr.isml/manifest.mpd",
-        "category": "Entertainment"
-    },
-    {
-        "id": "104",
-        "name": "TV2000",
-        "logo": "",
-        "streamUrl": "https://hls-live-tv2000.akamaized.net/hls/live/2028510/tv2000/master.m3u8",
+        "streamUrl": "https://streaming.softwarecreation.it/AlmaTv/AlmaTv/playlist.m3u8",
         "category": "Religion"
     },
     {
-        "id": "105",
-        "name": "LA7d",
+        "id": "66",
+        "name": "Radio 105 TV",
         "logo": "",
-        "streamUrl": "https://d15umi5iaezxgx.cloudfront.net/LA7D/CLN/HLS/Live.m3u8",
-        "category": "General"
-    },
-    {
-        "id": "106",
-        "name": "La 5",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-ka/ka-clr.isml/manifest.mpd",
-        "category": "Entertainment"
-    },
-    {
-        "id": "107",
-        "name": "Real Time",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c2-samsung-it-1835.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-realtime-samsungit/playlist.m3u8",
-        "category": "Lifestyle"
-    },
-    {
-        "id": "108",
-        "name": "QVC",
-        "logo": "",
-        "streamUrl": "https://qrg.akamaized.net/hls/live/2017383/lsqvc1it/master.m3u8",
-        "category": "Shopping"
-    },
-    {
-        "id": "109",
-        "name": "Food Network",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c3-samsung-it-1836.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-foodnetwork-samsungit/playlist.m3u8",
-        "category": "Lifestyle"
-    },
-    {
-        "id": "110",
-        "name": "Cine34",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-b6/b6-clr.isml/manifest.mpd",
-        "category": "Movies"
-    },
-    {
-        "id": "111",
-        "name": "FOCUS",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-fu/fu-clr.isml/manifest.mpd",
-        "category": "Documentary"
-    },
-    {
-        "id": "112",
-        "name": "RTL 102.5",
-        "logo": "",
-        "streamUrl": "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S97044836/tbbP8T1ZRPBL/playlist_video.m3u8",
+        "streamUrl": "https://live03-col.msr.cdn.mediaset.net/live/ch-ec/ec-clr.isml/manifest.mpd",
         "category": "Music"
     },
     {
-        "id": "113",
-        "name": "Warner TV",
+        "id": "67",
+        "name": "R101 TV",
         "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c4-samsung-it-1837.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-warnertv-samsungit/playlist.m3u8",
-        "category": "Entertainment"
+        "streamUrl": "https://live03-col.msr.cdn.mediaset.net/live/ch-er/er-clr.isml/manifest.mpd",
+        "category": "Music"
     },
     {
-        "id": "114",
-        "name": "Giallo",
+        "id": "68",
+        "name": "BOM CHANNEL",
         "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c5-samsung-it-1838.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-giallo-samsungit/playlist.m3u8",
-        "category": "Entertainment"
+        "streamUrl": "https://5f22d76e220e1.streamlock.net/canale6/canale6/playlist.m3u8",
+        "category": "Music"
     },
     {
-        "id": "115",
-        "name": "Top Crime",
+        "id": "69",
+        "name": "Deejay TV",
         "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-lt/lt-clr.isml/manifest.mpd",
-        "category": "Entertainment"
+        "streamUrl": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S85984808/sMO0tz9Sr2Rk/playlist.m3u8",
+        "category": "Music"
     },
     {
-        "id": "116",
-        "name": "Boing",
+        "id": "70",
+        "name": "RadioItaliaTV",
         "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-kb/kb-clr.isml/manifest.mpd",
-        "category": "Kids"
-    },
-    {
-        "id": "117",
-        "name": "K2",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c6-samsung-it-1839.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-k2-samsungit/playlist.m3u8",
-        "category": "Kids"
-    },
-    {
-        "id": "118",
-        "name": "Rai Gulp",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746953&output=7&forceUserAgent=raiplayappletv",
-        "category": "Kids"
-    },
-    {
-        "id": "119",
-        "name": "Rai Yoyo",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746899&output=7&forceUserAgent=raiplayappletv",
-        "category": "Kids"
-    },
-    {
-        "id": "120",
-        "name": "Frisbee",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c7-samsung-it-1840.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-frisbee-samsungit/playlist.m3u8",
-        "category": "Kids"
-    },
-    {
-        "id": "121",
-        "name": "Cartoonito",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-la/la-clr.isml/manifest.mpd",
-        "category": "Kids"
-    },
-    {
-        "id": "122",
-        "name": "Super!",
-        "logo": "",
-        "streamUrl": "https://vimnitaly.akamaized.net/hls/live/2094034/super/master.m3u8",
-        "category": "Kids"
-    },
-    {
-        "id": "123",
-        "name": "Rai News 24",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=1&output=7&forceUserAgent=raiplayappletv",
-        "category": "News"
-    },
-    {
-        "id": "124",
-        "name": "Italia 2",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-i2/i2-clr.isml/manifest.mpd",
-        "category": "Entertainment"
-    },
-    {
-        "id": "87",
-        "name": "Rai 1",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=2606803&output=7&forceUserAgent=raiplayappletv",
-        "category": "General"
-    },
-    {
-        "id": "88",
-        "name": "Rai 2",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308718&output=7&forceUserAgent=raiplayappletv",
-        "category": "General"
-    },
-    {
-        "id": "89",
-        "name": "Rai 3",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308709&output=7&forceUserAgent=raiplayappletv",
-        "category": "General"
-    },
-    {
-        "id": "90",
-        "name": "Rete 4",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-r4/r4-clr.isml/manifest.mpd",
-        "category": "General"
-    },
-    {
-        "id": "91",
-        "name": "Canale 5",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-c5/c5-clr.isml/manifest.mpd",
-        "category": "General"
-    },
-    {
-        "id": "92",
-        "name": "Italia 1",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-i1/i1-clr.isml/manifest.mpd",
-        "category": "General"
-    },
-    {
-        "id": "93",
-        "name": "LA7",
-        "logo": "",
-        "streamUrl": "https://d3749synfikwkv.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-74ylxpgd78bpb/Live.m3u8",
-        "category": "General"
-    },
-    {
-        "id": "94",
-        "name": "TV8",
-        "logo": "",
-        "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11223/tv8web/master.m3u8?hdnea=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
-        "category": "General"
-    },
-    {
-        "id": "95",
-        "name": "NOVE",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c1-samsung-it-1831.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-nove-samsungit/playlist.m3u8",
-        "category": "General"
-    },
-    {
-        "id": "96",
-        "name": "20",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-lb/lb-clr.isml/manifest.mpd",
-        "category": "General"
-    },
-    {
-        "id": "97",
-        "name": "Rai 4",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746966&output=7&forceUserAgent=raiplayappletv",
-        "category": "Entertainment"
-    },
-    {
-        "id": "98",
-        "name": "Iris",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-ki/ki-clr.isml/manifest.mpd",
-        "category": "Movies"
-    },
-    {
-        "id": "99",
-        "name": "Rai 5",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=395276&output=7&forceUserAgent=raiplayappletv",
-        "category": "Culture"
-    },
-    {
-        "id": "100",
-        "name": "Rai Movie",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=747002&output=7&forceUserAgent=raiplayappletv",
-        "category": "Movies"
+        "streamUrl": "https://radioitaliatv.akamaized.net/hls/live/2093117/RadioitaliaTV/master.m3u8",
+        "category": "Music"
     },
     {
         "id": "101",
-        "name": "Rai Premium",
+        "name": "Rai 4K (HbbTV)",
         "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746992&output=7&forceUserAgent=raiplayappletv",
-        "category": "Entertainment"
-    },
-    {
-        "id": "102",
-        "name": "Cielo",
-        "logo": "",
-        "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11219/cieloweb/master.m3u8?hdnea=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
-        "category": "Entertainment"
-    },
-    {
-        "id": "103",
-        "name": "Twenty Seven",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-ts/ts-clr.isml/manifest.mpd",
-        "category": "Entertainment"
-    },
-    {
-        "id": "104",
-        "name": "TV2000",
-        "logo": "",
-        "streamUrl": "https://hls-live-tv2000.akamaized.net/hls/live/2028510/tv2000/master.m3u8",
-        "category": "Religion"
-    },
-    {
-        "id": "105",
-        "name": "LA7d",
-        "logo": "",
-        "streamUrl": "https://d15umi5iaezxgx.cloudfront.net/LA7D/CLN/HLS/Live.m3u8",
+        "streamUrl": "https://raievent10-elem-live.akamaized.net/hls/live/619189/raievent10/raievent10/playlist.m3u8",
         "category": "General"
     },
     {
-        "id": "106",
-        "name": "La 5",
+        "id": "145",
+        "name": "Padre Pio TV",
         "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-ka/ka-clr.isml/manifest.mpd",
-        "category": "Entertainment"
+        "streamUrl": "https://600f07e114306.streamlock.net/PadrePioTV/livestream/playlist.m3u8",
+        "category": "Religion"
     },
     {
-        "id": "107",
-        "name": "Real Time",
+        "id": "158",
+        "name": "RADIO KISS KISS TV",
         "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c2-samsung-it-1835.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-realtime-samsungit/playlist.m3u8",
-        "category": "Lifestyle"
-    },
-    {
-        "id": "108",
-        "name": "QVC",
-        "logo": "",
-        "streamUrl": "https://qrg.akamaized.net/hls/live/2017383/lsqvc1it/master.m3u8",
-        "category": "Shopping"
-    },
-    {
-        "id": "109",
-        "name": "Food Network",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c3-samsung-it-1836.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-foodnetwork-samsungit/playlist.m3u8",
-        "category": "Lifestyle"
-    },
-    {
-        "id": "110",
-        "name": "Cine34",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-b6/b6-clr.isml/manifest.mpd",
-        "category": "Movies"
-    },
-    {
-        "id": "111",
-        "name": "FOCUS",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-fu/fu-clr.isml/manifest.mpd",
-        "category": "Documentary"
-    },
-    {
-        "id": "112",
-        "name": "RTL 102.5",
-        "logo": "",
-        "streamUrl": "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S97044836/tbbP8T1ZRPBL/playlist_video.m3u8",
+        "streamUrl": "https://kk.fluid.stream/KKMulti/smil:KissKissTV.smil/playlist.m3u8",
         "category": "Music"
     },
     {
-        "id": "113",
-        "name": "Warner TV",
+        "id": "202",
+        "name": "Rai Radio 2 Visual",
         "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c4-samsung-it-1837.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-warnertv-samsungit/playlist.m3u8",
-        "category": "Entertainment"
+        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=5674080&output=7&forceUserAgent=raiplayappletv",
+        "category": "Music"
     },
     {
-        "id": "114",
-        "name": "Giallo",
+        "id": "233",
+        "name": "RTL 102.5 News",
         "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c5-samsung-it-1838.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-giallo-samsungit/playlist.m3u8",
-        "category": "Entertainment"
-    },
-    {
-        "id": "115",
-        "name": "Top Crime",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-lt/lt-clr.isml/manifest.mpd",
-        "category": "Entertainment"
-    },
-    {
-        "id": "116",
-        "name": "Boing",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-kb/kb-clr.isml/manifest.mpd",
-        "category": "Kids"
-    },
-    {
-        "id": "117",
-        "name": "K2",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c6-samsung-it-1839.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-k2-samsungit/playlist.m3u8",
-        "category": "Kids"
-    },
-    {
-        "id": "118",
-        "name": "Rai Gulp",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746953&output=7&forceUserAgent=raiplayappletv",
-        "category": "Kids"
-    },
-    {
-        "id": "119",
-        "name": "Rai Yoyo",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746899&output=7&forceUserAgent=raiplayappletv",
-        "category": "Kids"
-    },
-    {
-        "id": "120",
-        "name": "Frisbee",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c7-samsung-it-1840.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-frisbee-samsungit/playlist.m3u8",
-        "category": "Kids"
-    },
-    {
-        "id": "121",
-        "name": "Cartoonito",
-        "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-la/la-clr.isml/manifest.mpd",
-        "category": "Kids"
-    },
-    {
-        "id": "122",
-        "name": "Super!",
-        "logo": "",
-        "streamUrl": "https://vimnitaly.akamaized.net/hls/live/2094034/super/master.m3u8",
-        "category": "Kids"
-    },
-    {
-        "id": "123",
-        "name": "Rai News 24",
-        "logo": "",
-        "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=1&output=7&forceUserAgent=raiplayappletv",
+        "streamUrl": "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S38122967/2lyQRIAAGgRR/playlist_video.m3u8",
         "category": "News"
     },
     {
-        "id": "124",
-        "name": "Italia 2",
+        "id": "257",
+        "name": "VIRGIN RADIO",
         "logo": "",
-        "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-i2/i2-clr.isml/manifest.mpd",
-        "category": "Entertainment"
-  }, 
+        "streamUrl": "https://live03-col.msr.cdn.mediaset.net/live/ch-ew/ew-clr.isml/manifest.mpd",
+        "category": "Music"
+    },
+    {
+        "id": "258",
+        "name": "RADIOFRECCIA",
+        "logo": "",
+        "streamUrl": "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S3160845/0tuSetc8UFkF/playlist_video.m3u8",
+        "category": "Music"
+    },
+    {
+        "id": "262",
+        "name": "Byoblu",
+        "logo": "",
+        "streamUrl": "https://09bd1346f7a44cc9ac230cc1cb22ca4f.msvdn.net/live/S39249178/EnTK3KeeN1Eg/playlist.m3u8",
+        "category": "News"
+    },
+    {
+        "id": "265",
+        "name": "RDS Social TV",
+        "logo": "",
+        "streamUrl": "https://stream.rdstv.radio/index.m3u8",
+        "category": "Music"
+    },
+    {
+        "id": "266",
+        "name": "RADIO ZETA",
+        "logo": "",
+        "streamUrl": "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S9346184/XEx1LqlYbNic/playlist_video.m3u8",
+        "category": "Music"
+    },
+    {
+        "id": "713",
+        "name": "Radio Capital TV",
+        "logo": "",
+        "streamUrl": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S35394734/Z6U2wGoDYANk/playlist.m3u8",
+        "category": "Music"
+    },
+    {
+        "id": "715",
+        "name": "M2O TV",
+        "logo": "",
+        "streamUrl": "https://4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S62628868/uhdWBlkC1AoO/playlist.m3u8",
+        "category": "Music"
+    },
+    {
+        "id": "772",
+        "name": "Radio Montecarlo TV",
+        "logo": "",
+        "streamUrl": "https://live03-col.msr.cdn.mediaset.net/live/ch-bb/bb-clr.isml/manifest.mpd",
+        "category": "Music"
+    },
+    {
+        "id": "831",
+        "name": "RTV San Marino",
+        "logo": "",
+        "streamUrl": "https://d2hrvno5bw6tg2.cloudfront.net/smrtv-ch01/_definst_/smil:ch-01.smil/chunklist_b2192000_slita.m3u8",
+        "category": "General"
+    },
+    {
+        "id": "899",
+        "name": "Radio TV Serie A con RDS",
+        "logo": "",
+        "streamUrl": "https://stream.radioseriea.com/50773f0d0070476a8612d9984c6059d8/index.m3u8",
+        "category": "Sports"
+    }
   ];
 
   const filteredChannels = channels.filter(channel => {
