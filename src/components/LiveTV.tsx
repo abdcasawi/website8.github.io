@@ -164,7 +164,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     {
       "id": "33",
       "name": "Asharq Discovery (1080p) [Geo-blocked]",
-      "logo": "[img]https://i.imgur.com/CyS9r2n.png",
+      "logo": "https://i.imgur.com/CyS9r2n.png",
       "streamUrl": "https://svs.itworkscdn.net/asharqdiscoverylive/asharqd.smil/playlist_dvr.m3u8",
       "category": "Documentary"
     },
