@@ -316,7 +316,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     {
         "id": "87",
         "name": "Giallo",
-        "logo": "",
+        "logo": "https://i.imgur.com/jmogelp.png",
         "streamUrl": "https://amg16146-wbdi-amg16146c5-samsung-it-1838.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-giallo-samsungit/playlist.m3u8",
         "category": "Italy"
     },
