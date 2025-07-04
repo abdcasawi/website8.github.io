@@ -312,7 +312,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "id": "86",
       "name": "BEIN SPORT 3 HD",
       "logo": "https://i.imgur.com/Vc3jdu8.jpeg",
-      "streamUrl": "https://www.elahmad.com/tv/mobiletv/glarb.php?id=bein_m_1?",
+      "streamUrl": "http://188.241.219.157/live/KVSingh/KVSingh/274122.ts?token=ShJdY2ZmQQNHCmMZCDZXUh9GSHAWGFMD.ZDsGQVN.WGBFNX013GR9YV1QbGBp0QE9SWmpcXlQXXlUHWlcbRxFACmcDY1tXEVkbVAoAAQJUFxUbRFldAxdeUAdaVAFcUwcHAhwWQlpXQQMLTFhUG0FQQU1VQl4HWTsFVBQLVABGCVxEXFgeEVwNZgFcWVlZBxcDGwESHERcFxETWAxCCQgfEFNZQEBSRwYbX1dBVFtPF1pWRV5EFExGWxMmJxVJRlZKRVVaQVpcDRtfG0BLFU8XUEpvQlUVQRYEUA8HRUdeEQITHBZfUks8WgpXWl1UF1xWV0MSCkQERk0TDw1ZDBBcQG5AXVYRCQ1MCVVJ",
       "category": "Sports"
     }
   ];
