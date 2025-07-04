@@ -171,7 +171,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     {
       "id": "34",
       "name": "Asharq Documentary (1080p)",
-      "logo": "https://www.youtube.com/watch?v=0KsZtySOtQY",
+      "logo": "https://imgur.com/MBLrN87",
       "streamUrl": "https://svs.itworkscdn.net/asharqdocumentarylive/asharqdocumentary.smil/playlist_dvr.m3u8",
       "category": "Documentary"
     },
