@@ -311,7 +311,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     {
       "id": "86",
       "name": "BEIN SPORT 3 HD",
-      "logo": "https://beinsporthdlivear.blogspot.com/2016/02/bein-sport-3.html",
+      "logo": "https://i.imgur.com/Vc3jdu8.jpeg",
       "streamUrl": "https://www.elahmad.com/tv/mobiletv/glarb.php?id=bein_m_1?",
       "category": "Sports"
     }
