@@ -314,13 +314,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "category": "Morocco"
     },
     {
-      "id": "86",
-      "name": "BEIN SPORT 3 HD",
-      "logo": "https://i.imgur.com/Vc3jdu8.jpeg",
-      "streamUrl": "http://bdd78.4rouwanda-shop.store/live/918454578001/index.m3u8",
-      "category": "Sports"
-    },
-    {
         "id": "87",
         "name": "Giallo",
         "logo": "",
