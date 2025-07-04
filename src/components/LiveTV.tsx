@@ -318,35 +318,35 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
         "name": "Giallo",
         "logo": "",
         "streamUrl": "https://amg16146-wbdi-amg16146c5-samsung-it-1838.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-giallo-samsungit/playlist.m3u8",
-        "category": "Entertainment"
+        "category": "Italy"
     },
     {
         "id": "88",
         "name": "Real Time",
         "logo": "",
         "streamUrl": "https://amg16146-wbdi-amg16146c2-samsung-it-1835.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-realtime-samsungit/playlist.m3u8",
-        "category": "Lifestyle"
+        "category": "Italy"
     },
     {
         "id": "89",
         "name": "Sky TG24",
         "logo": "",
         "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/12221/web/master.m3u8?hdnts=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
-        "category": "News"
+        "category": "Italy"
     },
     {
         "id": "90",
         "name": "DMAX",
         "logo": "",
         "streamUrl": "https://amg16146-wbdi-amg16146c8-samsung-it-1841.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-dmax-samsungit/playlist.m3u8",
-        "category": "Documentary"
+        "category": "Italy"
     },
     {
         "id": "91",
         "name": "HGTV - Home&Garden",
         "logo": "",
         "streamUrl": "https://amg16146-wbdi-amg16146c9-samsung-it-1842.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-hgtv-samsungit/playlist.m3u8",
-        "category": "Lifestyle"
+        "category": "Italy"
     },
   ];
 
