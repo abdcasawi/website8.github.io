@@ -585,7 +585,8 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
         "logo": "",
         "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-i2/i2-clr.isml/manifest.mpd",
         "category": "Entertainment"
-    }{
+    },
+    {
         "id": "87",
         "name": "Rai 1",
         "logo": "",
