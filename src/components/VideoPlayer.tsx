@@ -119,7 +119,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             video.removeEventListener('error', handleError);
           };
         } else {
-          // Use HLS.js for live streaming
+          // Use HLS.js for live streaming with optimized settings
           const { default: Hls } = await import('hls.js');
           
           if (Hls.isSupported()) {
@@ -127,27 +127,31 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             const hls = new Hls({
               enableWorker: false,
               lowLatencyMode: true,
-              backBufferLength: 30,
-              maxBufferLength: 100,
-              maxMaxBufferLength: 30,
-              maxBufferSize: 100* 1000 * 1000,
-              maxBufferHole: 1,
-              highBufferWatchdogPeriod: 1,
+              backBufferLength: 90,
+              maxBufferLength: 30,
+              maxMaxBufferLength: 600,
+              maxBufferSize: 60 * 1000 * 1000,
+              maxBufferHole: 0.5,
+              highBufferWatchdogPeriod: 2,
               nudgeOffset: 0.1,
               nudgeMaxRetry: 3,
               maxFragLookUpTolerance: 0.25,
-              liveSyncDurationCount: 1,
-              liveMaxLatencyDurationCount: 3,
+              liveSyncDurationCount: 3,
+              liveMaxLatencyDurationCount: 10,
               liveDurationInfinity: true,
               enableSoftwareAES: true,
               manifestLoadingTimeOut: 10000,
-              manifestLoadingMaxRetry: 3,
+              manifestLoadingMaxRetry: 6,
               manifestLoadingRetryDelay: 1000,
               fragLoadingTimeOut: 20000,
               fragLoadingMaxRetry: 6,
               fragLoadingRetryDelay: 1000,
               startFragPrefetch: true,
-              testBandwidth: true
+              testBandwidth: true,
+              progressive: false,
+              xhrSetup: function (xhr: XMLHttpRequest, url: string) {
+                xhr.withCredentials = false;
+              }
             });
             
             hlsRef.current = hls;
