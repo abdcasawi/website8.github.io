@@ -355,13 +355,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
         "streamUrl": "https://amg16146-wbdi-amg16146c9-samsung-it-1842.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-hgtv-samsungit/playlist.m3u8",
         "category": "Lifestyle"
     },
-    {
-        "id": "92",
-        "name": "DMAX",
-        "logo": "",
-        "streamUrl": "https://amg16146-wbdi-amg16146c8-samsung-it-1841.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-dmax-samsungit/playlist.m3u8",
-        "category": "Documentary"
-    },
   ];
 
   const filteredChannels = channels.filter(channel => {
