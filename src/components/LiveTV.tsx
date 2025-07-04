@@ -323,7 +323,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     {
         "id": "88",
         "name": "Real Time",
-        "logo": "https://imgur.com/35rZVnT",
+        "logo": "https://i.imgur.com/EuvIaWN.png",
         "streamUrl": "https://amg16146-wbdi-amg16146c2-samsung-it-1835.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-realtime-samsungit/playlist.m3u8",
         "category": "Italy"
     },
