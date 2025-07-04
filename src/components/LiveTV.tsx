@@ -70,7 +70,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "streamUrl": "https://d2qh3gh0k5vp3v.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-n6pess5lwbghr/2M_ES.m3u8",
       "category": "Morocco"
     },
-    
     {
       "id": "13",
       "name": "Al Aoula Inter (480p)",
@@ -308,14 +307,14 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "logo": "https://i.imgur.com/fm6S7we.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/ts_corp/73_tamazight_tccybxt/playlist_dvr.m3u8",
       "category": "Morocco"
-      },
-      {
+    },
+    {
       "id": "86",
       "name": "BEIN SPORT 3 HD",
       "logo": "https://i.imgur.com/fm6S7we.png",
       "streamUrl": "https://www.elahmad.com/tv/mobiletv/glarb.php?id=bein_m_1?",
       "category": "Sports"
-    },
+    }
   ];
 
   const filteredChannels = channels.filter(channel => {
@@ -398,8 +397,24 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
             <div className="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors"></div>
             <div className={`relative z-10 ${viewMode === 'grid' ? 'text-center' : 'flex items-center gap-3 w-full'}`}>
               <div className={`${viewMode === 'grid' ? 'mb-3' : 'flex-shrink-0'}`}>
-                <div className={`${viewMode === 'grid' ? 'w-16 h-16' : 'w-12 h-12'} bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-lg mx-auto shadow-lg`}>
-                  {channel.name.charAt(0)}
+                <div className={`${viewMode === 'grid' ? 'w-16 h-16' : 'w-12 h-12'} rounded-lg overflow-hidden mx-auto shadow-lg bg-white/10 flex items-center justify-center`}>
+                  <img 
+                    src={channel.logo} 
+                    alt={channel.name}
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      // Fallback to first letter if image fails to load
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent && !parent.querySelector('.fallback-text')) {
+                        const fallback = document.createElement('div');
+                        fallback.className = 'fallback-text w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-lg';
+                        fallback.textContent = channel.name.charAt(0);
+                        parent.appendChild(fallback);
+                      }
+                    }}
+                  />
                 </div>
               </div>
               <div className={`${viewMode === 'grid' ? 'text-center' : 'flex-1'}`}>
