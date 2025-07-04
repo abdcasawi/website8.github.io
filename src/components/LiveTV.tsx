@@ -330,7 +330,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     {
         "id": "89",
         "name": "Sky TG24",
-        "logo": "",
+        "logo": "https://i.imgur.com/GF8PBkV.png",
         "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/12221/web/master.m3u8?hdnts=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
         "category": "Italy"
     },
