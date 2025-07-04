@@ -336,14 +336,14 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
               placeholder="Search channels..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 bg-black/30 backdrop-blur-md text-white rounded-lg border border-white/20 focus:border-blue-500 focus:outline-none w-64 placeholder-slate-400"
+              className="pl-10 pr-4 py-2 bg-black/20 text-white rounded-lg border border-white/20 focus:border-blue-500 focus:outline-none w-64 placeholder-slate-400"
             />
           </div>
           <div 
             className="flex rounded-lg p-1 border border-white/20 relative overflow-hidden"
             style={buttonBackgroundStyle}
           >
-            <div className="absolute inset-0 bg-black/60"></div>
+            <div className="absolute inset-0 bg-black/40"></div>
             <button
               onClick={() => setViewMode('grid')}
               className={`p-2 rounded-md transition-colors relative z-10 ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-slate-300'}`}
@@ -366,14 +366,14 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
           <button
             key={category.id}
             onClick={() => setSelectedCategory(category.id)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all backdrop-blur-md border relative overflow-hidden ${
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all border relative overflow-hidden ${
               selectedCategory === category.id
                 ? 'border-blue-500 text-white'
                 : 'border-white/20 text-slate-300 hover:text-white'
             }`}
             style={buttonBackgroundStyle}
           >
-            <div className={`absolute inset-0 ${selectedCategory === category.id ? 'bg-blue-600/80' : 'bg-black/60 hover:bg-black/50'}`}></div>
+            <div className={`absolute inset-0 ${selectedCategory === category.id ? 'bg-blue-600/80' : 'bg-black/40 hover:bg-black/30'}`}></div>
             <span className="relative z-10">{category.name}</span>
           </button>
         ))}
@@ -386,7 +386,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
             key={channel.id}
             onClick={() => onChannelSelect(channel)}
             className={`
-              cursor-pointer transition-all duration-200 hover:scale-105 group backdrop-blur-md border border-white/20 relative overflow-hidden
+              cursor-pointer transition-all duration-200 hover:scale-105 group border border-white/20 relative overflow-hidden
               ${viewMode === 'grid' 
                 ? 'rounded-lg p-4 hover:shadow-lg' 
                 : 'rounded-lg p-3 hover:shadow-lg flex items-center gap-3'
@@ -394,7 +394,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
             `}
             style={buttonBackgroundStyle}
           >
-            <div className="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors"></div>
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors"></div>
             <div className={`relative z-10 ${viewMode === 'grid' ? 'text-center' : 'flex items-center gap-3 w-full'}`}>
               <div className={`${viewMode === 'grid' ? 'mb-3' : 'flex-shrink-0'}`}>
                 <div className={`${viewMode === 'grid' ? 'w-16 h-16' : 'w-12 h-12'} rounded-lg overflow-hidden mx-auto shadow-lg bg-white/10 flex items-center justify-center`}>
@@ -403,7 +403,6 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
                     alt={channel.name}
                     className="w-full h-full object-contain"
                     onError={(e) => {
-                      // Fallback to first letter if image fails to load
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
                       const parent = target.parentElement;

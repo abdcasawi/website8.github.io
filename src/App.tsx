@@ -31,8 +31,8 @@ function App() {
         backgroundAttachment: 'fixed'
       }}
     >
-      {/* Dark overlay for better readability */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+      {/* Lighter overlay for better background visibility */}
+      <div className="absolute inset-0 bg-black/30"></div>
       
       {/* Content */}
       <div className="relative z-10">

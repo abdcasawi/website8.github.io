@@ -343,7 +343,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
               className="flex items-center gap-2 text-white px-4 py-2 rounded-lg transition-all hover:scale-105 relative overflow-hidden border border-white/20"
               style={buttonBackgroundStyle}
             >
-              <div className="absolute inset-0 bg-black/70"></div>
+              <div className="absolute inset-0 bg-black/50"></div>
               <ArrowLeft className="w-5 h-5 relative z-10" />
               <span className="font-medium relative z-10">Back</span>
             </button>
@@ -353,7 +353,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
               className="flex items-center gap-4 text-white px-6 py-3 rounded-lg relative overflow-hidden border border-white/20"
               style={buttonBackgroundStyle}
             >
-              <div className="absolute inset-0 bg-black/70"></div>
+              <div className="absolute inset-0 bg-black/50"></div>
               <div className="relative z-10 flex items-center gap-3">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
@@ -378,7 +378,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 className="text-center text-white px-4 py-2 rounded-lg relative overflow-hidden border border-white/20"
                 style={buttonBackgroundStyle}
               >
-                <div className="absolute inset-0 bg-black/70"></div>
+                <div className="absolute inset-0 bg-black/50"></div>
                 <div className="relative z-10">
                   <div className="text-lg font-bold">{formatTime(currentTime)}</div>
                   <div className="text-xs text-slate-300">Live TV</div>
@@ -390,7 +390,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 className="p-2 text-white hover:text-blue-300 rounded-lg transition-all relative overflow-hidden border border-white/20"
                 style={buttonBackgroundStyle}
               >
-                <div className="absolute inset-0 bg-black/70"></div>
+                <div className="absolute inset-0 bg-black/50"></div>
                 <Info className="w-5 h-5 relative z-10" />
               </button>
 
@@ -399,7 +399,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 className="p-2 text-white hover:text-red-400 rounded-lg transition-all relative overflow-hidden border border-white/20"
                 style={buttonBackgroundStyle}
               >
-                <div className="absolute inset-0 bg-black/70"></div>
+                <div className="absolute inset-0 bg-black/50"></div>
                 <X className="w-6 h-6 relative z-10" />
               </button>
             </div>
@@ -410,7 +410,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
         {showInfo && (
           <div className={`absolute top-20 right-4 z-20 w-80 rounded-lg relative overflow-hidden border border-white/20 transition-all duration-300`}
                style={buttonBackgroundStyle}>
-            <div className="absolute inset-0 bg-black/80"></div>
+            <div className="absolute inset-0 bg-black/60"></div>
             <div className="relative z-10 p-6 text-white">
               <div className="flex items-center gap-3 mb-4">
                 <Tv className="w-6 h-6 text-blue-400" />
@@ -480,7 +480,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                     className="px-8 py-3 rounded-lg transition-all flex items-center gap-3 mx-auto relative overflow-hidden border border-white/20"
                     style={buttonBackgroundStyle}
                   >
-                    <div className="absolute inset-0 bg-black/70"></div>
+                    <div className="absolute inset-0 bg-black/50"></div>
                     <ArrowLeft className="w-5 h-5 relative z-10" />
                     <span className="relative z-10">Back to Channels</span>
                   </button>
@@ -533,7 +533,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                     disabled={!canPlay}
                     style={buttonBackgroundStyle}
                   >
-                    <div className="absolute inset-0 bg-black/70"></div>
+                    <div className="absolute inset-0 bg-black/50"></div>
                     {isPlaying ? <Pause className="w-8 h-8 relative z-10" /> : <Play className="w-8 h-8 relative z-10" />}
                   </button>
 
@@ -543,7 +543,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                       className="text-white hover:text-blue-400 transition-all p-2 rounded relative overflow-hidden border border-white/20"
                       style={buttonBackgroundStyle}
                     >
-                      <div className="absolute inset-0 bg-black/70"></div>
+                      <div className="absolute inset-0 bg-black/50"></div>
                       {isMuted ? <VolumeX className="w-6 h-6 relative z-10" /> : <Volume2 className="w-6 h-6 relative z-10" />}
                     </button>
                     <input
@@ -575,7 +575,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                     className="text-white hover:text-blue-400 transition-all p-2 rounded relative overflow-hidden border border-white/20"
                     style={buttonBackgroundStyle}
                   >
-                    <div className="absolute inset-0 bg-black/70"></div>
+                    <div className="absolute inset-0 bg-black/50"></div>
                     <Info className="w-6 h-6 relative z-10" />
                   </button>
 
@@ -584,7 +584,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                     className="text-white hover:text-blue-400 transition-all p-2 rounded relative overflow-hidden border border-white/20"
                     style={buttonBackgroundStyle}
                   >
-                    <div className="absolute inset-0 bg-black/70"></div>
+                    <div className="absolute inset-0 bg-black/50"></div>
                     {isFullscreen ? <Minimize className="w-6 h-6 relative z-10" /> : <Maximize className="w-6 h-6 relative z-10" />}
                   </button>
                 </div>
@@ -600,7 +600,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 className="text-white p-8 rounded-full transition-all hover:scale-110 relative overflow-hidden border-2 border-white/30"
                 style={buttonBackgroundStyle}
               >
-                <div className="absolute inset-0 bg-black/70"></div>
+                <div className="absolute inset-0 bg-black/50"></div>
                 <div className="relative z-10 flex flex-col items-center gap-3">
                   <Play className="w-20 h-20 ml-2" />
                   <span className="text-lg font-semibold">Start Live TV</span>

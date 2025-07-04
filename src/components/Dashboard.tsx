@@ -72,17 +72,17 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
           <div
             key={card.id}
             onClick={card.onClick}
-            className="relative overflow-hidden rounded-2xl cursor-pointer group hover:scale-105 transition-all duration-300 hover:shadow-2xl backdrop-blur-sm border border-white/20"
+            className="relative overflow-hidden rounded-2xl cursor-pointer group hover:scale-105 transition-all duration-300 hover:shadow-2xl border border-white/20"
             style={buttonBackgroundStyle}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-black/70"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-black/50"></div>
             <div className="relative z-10 flex flex-col items-center justify-center h-48 text-white p-8">
               <div className="mb-4 opacity-80 group-hover:opacity-100 transition-opacity drop-shadow-lg">
                 <card.icon className="w-16 h-16" />
               </div>
               <h3 className="text-2xl font-bold tracking-wide drop-shadow-lg">{card.title}</h3>
             </div>
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 group-hover:from-transparent group-hover:via-transparent group-hover:to-black/10 transition-colors"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/10 group-hover:from-transparent group-hover:via-transparent group-hover:to-black/5 transition-colors"></div>
           </div>
         ))}
       </div>
@@ -92,10 +92,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
         {utilityCards.map((card) => (
           <div
             key={card.id}
-            className="relative overflow-hidden rounded-xl cursor-pointer group hover:scale-105 transition-all duration-300 hover:shadow-lg backdrop-blur-sm border border-white/20"
+            className="relative overflow-hidden rounded-xl cursor-pointer group hover:scale-105 transition-all duration-300 hover:shadow-lg border border-white/20"
             style={buttonBackgroundStyle}
           >
-            <div className="absolute inset-0 bg-black/60"></div>
+            <div className="absolute inset-0 bg-black/40"></div>
             <div className="relative z-10 flex items-center justify-center text-white p-6">
               <card.icon className="w-6 h-6 mr-3 drop-shadow-lg" />
               <h3 className="text-lg font-semibold drop-shadow-lg">{card.title}</h3>
