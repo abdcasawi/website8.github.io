@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => {
   };
 
   const buttonStyle = {
-    backgroundImage: 'url(/183887-4146907743 copy.jpg)',
+    backgroundImage: 'url(/background1.jpg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat'

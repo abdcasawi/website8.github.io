@@ -24,7 +24,7 @@ function App() {
     <div 
       className="min-h-screen relative"
       style={{
-        backgroundImage: 'url(/183887-4146907743.jpg)',
+        backgroundImage: 'url(/background1.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
