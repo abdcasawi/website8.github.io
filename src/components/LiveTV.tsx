@@ -367,6 +367,13 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
         "streamUrl": "https://amg16146-wbdi-amg16146c9-samsung-it-1842.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-hgtv-samsungit/playlist.m3u8",
         "category": "Italy"
     },
+    {
+        "id": "93",
+        "name": "L'Equipe Live 1",
+        "logo": "https://i.imgur.com/U8fIwyQ.png",
+        "streamUrl": "https://d3awaj0f2u3w26.cloudfront.net/4/media.m3u8",
+        "category": "ALL"
+    },
     ];
 
   const filteredChannels = channels.filter(channel => {
