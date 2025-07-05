@@ -174,47 +174,15 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
     return { url, type: 'direct' };
   }, []);
 
-  // Enhanced video loading with multiple strategies
-  const loadVideo = useCallback(async () => {
-    const video = videoRef.current;
-    if (!video) return;
+  // Get appropriate strategies based on stream type
+  const getStrategiesForStreamType = useCallback((resolvedUrl: string, type: 'direct' | 'hls' | 'php' | 'iframe') => {
+    const strategies = [];
 
-    try {
-      setIsLoading(true);
-      setError(null);
-      setCanPlay(false);
-      setConnectionStatus('connecting');
-      setLoadingProgress(0);
-
-      // Clean up previous instances
-      if (hlsRef.current) {
-        hlsRef.current.destroy();
-        hlsRef.current = null;
-      }
-
-      // Clear retry timeout
-      if (retryTimeoutRef.current) {
-        clearTimeout(retryTimeoutRef.current);
-      }
-
-      console.log('Loading stream:', channel.streamUrl);
-      setLoadingProgress(20);
-
-      // Resolve stream URL
-      const { url: resolvedUrl, type } = await resolveStreamUrl(channel.streamUrl);
-      setStreamType(type);
-      setLoadingProgress(40);
-
-      console.log('Resolved URL:', resolvedUrl, 'Type:', type);
-
-      // Loading strategies based on stream type
-      const strategies = [
-        // Strategy 1: HLS.js for .m3u8 streams
-        async () => {
-          if (!resolvedUrl.includes('.m3u8') && type !== 'hls') {
-            throw new Error('Not an HLS stream');
-          }
-
+    // Strategy 1: HLS.js for .m3u8 streams or HLS type
+    if (resolvedUrl.includes('.m3u8') || type === 'hls') {
+      strategies.push({
+        name: 'HLS.js',
+        execute: async () => {
           console.log('Loading with HLS.js strategy');
           const { default: Hls } = await import('hls.js');
           
@@ -308,7 +276,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
 
             try {
               hls.loadSource(resolvedUrl);
-              hls.attachMedia(video);
+              hls.attachMedia(videoRef.current!);
               setLoadingProgress(60);
             } catch (hlsError) {
               if (!resolved) {
@@ -327,11 +295,17 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
               }
             }, 20000);
           });
-        },
+        }
+      });
+    }
 
-        // Strategy 2: Native video element
-        async () => {
+    // Strategy 2: Native video element (for direct streams and as fallback)
+    if (type === 'direct' || type === 'hls' || type === 'php') {
+      strategies.push({
+        name: 'Native Video',
+        execute: async () => {
           console.log('Loading with native video strategy');
+          const video = videoRef.current!;
           video.crossOrigin = 'anonymous';
           video.src = resolvedUrl;
           setLoadingProgress(60);
@@ -361,14 +335,15 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
               reject(new Error('Native video timeout'));
             }, 15000);
           });
-        },
+        }
+      });
+    }
 
-        // Strategy 3: Iframe for PHP streams
-        async () => {
-          if (type !== 'iframe' && type !== 'php') {
-            throw new Error('Not suitable for iframe loading');
-          }
-
+    // Strategy 3: Iframe (only for PHP streams that need iframe embedding)
+    if (type === 'iframe' || type === 'php') {
+      strategies.push({
+        name: 'Iframe',
+        execute: async () => {
           console.log('Loading with iframe strategy');
           setStreamType('iframe');
           
@@ -408,7 +383,51 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             }, 15000);
           });
         }
-      ];
+      });
+    }
+
+    return strategies;
+  }, []);
+
+  // Enhanced video loading with dynamic strategy selection
+  const loadVideo = useCallback(async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    try {
+      setIsLoading(true);
+      setError(null);
+      setCanPlay(false);
+      setConnectionStatus('connecting');
+      setLoadingProgress(0);
+
+      // Clean up previous instances
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+        hlsRef.current = null;
+      }
+
+      // Clear retry timeout
+      if (retryTimeoutRef.current) {
+        clearTimeout(retryTimeoutRef.current);
+      }
+
+      console.log('Loading stream:', channel.streamUrl);
+      setLoadingProgress(20);
+
+      // Resolve stream URL
+      const { url: resolvedUrl, type } = await resolveStreamUrl(channel.streamUrl);
+      setStreamType(type);
+      setLoadingProgress(40);
+
+      console.log('Resolved URL:', resolvedUrl, 'Type:', type);
+
+      // Get appropriate strategies for this stream type
+      const strategies = getStrategiesForStreamType(resolvedUrl, type);
+      
+      if (strategies.length === 0) {
+        throw new Error('No suitable loading strategies available for this stream type');
+      }
 
       // Try strategies in order
       let lastError = null;
@@ -416,15 +435,15 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       
       for (let i = 0; i < strategies.length && !success; i++) {
         try {
-          console.log(`Trying strategy ${i + 1}/${strategies.length}`);
-          await strategies[i]();
+          console.log(`Trying strategy ${i + 1}/${strategies.length}: ${strategies[i].name}`);
+          await strategies[i].execute();
           
           // Success
           setIsLoading(false);
           setCanPlay(true);
           setConnectionStatus('connected');
           setLoadingProgress(100);
-          console.log(`Stream loaded successfully with strategy ${i + 1}`);
+          console.log(`Stream loaded successfully with strategy: ${strategies[i].name}`);
           success = true;
           
           // Auto-play for video streams (not iframe)
@@ -443,7 +462,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
           }
           
         } catch (strategyError) {
-          console.log(`Strategy ${i + 1} failed:`, strategyError);
+          console.log(`Strategy ${strategies[i].name} failed:`, strategyError);
           lastError = strategyError;
           
           // Cleanup before next strategy
@@ -497,7 +516,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
         }, 5000);
       }
     }
-  }, [channel.streamUrl, retryCount, resolveStreamUrl, volume, isMuted, streamType]);
+  }, [channel.streamUrl, retryCount, resolveStreamUrl, volume, isMuted, streamType, getStrategiesForStreamType]);
 
   // Load video on mount and URL change
   useEffect(() => {
