@@ -355,12 +355,19 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     },
     {
         "id": "91",
+        "name": "France 24 Arabic",
+        "logo": "https://i.imgur.com/Wlasx7Q.png",
+        "streamUrl": "https://live.france24.com/hls/live/2037222-b/F24_AR_HI_HLS/master_5000.m3u8",
+        "category": "ARABIC"
+    },
+    {
+        "id": "92",
         "name": "HGTV - Home&Garden",
         "logo": "https://i.imgur.com/f3Jn8ON.png",
         "streamUrl": "https://amg16146-wbdi-amg16146c9-samsung-it-1842.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-hgtv-samsungit/playlist.m3u8",
         "category": "Italy"
     },
-  ];
+    ];
 
   const filteredChannels = channels.filter(channel => {
     const matchesCategory = selectedCategory === 'all' || channel.category === selectedCategory;
