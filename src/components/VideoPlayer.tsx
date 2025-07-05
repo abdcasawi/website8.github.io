@@ -24,7 +24,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   const [showInfo, setShowInfo] = useState(false);
 
   const buttonBackgroundStyle = {
-    backgroundImage: 'url(/background1.jpg)',
+    backgroundImage: 'url(/183887-4146907743.jpg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat'
@@ -67,6 +67,25 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
     };
   }, [isPlaying, error]);
 
+  // Helper function to detect stream type and get actual stream URL
+  const getStreamUrl = async (url: string): Promise<string> => {
+    // If it's a PHP file, try to extract the actual stream URL
+    if (url.includes('.php')) {
+      try {
+        console.log('Attempting to resolve PHP stream URL:', url);
+        
+        // For PHP-based streams, we'll try to use the URL directly first
+        // Some PHP endpoints serve the stream directly
+        return url;
+      } catch (error) {
+        console.error('Failed to resolve PHP stream URL:', error);
+        throw new Error('Unable to resolve stream URL from PHP endpoint');
+      }
+    }
+    
+    return url;
+  };
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -84,19 +103,173 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
           hlsRef.current = null;
         }
 
-        console.log('Loading live stream:', channel.streamUrl);
+        console.log('Loading stream:', channel.streamUrl);
 
-        // Check if HLS is supported natively (Safari)
-        if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          console.log('Using native HLS support for live TV');
-          video.src = channel.streamUrl;
+        // Get the actual stream URL
+        const streamUrl = await getStreamUrl(channel.streamUrl);
+        console.log('Resolved stream URL:', streamUrl);
+
+        // For PHP-based streams or direct URLs, try multiple approaches
+        if (streamUrl.includes('.php') || streamUrl.includes('elahmad.com')) {
+          console.log('Handling PHP-based stream');
+          
+          // Try direct video source first
+          video.src = streamUrl;
+          video.crossOrigin = 'anonymous';
           
           const handleLoadedData = () => {
             setIsLoading(false);
             setCanPlay(true);
             setConnectionStatus('connected');
-            console.log('Live stream loaded successfully');
-            // Auto-play live TV
+            console.log('PHP stream loaded successfully');
+            // Auto-play
+            video.play().then(() => {
+              setIsPlaying(true);
+            }).catch(err => {
+              console.log('Auto-play prevented:', err);
+            });
+          };
+          
+          const handleError = async (e: any) => {
+            console.error('Direct PHP stream failed, trying HLS.js:', e);
+            
+            // If direct loading fails, try with HLS.js
+            try {
+              const { default: Hls } = await import('hls.js');
+              
+              if (Hls.isSupported()) {
+                console.log('Trying HLS.js for PHP stream');
+                const hls = new Hls({
+                  enableWorker: false,
+                  lowLatencyMode: true,
+                  backBufferLength: 90,
+                  maxBufferLength: 30,
+                  maxMaxBufferLength: 600,
+                  maxBufferSize: 60 * 1000 * 1000,
+                  maxBufferHole: 0.5,
+                  highBufferWatchdogPeriod: 2,
+                  nudgeOffset: 0.1,
+                  nudgeMaxRetry: 3,
+                  maxFragLookUpTolerance: 0.25,
+                  liveSyncDurationCount: 3,
+                  liveMaxLatencyDurationCount: 10,
+                  liveDurationInfinity: true,
+                  enableSoftwareAES: true,
+                  manifestLoadingTimeOut: 15000,
+                  manifestLoadingMaxRetry: 8,
+                  manifestLoadingRetryDelay: 1000,
+                  fragLoadingTimeOut: 25000,
+                  fragLoadingMaxRetry: 8,
+                  fragLoadingRetryDelay: 1000,
+                  startFragPrefetch: true,
+                  testBandwidth: true,
+                  progressive: false,
+                  xhrSetup: function (xhr: XMLHttpRequest, url: string) {
+                    xhr.withCredentials = false;
+                    // Add headers for PHP-based streams
+                    xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
+                    xhr.setRequestHeader('Referer', 'https://www.elahmad.com/');
+                  }
+                });
+                
+                hlsRef.current = hls;
+                
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                  setIsLoading(false);
+                  setCanPlay(true);
+                  setConnectionStatus('connected');
+                  console.log('PHP stream manifest parsed successfully');
+                  video.play().then(() => {
+                    setIsPlaying(true);
+                  }).catch(err => {
+                    console.log('Auto-play prevented:', err);
+                  });
+                });
+
+                hls.on(Hls.Events.FRAG_LOADED, () => {
+                  setConnectionStatus('connected');
+                });
+
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                  console.error('PHP stream HLS Error:', data);
+                  
+                  if (data.fatal) {
+                    let errorMessage = 'Failed to connect to channel';
+                    
+                    switch (data.type) {
+                      case Hls.ErrorTypes.NETWORK_ERROR:
+                        errorMessage = 'Network error - Channel may be temporarily unavailable';
+                        setConnectionStatus('disconnected');
+                        if (retryCount < 3) {
+                          console.log('Attempting to reconnect');
+                          setTimeout(() => {
+                            hls.startLoad();
+                            setRetryCount(prev => prev + 1);
+                          }, 3000);
+                          return;
+                        }
+                        break;
+                      case Hls.ErrorTypes.MEDIA_ERROR:
+                        errorMessage = 'Media error - Stream format issue';
+                        if (retryCount < 2) {
+                          console.log('Attempting to recover');
+                          hls.recoverMediaError();
+                          setRetryCount(prev => prev + 1);
+                          return;
+                        }
+                        break;
+                      default:
+                        errorMessage = `Stream error: ${data.details || 'Unknown error'}`;
+                        break;
+                    }
+                    
+                    setError(errorMessage);
+                    setIsLoading(false);
+                    setConnectionStatus('disconnected');
+                  }
+                });
+
+                hls.loadSource(streamUrl);
+                hls.attachMedia(video);
+              } else {
+                setError('Streaming not supported in this browser');
+                setIsLoading(false);
+                setConnectionStatus('disconnected');
+              }
+            } catch (hlsError) {
+              console.error('HLS.js loading failed:', hlsError);
+              setError('Failed to load streaming library');
+              setIsLoading(false);
+              setConnectionStatus('disconnected');
+            }
+          };
+
+          video.addEventListener('loadeddata', handleLoadedData);
+          video.addEventListener('error', handleError);
+          
+          // Set a timeout for PHP streams
+          setTimeout(() => {
+            if (isLoading) {
+              handleError(new Error('PHP stream loading timeout'));
+            }
+          }, 15000);
+          
+          return () => {
+            video.removeEventListener('loadeddata', handleLoadedData);
+            video.removeEventListener('error', handleError);
+          };
+        }
+        
+        // Handle regular HLS streams
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          console.log('Using native HLS support');
+          video.src = streamUrl;
+          
+          const handleLoadedData = () => {
+            setIsLoading(false);
+            setCanPlay(true);
+            setConnectionStatus('connected');
+            console.log('Stream loaded successfully');
             video.play().then(() => {
               setIsPlaying(true);
             }).catch(err => {
@@ -105,8 +278,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
           };
           
           const handleError = (e: any) => {
-            console.error('Live stream error:', e);
-            setError('Failed to connect to live stream - Channel may be offline');
+            console.error('Stream error:', e);
+            setError('Failed to connect to stream');
             setIsLoading(false);
             setConnectionStatus('disconnected');
           };
@@ -119,11 +292,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             video.removeEventListener('error', handleError);
           };
         } else {
-          // Use HLS.js for live streaming with optimized settings
+          // Use HLS.js for other browsers
           const { default: Hls } = await import('hls.js');
           
           if (Hls.isSupported()) {
-            console.log('Using HLS.js for live TV streaming');
+            console.log('Using HLS.js');
             const hls = new Hls({
               enableWorker: false,
               lowLatencyMode: true,
@@ -160,8 +333,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
               setIsLoading(false);
               setCanPlay(true);
               setConnectionStatus('connected');
-              console.log('Live TV manifest parsed successfully');
-              // Auto-play live TV
+              console.log('Manifest parsed successfully');
               video.play().then(() => {
                 setIsPlaying(true);
               }).catch(err => {
@@ -174,17 +346,17 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             });
 
             hls.on(Hls.Events.ERROR, (event, data) => {
-              console.error('Live TV HLS Error:', data);
+              console.error('HLS Error:', data);
               
               if (data.fatal) {
-                let errorMessage = 'Failed to connect to live channel';
+                let errorMessage = 'Failed to connect to channel';
                 
                 switch (data.type) {
                   case Hls.ErrorTypes.NETWORK_ERROR:
-                    errorMessage = 'Network error - Live channel may be offline or blocked';
+                    errorMessage = 'Network error - Channel may be offline';
                     setConnectionStatus('disconnected');
                     if (retryCount < 3) {
-                      console.log('Attempting to reconnect to live stream');
+                      console.log('Attempting to reconnect');
                       setTimeout(() => {
                         hls.startLoad();
                         setRetryCount(prev => prev + 1);
@@ -193,19 +365,19 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                     }
                     break;
                   case Hls.ErrorTypes.MEDIA_ERROR:
-                    errorMessage = 'Media error - Live stream format not supported';
+                    errorMessage = 'Media error - Stream format not supported';
                     if (retryCount < 2) {
-                      console.log('Attempting to recover live stream');
+                      console.log('Attempting to recover');
                       hls.recoverMediaError();
                       setRetryCount(prev => prev + 1);
                       return;
                     }
                     break;
                   case Hls.ErrorTypes.MUX_ERROR:
-                    errorMessage = 'Stream format error - Unable to decode live signal';
+                    errorMessage = 'Stream format error - Unable to decode signal';
                     break;
                   default:
-                    errorMessage = `Live stream error: ${data.details || 'Unknown error'}`;
+                    errorMessage = `Stream error: ${data.details || 'Unknown error'}`;
                     break;
                 }
                 
@@ -215,17 +387,17 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
               }
             });
 
-            hls.loadSource(channel.streamUrl);
+            hls.loadSource(streamUrl);
             hls.attachMedia(video);
           } else {
-            setError('Live TV streaming is not supported in this browser');
+            setError('Streaming is not supported in this browser');
             setIsLoading(false);
             setConnectionStatus('disconnected');
           }
         }
       } catch (err) {
-        console.error('Live TV loading error:', err);
-        setError('Failed to initialize live TV player');
+        console.error('Stream loading error:', err);
+        setError('Failed to initialize stream player');
         setIsLoading(false);
         setConnectionStatus('disconnected');
       }
@@ -255,7 +427,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       }
     } catch (err) {
       console.error('Play/pause error:', err);
-      setError('Unable to play live stream - Channel may be offline');
+      setError('Unable to play stream - Channel may be offline');
     }
   };
 
@@ -338,7 +510,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
       <div className="relative w-full h-full">
-        {/* Live TV Header - Always visible */}
+        {/* Header */}
         <div className={`absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-black/90 via-black/60 to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
           <div className="flex items-center justify-between p-4">
             {/* Back Button */}
@@ -352,7 +524,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
               <span className="font-medium relative z-10">Back</span>
             </button>
 
-            {/* Live TV Info */}
+            {/* Channel Info */}
             <div 
               className="flex items-center gap-4 text-white px-6 py-3 rounded-lg relative overflow-hidden border border-white/20"
               style={buttonBackgroundStyle}
@@ -436,6 +608,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   </span>
                 </div>
                 <div>
+                  <span className="text-slate-400">Source:</span>
+                  <span className="ml-2 font-medium text-xs">PHP Stream</span>
+                </div>
+                <div>
                   <span className="text-slate-400">Quality:</span>
                   <span className="ml-2 font-medium">Auto</span>
                 </div>
@@ -454,10 +630,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   <Tv className="w-8 h-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-400" />
                 </div>
                 <p className="text-xl font-semibold mb-2">Connecting to Live TV</p>
-                <p className="text-slate-400">Tuning into {channel.name}...</p>
+                <p className="text-slate-400">Loading {channel.name}...</p>
                 <div className="flex items-center justify-center gap-2 mt-4">
                   <Signal className="w-4 h-4 text-yellow-400 animate-pulse" />
-                  <span className="text-sm text-yellow-400">Establishing connection</span>
+                  <span className="text-sm text-yellow-400">Resolving stream source</span>
                 </div>
               </div>
             </div>
@@ -467,7 +643,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             <div className="flex items-center justify-center h-full">
               <div className="text-center text-white max-w-md">
                 <AlertCircle className="w-20 h-20 text-red-500 mx-auto mb-6" />
-                <h3 className="text-2xl font-bold mb-4">Signal Lost</h3>
+                <h3 className="text-2xl font-bold mb-4">Connection Failed</h3>
                 <p className="text-slate-400 mb-6 text-sm leading-relaxed">{error}</p>
                 <div className="space-y-4">
                   <button
@@ -477,7 +653,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   >
                     <div className="absolute inset-0 bg-blue-600/80"></div>
                     <RefreshCw className="w-5 h-5 relative z-10" />
-                    <span className="font-medium relative z-10">Reconnect</span>
+                    <span className="font-medium relative z-10">Retry Connection</span>
                   </button>
                   <button
                     onClick={onClose}
@@ -489,7 +665,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                     <span className="relative z-10">Back to Channels</span>
                   </button>
                   <p className="text-xs text-slate-500 mt-4">
-                    Live channels may experience temporary interruptions
+                    PHP-based streams may require additional time to connect
                   </p>
                 </div>
               </div>
@@ -515,7 +691,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 setConnectionStatus('connected');
               }}
               onError={() => {
-                setError('Live stream playback error - Channel may be offline');
+                setError('Stream playback error - Channel may be offline');
                 setIsLoading(false);
                 setConnectionStatus('disconnected');
               }}
@@ -525,7 +701,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             />
           )}
 
-          {/* Live TV Controls */}
+          {/* Controls */}
           {!error && !isLoading && canPlay && (
             <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
               <div className="flex items-center justify-between p-6">
