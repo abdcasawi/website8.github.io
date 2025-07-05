@@ -20,7 +20,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   const [canPlay, setCanPlay] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
+  const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected' | 'resolving'>('connecting');
   const [showInfo, setShowInfo] = useState(false);
 
   const buttonBackgroundStyle = {
@@ -67,23 +67,107 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
     };
   }, [isPlaying, error]);
 
-  // Helper function to detect stream type and get actual stream URL
-  const getStreamUrl = async (url: string): Promise<string> => {
-    // If it's a PHP file, try to extract the actual stream URL
-    if (url.includes('.php')) {
-      try {
-        console.log('Attempting to resolve PHP stream URL:', url);
+  // Enhanced PHP stream resolver
+  const resolvePhpStream = async (phpUrl: string): Promise<string> => {
+    try {
+      console.log('Resolving PHP stream:', phpUrl);
+      setConnectionStatus('resolving');
+      
+      // For elahmad.com PHP streams, we'll try multiple approaches
+      if (phpUrl.includes('elahmad.com')) {
+        // Method 1: Try to fetch the PHP page and extract stream URL
+        try {
+          const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(phpUrl)}`;
+          const response = await fetch(proxyUrl, {
+            method: 'GET',
+            headers: {
+              'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            const html = data.contents;
+            
+            // Look for m3u8 URLs in the HTML
+            const m3u8Match = html.match(/https?:\/\/[^"'\s]+\.m3u8[^"'\s]*/i);
+            if (m3u8Match) {
+              console.log('Found m3u8 URL in PHP response:', m3u8Match[0]);
+              return m3u8Match[0];
+            }
+            
+            // Look for other video URLs
+            const videoMatch = html.match(/https?:\/\/[^"'\s]+\.(mp4|ts|flv)[^"'\s]*/i);
+            if (videoMatch) {
+              console.log('Found video URL in PHP response:', videoMatch[0]);
+              return videoMatch[0];
+            }
+          }
+        } catch (proxyError) {
+          console.log('Proxy method failed, trying direct approach');
+        }
         
-        // For PHP-based streams, we'll try to use the URL directly first
-        // Some PHP endpoints serve the stream directly
-        return url;
-      } catch (error) {
-        console.error('Failed to resolve PHP stream URL:', error);
-        throw new Error('Unable to resolve stream URL from PHP endpoint');
+        // Method 2: Try direct iframe approach
+        try {
+          // Create a hidden iframe to load the PHP page
+          const iframe = document.createElement('iframe');
+          iframe.style.display = 'none';
+          iframe.src = phpUrl;
+          document.body.appendChild(iframe);
+          
+          // Wait for iframe to load and try to extract stream URL
+          await new Promise((resolve, reject) => {
+            iframe.onload = () => {
+              try {
+                // Try to access iframe content (may be blocked by CORS)
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+                if (iframeDoc) {
+                  const scripts = iframeDoc.getElementsByTagName('script');
+                  for (let script of scripts) {
+                    const content = script.innerHTML;
+                    const m3u8Match = content.match(/https?:\/\/[^"'\s]+\.m3u8[^"'\s]*/i);
+                    if (m3u8Match) {
+                      document.body.removeChild(iframe);
+                      resolve(m3u8Match[0]);
+                      return;
+                    }
+                  }
+                }
+                document.body.removeChild(iframe);
+                resolve(phpUrl); // Fallback to original URL
+              } catch (e) {
+                document.body.removeChild(iframe);
+                resolve(phpUrl); // Fallback to original URL
+              }
+            };
+            
+            iframe.onerror = () => {
+              document.body.removeChild(iframe);
+              resolve(phpUrl); // Fallback to original URL
+            };
+            
+            // Timeout after 5 seconds
+            setTimeout(() => {
+              if (iframe.parentNode) {
+                document.body.removeChild(iframe);
+              }
+              resolve(phpUrl); // Fallback to original URL
+            }, 5000);
+          });
+        } catch (iframeError) {
+          console.log('Iframe method failed');
+        }
       }
+      
+      // If all methods fail, return the original URL
+      console.log('Using original PHP URL as fallback');
+      return phpUrl;
+      
+    } catch (error) {
+      console.error('PHP stream resolution failed:', error);
+      return phpUrl; // Fallback to original URL
     }
-    
-    return url;
   };
 
   useEffect(() => {
@@ -105,299 +189,215 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
 
         console.log('Loading stream:', channel.streamUrl);
 
-        // Get the actual stream URL
-        const streamUrl = await getStreamUrl(channel.streamUrl);
-        console.log('Resolved stream URL:', streamUrl);
+        let streamUrl = channel.streamUrl;
 
-        // For PHP-based streams or direct URLs, try multiple approaches
-        if (streamUrl.includes('.php') || streamUrl.includes('elahmad.com')) {
-          console.log('Handling PHP-based stream');
-          
-          // Try direct video source first
-          video.src = streamUrl;
-          video.crossOrigin = 'anonymous';
-          
-          const handleLoadedData = () => {
-            setIsLoading(false);
-            setCanPlay(true);
-            setConnectionStatus('connected');
-            console.log('PHP stream loaded successfully');
-            // Auto-play
-            video.play().then(() => {
-              setIsPlaying(true);
-            }).catch(err => {
-              console.log('Auto-play prevented:', err);
-            });
-          };
-          
-          const handleError = async (e: any) => {
-            console.error('Direct PHP stream failed, trying HLS.js:', e);
-            
-            // If direct loading fails, try with HLS.js
-            try {
-              const { default: Hls } = await import('hls.js');
-              
-              if (Hls.isSupported()) {
-                console.log('Trying HLS.js for PHP stream');
-                const hls = new Hls({
-                  enableWorker: false,
-                  lowLatencyMode: true,
-                  backBufferLength: 90,
-                  maxBufferLength: 30,
-                  maxMaxBufferLength: 600,
-                  maxBufferSize: 60 * 1000 * 1000,
-                  maxBufferHole: 0.5,
-                  highBufferWatchdogPeriod: 2,
-                  nudgeOffset: 0.1,
-                  nudgeMaxRetry: 3,
-                  maxFragLookUpTolerance: 0.25,
-                  liveSyncDurationCount: 3,
-                  liveMaxLatencyDurationCount: 10,
-                  liveDurationInfinity: true,
-                  enableSoftwareAES: true,
-                  manifestLoadingTimeOut: 15000,
-                  manifestLoadingMaxRetry: 8,
-                  manifestLoadingRetryDelay: 1000,
-                  fragLoadingTimeOut: 25000,
-                  fragLoadingMaxRetry: 8,
-                  fragLoadingRetryDelay: 1000,
-                  startFragPrefetch: true,
-                  testBandwidth: true,
-                  progressive: false,
-                  xhrSetup: function (xhr: XMLHttpRequest, url: string) {
-                    xhr.withCredentials = false;
-                    // Add headers for PHP-based streams
-                    xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
-                    xhr.setRequestHeader('Referer', 'https://www.elahmad.com/');
-                  }
-                });
-                
-                hlsRef.current = hls;
-                
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                  setIsLoading(false);
-                  setCanPlay(true);
-                  setConnectionStatus('connected');
-                  console.log('PHP stream manifest parsed successfully');
-                  video.play().then(() => {
-                    setIsPlaying(true);
-                  }).catch(err => {
-                    console.log('Auto-play prevented:', err);
-                  });
-                });
-
-                hls.on(Hls.Events.FRAG_LOADED, () => {
-                  setConnectionStatus('connected');
-                });
-
-                hls.on(Hls.Events.ERROR, (event, data) => {
-                  console.error('PHP stream HLS Error:', data);
-                  
-                  if (data.fatal) {
-                    let errorMessage = 'Failed to connect to channel';
-                    
-                    switch (data.type) {
-                      case Hls.ErrorTypes.NETWORK_ERROR:
-                        errorMessage = 'Network error - Channel may be temporarily unavailable';
-                        setConnectionStatus('disconnected');
-                        if (retryCount < 3) {
-                          console.log('Attempting to reconnect');
-                          setTimeout(() => {
-                            hls.startLoad();
-                            setRetryCount(prev => prev + 1);
-                          }, 3000);
-                          return;
-                        }
-                        break;
-                      case Hls.ErrorTypes.MEDIA_ERROR:
-                        errorMessage = 'Media error - Stream format issue';
-                        if (retryCount < 2) {
-                          console.log('Attempting to recover');
-                          hls.recoverMediaError();
-                          setRetryCount(prev => prev + 1);
-                          return;
-                        }
-                        break;
-                      default:
-                        errorMessage = `Stream error: ${data.details || 'Unknown error'}`;
-                        break;
-                    }
-                    
-                    setError(errorMessage);
-                    setIsLoading(false);
-                    setConnectionStatus('disconnected');
-                  }
-                });
-
-                hls.loadSource(streamUrl);
-                hls.attachMedia(video);
-              } else {
-                setError('Streaming not supported in this browser');
-                setIsLoading(false);
-                setConnectionStatus('disconnected');
-              }
-            } catch (hlsError) {
-              console.error('HLS.js loading failed:', hlsError);
-              setError('Failed to load streaming library');
-              setIsLoading(false);
-              setConnectionStatus('disconnected');
-            }
-          };
-
-          video.addEventListener('loadeddata', handleLoadedData);
-          video.addEventListener('error', handleError);
-          
-          // Set a timeout for PHP streams
-          setTimeout(() => {
-            if (isLoading) {
-              handleError(new Error('PHP stream loading timeout'));
-            }
-          }, 15000);
-          
-          return () => {
-            video.removeEventListener('loadeddata', handleLoadedData);
-            video.removeEventListener('error', handleError);
-          };
+        // Handle PHP-based streams
+        if (streamUrl.includes('.php')) {
+          console.log('Detected PHP stream, attempting resolution...');
+          streamUrl = await resolvePhpStream(streamUrl);
+          console.log('Resolved stream URL:', streamUrl);
         }
-        
-        // Handle regular HLS streams
-        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          console.log('Using native HLS support');
-          video.src = streamUrl;
-          
-          const handleLoadedData = () => {
-            setIsLoading(false);
-            setCanPlay(true);
-            setConnectionStatus('connected');
-            console.log('Stream loaded successfully');
-            video.play().then(() => {
-              setIsPlaying(true);
-            }).catch(err => {
-              console.log('Auto-play prevented:', err);
-            });
-          };
-          
-          const handleError = (e: any) => {
-            console.error('Stream error:', e);
-            setError('Failed to connect to stream');
-            setIsLoading(false);
-            setConnectionStatus('disconnected');
-          };
 
-          video.addEventListener('loadeddata', handleLoadedData);
-          video.addEventListener('error', handleError);
-          
-          return () => {
-            video.removeEventListener('loadeddata', handleLoadedData);
-            video.removeEventListener('error', handleError);
-          };
-        } else {
-          // Use HLS.js for other browsers
-          const { default: Hls } = await import('hls.js');
-          
-          if (Hls.isSupported()) {
-            console.log('Using HLS.js');
+        setConnectionStatus('connecting');
+
+        // Try multiple loading strategies for PHP streams
+        const loadStrategies = [
+          // Strategy 1: Direct video element loading
+          async () => {
+            console.log('Trying direct video loading...');
+            video.crossOrigin = 'anonymous';
+            video.src = streamUrl;
+            
+            return new Promise((resolve, reject) => {
+              const handleLoadedData = () => {
+                console.log('Direct loading successful');
+                video.removeEventListener('loadeddata', handleLoadedData);
+                video.removeEventListener('error', handleError);
+                resolve(true);
+              };
+              
+              const handleError = (e: any) => {
+                console.log('Direct loading failed:', e);
+                video.removeEventListener('loadeddata', handleLoadedData);
+                video.removeEventListener('error', handleError);
+                reject(e);
+              };
+
+              video.addEventListener('loadeddata', handleLoadedData);
+              video.addEventListener('error', handleError);
+              
+              // Timeout after 10 seconds
+              setTimeout(() => {
+                video.removeEventListener('loadeddata', handleLoadedData);
+                video.removeEventListener('error', handleError);
+                reject(new Error('Direct loading timeout'));
+              }, 10000);
+            });
+          },
+
+          // Strategy 2: HLS.js with enhanced settings
+          async () => {
+            console.log('Trying HLS.js loading...');
+            const { default: Hls } = await import('hls.js');
+            
+            if (!Hls.isSupported()) {
+              throw new Error('HLS not supported');
+            }
+
             const hls = new Hls({
               enableWorker: false,
-              lowLatencyMode: true,
+              lowLatencyMode: false,
               backBufferLength: 90,
-              maxBufferLength: 30,
+              maxBufferLength: 60,
               maxMaxBufferLength: 600,
               maxBufferSize: 60 * 1000 * 1000,
               maxBufferHole: 0.5,
-              highBufferWatchdogPeriod: 2,
+              highBufferWatchdogPeriod: 3,
               nudgeOffset: 0.1,
-              nudgeMaxRetry: 3,
+              nudgeMaxRetry: 5,
               maxFragLookUpTolerance: 0.25,
               liveSyncDurationCount: 3,
               liveMaxLatencyDurationCount: 10,
               liveDurationInfinity: true,
               enableSoftwareAES: true,
-              manifestLoadingTimeOut: 10000,
-              manifestLoadingMaxRetry: 6,
-              manifestLoadingRetryDelay: 1000,
-              fragLoadingTimeOut: 20000,
-              fragLoadingMaxRetry: 6,
-              fragLoadingRetryDelay: 1000,
+              manifestLoadingTimeOut: 20000,
+              manifestLoadingMaxRetry: 10,
+              manifestLoadingRetryDelay: 2000,
+              fragLoadingTimeOut: 30000,
+              fragLoadingMaxRetry: 10,
+              fragLoadingRetryDelay: 2000,
               startFragPrefetch: true,
-              testBandwidth: true,
+              testBandwidth: false,
               progressive: false,
               xhrSetup: function (xhr: XMLHttpRequest, url: string) {
                 xhr.withCredentials = false;
+                xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+                xhr.setRequestHeader('Accept', '*/*');
+                xhr.setRequestHeader('Accept-Language', 'en-US,en;q=0.9');
+                if (url.includes('elahmad.com')) {
+                  xhr.setRequestHeader('Referer', 'https://www.elahmad.com/');
+                  xhr.setRequestHeader('Origin', 'https://www.elahmad.com');
+                }
               }
             });
             
             hlsRef.current = hls;
             
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-              setIsLoading(false);
-              setCanPlay(true);
-              setConnectionStatus('connected');
-              console.log('Manifest parsed successfully');
-              video.play().then(() => {
-                setIsPlaying(true);
-              }).catch(err => {
-                console.log('Auto-play prevented:', err);
+            return new Promise((resolve, reject) => {
+              hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                console.log('HLS.js loading successful');
+                resolve(true);
               });
-            });
 
-            hls.on(Hls.Events.FRAG_LOADED, () => {
-              setConnectionStatus('connected');
-            });
-
-            hls.on(Hls.Events.ERROR, (event, data) => {
-              console.error('HLS Error:', data);
-              
-              if (data.fatal) {
-                let errorMessage = 'Failed to connect to channel';
-                
-                switch (data.type) {
-                  case Hls.ErrorTypes.NETWORK_ERROR:
-                    errorMessage = 'Network error - Channel may be offline';
-                    setConnectionStatus('disconnected');
-                    if (retryCount < 3) {
-                      console.log('Attempting to reconnect');
-                      setTimeout(() => {
-                        hls.startLoad();
-                        setRetryCount(prev => prev + 1);
-                      }, 2000);
-                      return;
-                    }
-                    break;
-                  case Hls.ErrorTypes.MEDIA_ERROR:
-                    errorMessage = 'Media error - Stream format not supported';
-                    if (retryCount < 2) {
-                      console.log('Attempting to recover');
-                      hls.recoverMediaError();
-                      setRetryCount(prev => prev + 1);
-                      return;
-                    }
-                    break;
-                  case Hls.ErrorTypes.MUX_ERROR:
-                    errorMessage = 'Stream format error - Unable to decode signal';
-                    break;
-                  default:
-                    errorMessage = `Stream error: ${data.details || 'Unknown error'}`;
-                    break;
+              hls.on(Hls.Events.ERROR, (event, data) => {
+                console.error('HLS.js error:', data);
+                if (data.fatal) {
+                  reject(new Error(`HLS error: ${data.details}`));
                 }
-                
-                setError(errorMessage);
-                setIsLoading(false);
-                setConnectionStatus('disconnected');
-              }
-            });
+              });
 
-            hls.loadSource(streamUrl);
-            hls.attachMedia(video);
-          } else {
-            setError('Streaming is not supported in this browser');
+              hls.loadSource(streamUrl);
+              hls.attachMedia(video);
+              
+              // Timeout after 15 seconds
+              setTimeout(() => {
+                reject(new Error('HLS loading timeout'));
+              }, 15000);
+            });
+          },
+
+          // Strategy 3: Native HLS (Safari)
+          async () => {
+            if (!video.canPlayType('application/vnd.apple.mpegurl')) {
+              throw new Error('Native HLS not supported');
+            }
+            
+            console.log('Trying native HLS loading...');
+            video.src = streamUrl;
+            
+            return new Promise((resolve, reject) => {
+              const handleLoadedData = () => {
+                console.log('Native HLS loading successful');
+                video.removeEventListener('loadeddata', handleLoadedData);
+                video.removeEventListener('error', handleError);
+                resolve(true);
+              };
+              
+              const handleError = (e: any) => {
+                console.log('Native HLS loading failed:', e);
+                video.removeEventListener('loadeddata', handleLoadedData);
+                video.removeEventListener('error', handleError);
+                reject(e);
+              };
+
+              video.addEventListener('loadeddata', handleLoadedData);
+              video.addEventListener('error', handleError);
+              
+              // Timeout after 12 seconds
+              setTimeout(() => {
+                video.removeEventListener('loadeddata', handleLoadedData);
+                video.removeEventListener('error', handleError);
+                reject(new Error('Native HLS timeout'));
+              }, 12000);
+            });
+          }
+        ];
+
+        // Try each strategy in order
+        let lastError = null;
+        for (let i = 0; i < loadStrategies.length; i++) {
+          try {
+            console.log(`Attempting loading strategy ${i + 1}/${loadStrategies.length}`);
+            await loadStrategies[i]();
+            
+            // If we get here, loading was successful
             setIsLoading(false);
-            setConnectionStatus('disconnected');
+            setCanPlay(true);
+            setConnectionStatus('connected');
+            console.log('Stream loaded successfully with strategy', i + 1);
+            
+            // Auto-play
+            try {
+              await video.play();
+              setIsPlaying(true);
+            } catch (playError) {
+              console.log('Auto-play prevented:', playError);
+            }
+            
+            return; // Success, exit the function
+            
+          } catch (strategyError) {
+            console.log(`Strategy ${i + 1} failed:`, strategyError);
+            lastError = strategyError;
+            
+            // Clean up before trying next strategy
+            if (hlsRef.current) {
+              hlsRef.current.destroy();
+              hlsRef.current = null;
+            }
+            video.src = '';
+            
+            // Wait a bit before trying next strategy
+            if (i < loadStrategies.length - 1) {
+              await new Promise(resolve => setTimeout(resolve, 1000));
+            }
           }
         }
+
+        // If all strategies failed
+        throw lastError || new Error('All loading strategies failed');
+
       } catch (err) {
         console.error('Stream loading error:', err);
-        setError('Failed to initialize stream player');
+        let errorMessage = 'Failed to load stream';
+        
+        if (channel.streamUrl.includes('.php')) {
+          errorMessage = 'PHP stream temporarily unavailable - This may be due to server restrictions or the stream being offline';
+        } else if (err instanceof Error) {
+          errorMessage = err.message;
+        }
+        
+        setError(errorMessage);
         setIsLoading(false);
         setConnectionStatus('disconnected');
       }
@@ -468,7 +468,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   const retryConnection = () => {
     setError(null);
     setIsLoading(true);
-    setRetryCount(0);
+    setRetryCount(prev => prev + 1);
     setCanPlay(false);
     setConnectionStatus('connecting');
     
@@ -482,10 +482,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       video.src = '';
       video.load();
     }
-    
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
   };
 
   const formatTime = (date: Date) => {
@@ -501,9 +497,23 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       case 'connected':
         return <Signal className="w-4 h-4 text-green-400" />;
       case 'connecting':
+      case 'resolving':
         return <Signal className="w-4 h-4 text-yellow-400 animate-pulse" />;
       case 'disconnected':
         return <Signal className="w-4 h-4 text-red-400" />;
+    }
+  };
+
+  const getStatusText = () => {
+    switch (connectionStatus) {
+      case 'connected':
+        return 'Connected';
+      case 'connecting':
+        return 'Connecting';
+      case 'resolving':
+        return 'Resolving';
+      case 'disconnected':
+        return 'Disconnected';
     }
   };
 
@@ -543,7 +553,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 <div className="w-px h-6 bg-white/30"></div>
                 <div className="flex items-center gap-2">
                   {getSignalIcon()}
-                  <span className="text-xs capitalize">{connectionStatus}</span>
+                  <span className="text-xs">{getStatusText()}</span>
                 </div>
               </div>
             </div>
@@ -603,17 +613,23 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 </div>
                 <div>
                   <span className="text-slate-400">Status:</span>
-                  <span className={`ml-2 font-medium ${connectionStatus === 'connected' ? 'text-green-400' : connectionStatus === 'connecting' ? 'text-yellow-400' : 'text-red-400'}`}>
-                    {connectionStatus === 'connected' ? 'Live' : connectionStatus === 'connecting' ? 'Connecting...' : 'Offline'}
+                  <span className={`ml-2 font-medium ${connectionStatus === 'connected' ? 'text-green-400' : connectionStatus === 'connecting' || connectionStatus === 'resolving' ? 'text-yellow-400' : 'text-red-400'}`}>
+                    {connectionStatus === 'connected' ? 'Live' : connectionStatus === 'connecting' ? 'Connecting...' : connectionStatus === 'resolving' ? 'Resolving...' : 'Offline'}
                   </span>
                 </div>
                 <div>
                   <span className="text-slate-400">Source:</span>
-                  <span className="ml-2 font-medium text-xs">PHP Stream</span>
+                  <span className="ml-2 font-medium text-xs">
+                    {channel.streamUrl.includes('.php') ? 'PHP Stream' : 'Direct Stream'}
+                  </span>
                 </div>
                 <div>
                   <span className="text-slate-400">Quality:</span>
                   <span className="ml-2 font-medium">Auto</span>
+                </div>
+                <div>
+                  <span className="text-slate-400">Retry Count:</span>
+                  <span className="ml-2 font-medium">{retryCount}</span>
                 </div>
               </div>
             </div>
@@ -629,12 +645,21 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent mx-auto"></div>
                   <Tv className="w-8 h-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-400" />
                 </div>
-                <p className="text-xl font-semibold mb-2">Connecting to Live TV</p>
+                <p className="text-xl font-semibold mb-2">
+                  {connectionStatus === 'resolving' ? 'Resolving Stream' : 'Connecting to Live TV'}
+                </p>
                 <p className="text-slate-400">Loading {channel.name}...</p>
                 <div className="flex items-center justify-center gap-2 mt-4">
                   <Signal className="w-4 h-4 text-yellow-400 animate-pulse" />
-                  <span className="text-sm text-yellow-400">Resolving stream source</span>
+                  <span className="text-sm text-yellow-400">
+                    {connectionStatus === 'resolving' ? 'Resolving PHP stream source' : 'Establishing connection'}
+                  </span>
                 </div>
+                {channel.streamUrl.includes('.php') && (
+                  <p className="text-xs text-slate-500 mt-4 max-w-md">
+                    PHP-based streams may take longer to load as they require additional processing
+                  </p>
+                )}
               </div>
             </div>
           )}
@@ -665,7 +690,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                     <span className="relative z-10">Back to Channels</span>
                   </button>
                   <p className="text-xs text-slate-500 mt-4">
-                    PHP-based streams may require additional time to connect
+                    {channel.streamUrl.includes('.php') 
+                      ? 'PHP streams may have server-side restrictions or require specific access methods'
+                      : 'Live channels may experience temporary interruptions'
+                    }
                   </p>
                 </div>
               </div>
@@ -691,9 +719,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 setConnectionStatus('connected');
               }}
               onError={() => {
-                setError('Stream playback error - Channel may be offline');
-                setIsLoading(false);
-                setConnectionStatus('disconnected');
+                if (!error) { // Only set error if not already set
+                  setError('Stream playback error - Channel may be offline');
+                  setIsLoading(false);
+                  setConnectionStatus('disconnected');
+                }
               }}
               crossOrigin="anonymous"
               playsInline
