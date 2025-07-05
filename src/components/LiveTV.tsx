@@ -232,42 +232,42 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "MBC 1 (1080p)",
       "logo": "https://i.imgur.com/CiA3plN.png",
       "streamUrl": "https://d3o3cim6uzorb4.cloudfront.net/out/v1/0965e4d7deae49179172426cbfb3bc5e/index.m3u8",
-      "category": "General"
+      "category": "MBC"
     },
     {
       "id": "58",
       "name": "MBC 3 KSA (1080p)",
       "logo": "https://i.imgur.com/PVt8OPN.png",
       "streamUrl": "https://shls-mbc3-prod-dub.shahid.net/out/v1/d5bbe570e1514d3d9a142657d33d85e6/index.m3u8",
-      "category": "Kids"
+      "category": "MBC"
     },
     {
       "id": "59",
       "name": "MBC 4 (1080p)",
       "logo": "https://i.imgur.com/BcXASJp.png",
       "streamUrl": "https://shls-masr-prod-dub.shahid.net/out/v1/c08681f81775496ab4afa2bac7ae7638/index.m3u8",
-      "category": "Entertainment"
+      "category": "MBC"
     },
     {
       "id": "60",
       "name": "MBC 5 (1080p)",
       "logo": "https://i.imgur.com/fRWaDyF.png",
       "streamUrl": "https://www.elahmad.com/tv/mobiletv/glarb.php?id=mbc5_tv_1",
-      "category": "Family"
+      "category": "MBC"
     },
     {
       "id": "61",
       "name": "MBCDRAMA+ (1080p)",
       "logo": "https://i.imgur.com/fRWaDyF.png",
       "streamUrl": "hhttps://shls-mbcplusdrama-prod-dub.shahid.net/out/v1/97ca0ce6fc6142f4b14c0a694af59eab/index.m3u8",
-      "category": "Family"
+      "category": "MBC"
     },
     {
       "id": "63",
       "name": "MBC FM (1080p)",
       "logo": "https://i.imgur.com/lF8UxvR.png",
       "streamUrl": "https://dbbv9umqcd7cs.cloudfront.net/out/v1/db15b75c3cc0400c91961468d6a232ac/index.m3u8",
-      "category": "Music"
+      "category": "MBC"
     },
     {
       "id": "65",
