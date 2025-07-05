@@ -337,7 +337,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     {
         "id": "90",
         "name": "DMAX",
-        "logo": "",
+        "logo": "https://i.imgur.com/ganRfEo.png",
         "streamUrl": "https://amg16146-wbdi-amg16146c8-samsung-it-1841.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-dmax-samsungit/playlist.m3u8",
         "category": "Italy"
     },
