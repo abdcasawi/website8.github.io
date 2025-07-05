@@ -374,6 +374,13 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
         "streamUrl": "https://d3awaj0f2u3w26.cloudfront.net/4/media.m3u8",
         "category": "ALL"
     },
+    {
+        "id": "93",
+        "name": "L'Equipe Live 2",
+        "logo": "https://i.imgur.com/U8fIwyQ.png",
+        "streamUrl": "https://d2l55nvfkhk4sg.cloudfront.net/4/media.m3u8",
+        "category": "ALL"
+    },
     ];
 
   const filteredChannels = channels.filter(channel => {
