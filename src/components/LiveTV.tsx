@@ -375,10 +375,17 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
         "category": "ALL"
     },
     {
-        "id": "93",
+        "id": "95",
         "name": "L'Equipe Live 2",
         "logo": "https://i.imgur.com/U8fIwyQ.png",
         "streamUrl": "https://d2l55nvfkhk4sg.cloudfront.net/4/media.m3u8",
+        "category": "ALL"
+    },
+    {
+        "id": "94",
+        "name": "RMC Découverte ",
+        "logo": "https://i.imgur.com/fRxPRBv.png",
+        "streamUrl": "https://d2mt8for1pddy4.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6uronj7gzvy4j/index.m3u8",
         "category": "ALL"
     },
     ];
