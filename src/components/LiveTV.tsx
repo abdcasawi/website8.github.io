@@ -258,7 +258,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     {
       "id": "61",
       "name": "MBCDRAMA+ (1080p)",
-      "logo": "https://i.imgur.com/fRWaDyF.png",
+      "logo": "https://i.imgur.com/Eld2t3I.png",
       "streamUrl": "hhttps://shls-mbcplusdrama-prod-dub.shahid.net/out/v1/97ca0ce6fc6142f4b14c0a694af59eab/index.m3u8",
       "category": "MBC"
     },
