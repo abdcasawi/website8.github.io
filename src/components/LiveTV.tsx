@@ -247,7 +247,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "id": "60",
       "name": "MBC 5 (1080p)",
       "logo": "https://i.imgur.com/fRWaDyF.png",
-      "streamUrl": "https://shls-mbc5-prod-dub.shahid.net/out/v1/2720564b6a4641658fdfb6884b160da2/index.m3u8",
+      "streamUrl": "https://www.elahmad.com/tv/mobiletv/glarb.php?id=mbc5_tv_1",
       "category": "Family"
     },
     {
