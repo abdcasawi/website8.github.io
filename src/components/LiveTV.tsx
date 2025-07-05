@@ -388,6 +388,13 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
         "streamUrl": "https://d2mt8for1pddy4.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6uronj7gzvy4j/index.m3u8",
         "category": "ALL"
     },
+    {
+        "id": "96",
+        "name": "Rai News 24",
+        "logo": "https://i.imgur.com/KWteU9B.png",
+        "streamUrl": "https://ilglobotv-live.akamaized.net/channels/RAINews24/Live.m3u8",
+        "category": "ALL"
+    },
     ];
 
   const filteredChannels = channels.filter(channel => {
