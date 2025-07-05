@@ -220,7 +220,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 console.log('Direct loading failed:', e);
                 video.removeEventListener('loadeddata', handleLoadedData);
                 video.removeEventListener('error', handleError);
-                reject(e);
+                reject(new Error('Direct video loading failed'));
               };
 
               video.addEventListener('loadeddata', handleLoadedData);
@@ -241,7 +241,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             const { default: Hls } = await import('hls.js');
             
             if (!Hls.isSupported()) {
-              throw new Error('HLS not supported');
+              throw new Error('HLS.js not supported in this browser');
             }
 
             const hls = new Hls({
@@ -284,35 +284,63 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             hlsRef.current = hls;
             
             return new Promise((resolve, reject) => {
+              let resolved = false;
+              
+              const cleanup = () => {
+                if (hls && !resolved) {
+                  hls.off(Hls.Events.MANIFEST_PARSED);
+                  hls.off(Hls.Events.ERROR);
+                }
+              };
+
               hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                console.log('HLS.js loading successful');
-                resolve(true);
+                if (!resolved) {
+                  resolved = true;
+                  cleanup();
+                  console.log('HLS.js loading successful');
+                  resolve(true);
+                }
               });
 
               hls.on(Hls.Events.ERROR, (event, data) => {
                 console.error('HLS.js error:', data);
-                if (data.fatal) {
-                  reject(new Error(`HLS error: ${data.details}`));
+                if (data.fatal && !resolved) {
+                  resolved = true;
+                  cleanup();
+                  reject(new Error(`HLS fatal error: ${data.details || 'Unknown error'}`));
                 }
               });
 
-              hls.loadSource(streamUrl);
-              hls.attachMedia(video);
+              try {
+                hls.loadSource(streamUrl);
+                hls.attachMedia(video);
+              } catch (hlsError) {
+                if (!resolved) {
+                  resolved = true;
+                  cleanup();
+                  reject(new Error(`HLS setup error: ${hlsError}`));
+                }
+              }
               
               // Timeout after 15 seconds
               setTimeout(() => {
-                reject(new Error('HLS loading timeout'));
+                if (!resolved) {
+                  resolved = true;
+                  cleanup();
+                  reject(new Error('HLS loading timeout'));
+                }
               }, 15000);
             });
           },
 
           // Strategy 3: Native HLS (Safari)
           async () => {
+            console.log('Trying native HLS loading...');
+            
             if (!video.canPlayType('application/vnd.apple.mpegurl')) {
-              throw new Error('Native HLS not supported');
+              throw new Error('Native HLS not supported in this browser');
             }
             
-            console.log('Trying native HLS loading...');
             video.src = streamUrl;
             
             return new Promise((resolve, reject) => {
@@ -327,7 +355,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 console.log('Native HLS loading failed:', e);
                 video.removeEventListener('loadeddata', handleLoadedData);
                 video.removeEventListener('error', handleError);
-                reject(e);
+                reject(new Error('Native HLS loading failed'));
               };
 
               video.addEventListener('loadeddata', handleLoadedData);
@@ -345,6 +373,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
 
         // Try each strategy in order
         let lastError = null;
+        let strategySucceeded = false;
+        
         for (let i = 0; i < loadStrategies.length; i++) {
           try {
             console.log(`Attempting loading strategy ${i + 1}/${loadStrategies.length}`);
@@ -355,6 +385,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             setCanPlay(true);
             setConnectionStatus('connected');
             console.log('Stream loaded successfully with strategy', i + 1);
+            strategySucceeded = true;
             
             // Auto-play
             try {
@@ -372,7 +403,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             
             // Clean up before trying next strategy
             if (hlsRef.current) {
-              hlsRef.current.destroy();
+              try {
+                hlsRef.current.destroy();
+              } catch (destroyError) {
+                console.log('Error destroying HLS instance:', destroyError);
+              }
               hlsRef.current = null;
             }
             video.src = '';
@@ -385,7 +420,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
         }
 
         // If all strategies failed
-        throw lastError || new Error('All loading strategies failed');
+        if (!strategySucceeded) {
+          throw lastError || new Error('All loading strategies failed');
+        }
 
       } catch (err) {
         console.error('Stream loading error:', err);
@@ -407,7 +444,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
 
     return () => {
       if (hlsRef.current) {
-        hlsRef.current.destroy();
+        try {
+          hlsRef.current.destroy();
+        } catch (destroyError) {
+          console.log('Error destroying HLS instance on cleanup:', destroyError);
+        }
         hlsRef.current = null;
       }
     };
@@ -473,7 +514,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
     setConnectionStatus('connecting');
     
     if (hlsRef.current) {
-      hlsRef.current.destroy();
+      try {
+        hlsRef.current.destroy();
+      } catch (destroyError) {
+        console.log('Error destroying HLS instance on retry:', destroyError);
+      }
       hlsRef.current = null;
     }
     
