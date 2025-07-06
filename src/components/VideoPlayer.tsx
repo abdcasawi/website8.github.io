@@ -9,6 +9,7 @@ interface VideoPlayerProps {
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const hlsRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   
   const [isPlaying, setIsPlaying] = useState(false);
@@ -27,6 +28,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   const [buffered, setBuffered] = useState(0);
   const [retryCount, setRetryCount] = useState(0);
   const [streamType, setStreamType] = useState<'hls' | 'direct'>('direct');
+  const [playerType, setPlayerType] = useState<'native' | 'hlsjs' | 'unknown'>('unknown');
 
   const buttonBackgroundStyle = {
     backgroundImage: 'url(/background1.jpg)',
@@ -79,8 +81,225 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
            video.canPlayType('application/x-mpegURL') !== '';
   }, []);
 
-  // Load video stream with native HLS support
-  const loadStream = useCallback(() => {
+  // Load stream with HLS.js fallback
+  const loadStreamWithHLSJS = useCallback(async (url: string) => {
+    const video = videoRef.current;
+    if (!video) throw new Error('Video element not available');
+
+    try {
+      const { default: Hls } = await import('hls.js');
+      
+      if (!Hls.isSupported()) {
+        throw new Error('HLS.js not supported in this browser');
+      }
+
+      const hls = new Hls({
+        enableWorker: false,
+        lowLatencyMode: false,
+        backBufferLength: 90,
+        maxBufferLength: 30,
+        maxMaxBufferLength: 600,
+        maxBufferSize: 60 * 1000 * 1000,
+        maxBufferHole: 0.5,
+        nudgeOffset: 0.1,
+        nudgeMaxRetry: 3,
+        manifestLoadingTimeOut: 20000,
+        manifestLoadingMaxRetry: 3,
+        manifestLoadingRetryDelay: 1000,
+        fragLoadingTimeOut: 20000,
+        fragLoadingMaxRetry: 3,
+        fragLoadingRetryDelay: 1000,
+        xhrSetup: (xhr: XMLHttpRequest, url: string) => {
+          xhr.withCredentials = false;
+          xhr.timeout = 20000;
+          xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
+          xhr.setRequestHeader('Accept', '*/*');
+          xhr.setRequestHeader('Accept-Language', 'en-US,en;q=0.9');
+          
+          // Domain-specific headers
+          if (url.includes('akamaized.net') || url.includes('rai.it')) {
+            xhr.setRequestHeader('Origin', 'https://www.raiplay.it');
+            xhr.setRequestHeader('Referer', 'https://www.raiplay.it/');
+          }
+        }
+      });
+
+      hlsRef.current = hls;
+      setPlayerType('hlsjs');
+
+      return new Promise<void>((resolve, reject) => {
+        let resolved = false;
+        let manifestParsed = false;
+
+        const cleanup = () => {
+          if (hls && !resolved) {
+            hls.off(Hls.Events.MANIFEST_PARSED);
+            hls.off(Hls.Events.LEVEL_LOADED);
+            hls.off(Hls.Events.FRAG_LOADED);
+            hls.off(Hls.Events.ERROR);
+          }
+        };
+
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          if (!resolved) {
+            manifestParsed = true;
+            console.log('HLS.js manifest parsed');
+          }
+        });
+
+        hls.on(Hls.Events.LEVEL_LOADED, () => {
+          if (!resolved && manifestParsed) {
+            resolved = true;
+            cleanup();
+            setCanPlay(true);
+            setConnectionStatus('connected');
+            console.log('HLS.js stream ready');
+            resolve();
+          }
+        });
+
+        hls.on(Hls.Events.FRAG_LOADED, () => {
+          setConnectionStatus('connected');
+          if (!resolved && manifestParsed) {
+            resolved = true;
+            cleanup();
+            setCanPlay(true);
+            resolve();
+          }
+        });
+
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          console.error('HLS.js error:', data);
+          
+          if (data.fatal && !resolved) {
+            resolved = true;
+            cleanup();
+            
+            let errorMsg = 'HLS streaming error';
+            if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+              if (data.details === Hls.ErrorDetails.MANIFEST_LOAD_ERROR) {
+                errorMsg = 'Stream not accessible - May be geo-blocked or offline';
+              } else {
+                errorMsg = 'Network error - Stream may be offline';
+              }
+            } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+              errorMsg = 'Media format error - Stream may be corrupted';
+            }
+            
+            reject(new Error(errorMsg));
+          } else if (!data.fatal) {
+            // Try to recover from non-fatal errors
+            try {
+              if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+                hls.recoverMediaError();
+              } else if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+                hls.startLoad();
+              }
+            } catch (recoveryError) {
+              console.error('HLS.js recovery failed:', recoveryError);
+            }
+          }
+        });
+
+        try {
+          hls.loadSource(url);
+          hls.attachMedia(video);
+        } catch (hlsError) {
+          if (!resolved) {
+            resolved = true;
+            cleanup();
+            reject(new Error(`HLS.js setup failed: ${hlsError}`));
+          }
+        }
+
+        // Timeout
+        setTimeout(() => {
+          if (!resolved) {
+            resolved = true;
+            cleanup();
+            reject(new Error('HLS.js loading timeout'));
+          }
+        }, 30000);
+      });
+    } catch (importError) {
+      throw new Error(`Failed to load HLS.js: ${importError}`);
+    }
+  }, []);
+
+  // Load stream with native video
+  const loadStreamNative = useCallback((url: string) => {
+    const video = videoRef.current;
+    if (!video) throw new Error('Video element not available');
+
+    setPlayerType('native');
+
+    return new Promise<void>((resolve, reject) => {
+      let resolved = false;
+
+      const handleCanPlay = () => {
+        if (!resolved) {
+          resolved = true;
+          cleanup();
+          setCanPlay(true);
+          setConnectionStatus('connected');
+          console.log('Native video ready');
+          resolve();
+        }
+      };
+
+      const handleError = () => {
+        if (!resolved) {
+          resolved = true;
+          cleanup();
+          
+          let errorMsg = 'Video loading failed';
+          if (video.error) {
+            switch (video.error.code) {
+              case MediaError.MEDIA_ERR_NETWORK:
+                errorMsg = 'Network error - Stream may be offline or geo-blocked';
+                break;
+              case MediaError.MEDIA_ERR_DECODE:
+                errorMsg = 'Video decode error - Format may not be supported';
+                break;
+              case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                errorMsg = 'Video format not supported by this browser';
+                break;
+              default:
+                errorMsg = 'Unknown video error';
+            }
+          }
+          
+          reject(new Error(errorMsg));
+        }
+      };
+
+      const cleanup = () => {
+        video.removeEventListener('canplay', handleCanPlay);
+        video.removeEventListener('error', handleError);
+      };
+
+      video.addEventListener('canplay', handleCanPlay);
+      video.addEventListener('error', handleError);
+
+      // Configure video
+      video.crossOrigin = 'anonymous';
+      video.preload = 'metadata';
+      video.src = url;
+      video.load();
+
+      // Timeout
+      setTimeout(() => {
+        if (!resolved) {
+          resolved = true;
+          cleanup();
+          reject(new Error('Native video timeout'));
+        }
+      }, 20000);
+    });
+  }, []);
+
+  // Main stream loading function
+  const loadStream = useCallback(async () => {
     const video = videoRef.current;
     if (!video) {
       setError('Video player not available');
@@ -88,192 +307,124 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       return;
     }
 
-    console.log('Loading stream:', channel.streamUrl);
-    
-    setIsLoading(true);
-    setError(null);
-    setCanPlay(false);
-    setConnectionStatus('connecting');
+    try {
+      setIsLoading(true);
+      setError(null);
+      setCanPlay(false);
+      setConnectionStatus('connecting');
 
-    // Reset video state
-    video.currentTime = 0;
-    setCurrentVideoTime(0);
-    setDuration(0);
-    setBuffered(0);
+      // Clean up previous HLS instance
+      if (hlsRef.current) {
+        try {
+          hlsRef.current.destroy();
+        } catch (e) {
+          console.log('Error destroying HLS:', e);
+        }
+        hlsRef.current = null;
+      }
 
-    // Determine stream type
-    const isHLS = channel.streamUrl.includes('.m3u8');
-    setStreamType(isHLS ? 'hls' : 'direct');
+      // Reset video
+      video.src = '';
+      video.load();
 
-    // Check HLS support for .m3u8 streams
-    if (isHLS && !supportsNativeHLS()) {
-      setError('HLS streams are not supported in this browser. Please try a different browser like Safari, Chrome, or Edge.');
+      const url = channel.streamUrl;
+      const isHLS = url.includes('.m3u8');
+      setStreamType(isHLS ? 'hls' : 'direct');
+
+      console.log(`Loading ${isHLS ? 'HLS' : 'direct'} stream:`, url);
+
+      if (isHLS) {
+        // For HLS streams, try native first, then HLS.js
+        if (supportsNativeHLS()) {
+          console.log('Trying native HLS support first...');
+          try {
+            await loadStreamNative(url);
+            console.log('Native HLS successful');
+          } catch (nativeError) {
+            console.log('Native HLS failed, trying HLS.js...', nativeError);
+            await loadStreamWithHLSJS(url);
+            console.log('HLS.js successful');
+          }
+        } else {
+          console.log('No native HLS support, using HLS.js...');
+          await loadStreamWithHLSJS(url);
+          console.log('HLS.js successful');
+        }
+      } else {
+        // For direct streams, use native video
+        console.log('Loading direct stream with native video...');
+        await loadStreamNative(url);
+        console.log('Native video successful');
+      }
+
       setIsLoading(false);
-      setConnectionStatus('disconnected');
-      return;
-    }
+      setRetryCount(0);
 
-    // Configure video element for optimal HLS playback
-    video.crossOrigin = 'anonymous';
-    video.preload = 'metadata';
-    video.autoplay = false;
-    video.controls = false;
-    video.muted = isMuted;
-    video.volume = volume;
+    } catch (err) {
+      console.error('Stream loading failed:', err);
+      handleStreamError(err);
+    }
+  }, [channel.streamUrl, supportsNativeHLS, loadStreamNative, loadStreamWithHLSJS]);
+
+  // Handle stream errors
+  const handleStreamError = useCallback((err: any) => {
+    let errorMessage = 'Failed to load stream';
     
-    // Set additional attributes for better HLS support
-    video.setAttribute('webkit-playsinline', 'true');
-    video.setAttribute('playsinline', 'true');
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
     
-    // For HLS streams, add specific headers and configuration
-    if (isHLS) {
-      // Some HLS streams require specific user agents or referrers
-      if (channel.streamUrl.includes('rai.it') || channel.streamUrl.includes('akamaized.net')) {
-        // These streams might need specific headers, but we can't set them directly
-        // The browser will handle CORS and authentication
-        console.log('Loading RAI/Akamai HLS stream with native support');
+    // Add specific guidance for common issues
+    if (streamType === 'hls') {
+      if (channel.streamUrl.includes('rai.it')) {
+        errorMessage += ' RAI streams may require Italian IP address or specific authentication.';
+      } else if (channel.streamUrl.includes('akamaized.net')) {
+        errorMessage += ' This stream may have geo-restrictions or authentication requirements.';
+      }
+      
+      if (!supportsNativeHLS()) {
+        errorMessage += ' Your browser has limited HLS support.';
       }
     }
-
-    // Set source and load
-    video.src = channel.streamUrl;
-    video.load();
-
-    console.log(`Loading ${streamType.toUpperCase()} stream with native browser support`);
-  }, [channel.streamUrl, isMuted, volume, supportsNativeHLS, streamType]);
+    
+    setError(errorMessage);
+    setIsLoading(false);
+    setConnectionStatus('disconnected');
+    
+    // Auto-retry with exponential backoff
+    if (retryCount < 3) {
+      const retryDelay = Math.min(5000 * Math.pow(2, retryCount), 20000);
+      console.log(`Auto-retry in ${retryDelay/1000} seconds (attempt ${retryCount + 1}/3)`);
+      setTimeout(() => {
+        setRetryCount(prev => prev + 1);
+        loadStream();
+      }, retryDelay);
+    }
+  }, [streamType, channel.streamUrl, retryCount, loadStream, supportsNativeHLS]);
 
   // Video event handlers
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
-
-    const handleLoadStart = () => {
-      console.log('Video load started');
-      setIsLoading(true);
-      setConnectionStatus('connecting');
-    };
+    if (!video || !canPlay) return;
 
     const handleLoadedMetadata = () => {
-      console.log('Video metadata loaded, duration:', video.duration);
       setDuration(video.duration || 0);
-      setConnectionStatus('connected');
+      video.volume = volume;
+      video.muted = isMuted;
     };
 
-    const handleCanPlay = () => {
-      console.log('Video can play');
-      setCanPlay(true);
-      setIsLoading(false);
-      setConnectionStatus('connected');
-      setError(null);
-      setRetryCount(0);
-    };
-
-    const handleCanPlayThrough = () => {
-      console.log('Video can play through');
-      setCanPlay(true);
-      setIsLoading(false);
-      setConnectionStatus('connected');
-    };
-
-    const handlePlay = () => {
-      console.log('Video playing');
-      setIsPlaying(true);
-      setConnectionStatus('connected');
-    };
-
-    const handlePause = () => {
-      console.log('Video paused');
-      setIsPlaying(false);
-    };
-
-    const handleWaiting = () => {
-      console.log('Video waiting/buffering');
-      setConnectionStatus('buffering');
-    };
-
-    const handlePlaying = () => {
-      console.log('Video playing after buffering');
-      setConnectionStatus('connected');
-    };
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+    const handleWaiting = () => setConnectionStatus('buffering');
+    const handlePlaying = () => setConnectionStatus('connected');
 
     const handleTimeUpdate = () => {
       setCurrentVideoTime(video.currentTime);
       
-      // Update buffered amount
       if (video.buffered.length > 0) {
         const bufferedEnd = video.buffered.end(video.buffered.length - 1);
         setBuffered(bufferedEnd);
       }
-    };
-
-    const handleError = (e: Event) => {
-      console.error('Video error:', e, video.error);
-      setIsLoading(false);
-      setCanPlay(false);
-      setConnectionStatus('disconnected');
-      
-      let errorMessage = 'Failed to load video stream';
-      
-      if (video.error) {
-        switch (video.error.code) {
-          case MediaError.MEDIA_ERR_ABORTED:
-            errorMessage = 'Video loading was aborted by user';
-            break;
-          case MediaError.MEDIA_ERR_NETWORK:
-            if (streamType === 'hls') {
-              errorMessage = 'Network error loading HLS stream. Stream may be geo-blocked, offline, or require authentication.';
-            } else {
-              errorMessage = 'Network error - Stream may be offline or geo-blocked';
-            }
-            break;
-          case MediaError.MEDIA_ERR_DECODE:
-            if (streamType === 'hls') {
-              errorMessage = 'HLS stream format error or corrupted segments';
-            } else {
-              errorMessage = 'Video format not supported or corrupted';
-            }
-            break;
-          case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-            if (streamType === 'hls') {
-              errorMessage = 'HLS format not supported. Try a browser with native HLS support like Safari.';
-            } else {
-              errorMessage = 'Video format not supported by this browser';
-            }
-            break;
-          default:
-            errorMessage = `Unknown video error (code: ${video.error.code})`;
-        }
-      }
-      
-      // Add specific error handling for common HLS issues
-      if (streamType === 'hls') {
-        if (channel.streamUrl.includes('rai.it')) {
-          errorMessage += ' RAI streams may require Italian IP address or specific authentication.';
-        } else if (channel.streamUrl.includes('akamaized.net')) {
-          errorMessage += ' Akamai CDN streams may have geo-restrictions or authentication requirements.';
-        }
-      }
-      
-      setError(errorMessage);
-      
-      // Auto-retry with exponential backoff for network errors
-      if (video.error?.code === MediaError.MEDIA_ERR_NETWORK && retryCount < 3) {
-        const retryDelay = Math.min(3000 * Math.pow(2, retryCount), 15000);
-        console.log(`Auto-retry in ${retryDelay/1000} seconds (attempt ${retryCount + 1}/3)`);
-        setTimeout(() => {
-          setRetryCount(prev => prev + 1);
-          loadStream();
-        }, retryDelay);
-      }
-    };
-
-    const handleStalled = () => {
-      console.log('Video stalled');
-      setConnectionStatus('buffering');
-    };
-
-    const handleSuspend = () => {
-      console.log('Video suspended');
     };
 
     const handleVolumeChange = () => {
@@ -281,47 +432,24 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       setIsMuted(video.muted);
     };
 
-    const handleProgress = () => {
-      // Update buffered ranges
-      if (video.buffered.length > 0) {
-        const bufferedEnd = video.buffered.end(video.buffered.length - 1);
-        setBuffered(bufferedEnd);
-      }
-    };
-
-    // Add event listeners
-    video.addEventListener('loadstart', handleLoadStart);
     video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    video.addEventListener('canplay', handleCanPlay);
-    video.addEventListener('canplaythrough', handleCanPlayThrough);
     video.addEventListener('play', handlePlay);
     video.addEventListener('pause', handlePause);
     video.addEventListener('waiting', handleWaiting);
     video.addEventListener('playing', handlePlaying);
     video.addEventListener('timeupdate', handleTimeUpdate);
-    video.addEventListener('error', handleError);
-    video.addEventListener('stalled', handleStalled);
-    video.addEventListener('suspend', handleSuspend);
     video.addEventListener('volumechange', handleVolumeChange);
-    video.addEventListener('progress', handleProgress);
 
     return () => {
-      video.removeEventListener('loadstart', handleLoadStart);
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      video.removeEventListener('canplay', handleCanPlay);
-      video.removeEventListener('canplaythrough', handleCanPlayThrough);
       video.removeEventListener('play', handlePlay);
       video.removeEventListener('pause', handlePause);
       video.removeEventListener('waiting', handleWaiting);
       video.removeEventListener('playing', handlePlaying);
       video.removeEventListener('timeupdate', handleTimeUpdate);
-      video.removeEventListener('error', handleError);
-      video.removeEventListener('stalled', handleStalled);
-      video.removeEventListener('suspend', handleSuspend);
       video.removeEventListener('volumechange', handleVolumeChange);
-      video.removeEventListener('progress', handleProgress);
     };
-  }, [streamType, channel.streamUrl, retryCount, loadStream]);
+  }, [canPlay, volume, isMuted]);
 
   // Load stream on mount and URL change
   useEffect(() => {
@@ -329,8 +457,29 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       loadStream();
     }, 100);
     
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      
+      if (hlsRef.current) {
+        try {
+          hlsRef.current.destroy();
+        } catch (e) {
+          console.log('Cleanup error:', e);
+        }
+        hlsRef.current = null;
+      }
+    };
   }, [loadStream]);
+
+  // Auto-play when ready
+  useEffect(() => {
+    const video = videoRef.current;
+    if (canPlay && video && !isPlaying) {
+      video.play().catch(err => {
+        console.log('Auto-play prevented:', err);
+      });
+    }
+  }, [canPlay, isPlaying]);
 
   // Keyboard controls
   useEffect(() => {
@@ -514,7 +663,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 <div className="w-px h-6 bg-white/30"></div>
                 <div className="flex items-center gap-1">
                   <Tv className="w-3 h-3 text-blue-400" />
-                  <span className="text-xs">{streamType.toUpperCase()}</span>
+                  <span className="text-xs">{playerType.toUpperCase()}</span>
                 </div>
               </div>
             </div>
@@ -585,14 +734,18 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 </div>
                 <div>
                   <span className="text-slate-400">Player:</span>
-                  <span className="ml-2 font-medium">Native {streamType.toUpperCase()}</span>
+                  <span className="ml-2 font-medium">{playerType.toUpperCase()}</span>
+                </div>
+                <div>
+                  <span className="text-slate-400">Stream Type:</span>
+                  <span className="ml-2 font-medium">{streamType.toUpperCase()}</span>
                 </div>
                 <div>
                   <span className="text-slate-400">Duration:</span>
                   <span className="ml-2 font-medium">{formatDuration(duration)}</span>
                 </div>
                 <div>
-                  <span className="text-slate-400">HLS Support:</span>
+                  <span className="text-slate-400">Native HLS:</span>
                   <span className={`ml-2 font-medium ${supportsNativeHLS() ? 'text-green-400' : 'text-red-400'}`}>
                     {supportsNativeHLS() ? 'Yes' : 'No'}
                   </span>
@@ -632,7 +785,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   </span>
                 </div>
                 <p className="text-xs text-slate-500">
-                  Using native {streamType.toUpperCase()} player
+                  {streamType === 'hls' ? 
+                    (supportsNativeHLS() ? 'Trying native HLS, fallback to HLS.js' : 'Using HLS.js player') :
+                    'Using native video player'
+                  }
                 </p>
               </div>
             </div>
@@ -644,15 +800,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 <AlertCircle className="w-24 h-24 text-red-500 mx-auto mb-6" />
                 <h3 className="text-2xl font-bold mb-4">Stream Unavailable</h3>
                 <p className="text-slate-400 mb-6 text-sm leading-relaxed">{error}</p>
-                
-                {streamType === 'hls' && !supportsNativeHLS() && (
-                  <div className="bg-yellow-900/30 border border-yellow-500/50 rounded-lg p-4 mb-6">
-                    <p className="text-yellow-400 text-sm">
-                      <strong>HLS Support Required:</strong> This stream requires a browser with native HLS support. 
-                      Try Safari, Chrome, or Edge for better compatibility.
-                    </p>
-                  </div>
-                )}
                 
                 <div className="space-y-4">
                   <button
@@ -745,7 +892,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                     {getSignalIcon()}
                   </div>
                   <p className="text-sm text-slate-300">{channel.name}</p>
-                  <p className="text-xs text-slate-400">Native {streamType.toUpperCase()} Player</p>
+                  <p className="text-xs text-slate-400">{playerType.toUpperCase()} Player</p>
                 </div>
 
                 {/* Right Controls */}
@@ -799,7 +946,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                     {isLiveStream ? 'Start Live TV' : 'Play Video'}
                   </span>
                   <span className="text-sm text-slate-300">
-                    Native {streamType.toUpperCase()} Player
+                    {playerType.toUpperCase()} Player
                   </span>
                 </div>
               </button>
