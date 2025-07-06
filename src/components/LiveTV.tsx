@@ -390,6 +390,279 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
         "streamUrl": "https://ilglobotv-live.akamaized.net/channels/RAINews24/Live.m3u8",
         "category": "ITALY"
     },
+    {
+      "id": "97",
+      "name": "Rai 1",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai1.png",
+      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=2606803&output=7&forceUserAgent=raiplayappletv",
+      "category": "Rai"
+    },
+    {
+      "id": "98",
+      "name": "Rai 2",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai2.png",
+      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308718&output=7&forceUserAgent=raiplayappletv",
+      "category": "Rai"
+    },
+    {
+      "id": "99",
+      "name": "Rai 3",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai3.png",
+      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308709&output=7&forceUserAgent=raiplayappletv",
+      "category": "Rai"
+    },
+    {
+      "id": "100",
+      "name": "Rete 4",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rete4.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-r4/r4-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "101",
+      "name": "Canale 5",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/canale5.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-c5/c5-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "102",
+      "name": "Italia 1",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/italia1.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-i1/i1-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "7",
+      "name": "LA7",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/la7.png",
+      "streamUrl": "https://d3749synfikwkv.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-74ylxpgd78bpb/Live.m3u8",
+      "category": "Altro"
+    },
+    {
+      "id": "8",
+      "name": "TV8",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/tv8.png",
+      "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11223/tv8web/master.m3u8?hdnea=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
+      "category": "Sky"
+    },
+    {
+      "id": "9",
+      "name": "NOVE",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/nove.png",
+      "streamUrl": "https://amg16146-wbdi-amg16146c1-samsung-it-1831.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-nove-samsungit/playlist.m3u8",
+      "category": "Discovery"
+    },
+    {
+      "id": "20",
+      "name": "20 Mediaset",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/20mediaset.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-lb/lb-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "21",
+      "name": "Rai 4",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai4.png",
+      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746966&output=7&forceUserAgent=raiplayappletv",
+      "category": "Rai"
+    },
+    {
+      "id": "22",
+      "name": "Iris",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/iris.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-ki/ki-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "23",
+      "name": "Rai 5",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai5.png",
+      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=395276&output=7&forceUserAgent=raiplayappletv",
+      "category": "Rai"
+    },
+    {
+      "id": "24",
+      "name": "Rai Movie",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raimovie.png",
+      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=747002&output=7&forceUserAgent=raiplayappletv",
+      "category": "Rai"
+    },
+    {
+      "id": "25",
+      "name": "Rai Premium",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raipremium.png",
+      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746992&output=7&forceUserAgent=raiplayappletv",
+      "category": "Rai"
+    },
+    {
+      "id": "26",
+      "name": "Cielo",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/cielo.png",
+      "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11219/cieloweb/master.m3u8?hdnea=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
+      "category": "Sky"
+    },
+    {
+      "id": "27",
+      "name": "Twenty Seven",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/twentyseven.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-ts/ts-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "28",
+      "name": "TV2000",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/tv2000.png",
+      "streamUrl": "https://hls-live-tv2000.akamaized.net/hls/live/2028510/tv2000/master.m3u8",
+      "category": "Altro"
+    },
+    {
+      "id": "29",
+      "name": "LA7d",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/la7d.png",
+      "streamUrl": "https://d15umi5iaezxgx.cloudfront.net/LA7D/CLN/HLS/Live.m3u8",
+      "category": "Altro"
+    },
+    {
+      "id": "30",
+      "name": "La 5",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/la5.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-ka/ka-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "31",
+      "name": "Real Time",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/realtime.png",
+      "streamUrl": "https://amg16146-wbdi-amg16146c2-samsung-it-1835.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-realtime-samsungit/playlist.m3u8",
+      "category": "Discovery"
+    },
+    {
+      "id": "32",
+      "name": "QVC",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/qvc.png",
+      "streamUrl": "https://qrg.akamaized.net/hls/live/2017383/lsqvc1it/master.m3u8",
+      "category": "Altro"
+    },
+    {
+      "id": "33",
+      "name": "Food Network",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/foodnetwork.png",
+      "streamUrl": "https://amg16146-wbdi-amg16146c3-samsung-it-1836.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-foodnetwork-samsungit/playlist.m3u8",
+      "category": "Discovery"
+    },
+    {
+      "id": "34",
+      "name": "Cine34",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/cine34.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-b6/b6-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "35",
+      "name": "FOCUS",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/focus.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-fu/fu-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "36",
+      "name": "RTL 102.5",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rtl1025tv.png",
+      "streamUrl": "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S97044836/tbbP8T1ZRPBL/playlist_video.m3u8",
+      "category": "Radio"
+    },
+    {
+      "id": "37",
+      "name": "Warner TV",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/warnertv.png",
+      "streamUrl": "https://amg16146-wbdi-amg16146c4-samsung-it-1837.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-warnertv-samsungit/playlist.m3u8",
+      "category": "Discovery"
+    },
+    {
+      "id": "38",
+      "name": "Giallo",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/giallo.png",
+      "streamUrl": "https://amg16146-wbdi-amg16146c5-samsung-it-1838.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-giallo-samsungit/playlist.m3u8",
+      "category": "Discovery"
+    },
+    {
+      "id": "39",
+      "name": "Top Crime",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/topcrime.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-lt/lt-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "40",
+      "name": "Boing",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/boing.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-kb/kb-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "41",
+      "name": "K2",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/k2.png",
+      "streamUrl": "https://amg16146-wbdi-amg16146c6-samsung-it-1839.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-k2-samsungit/playlist.m3u8",
+      "category": "Discovery"
+    },
+    {
+      "id": "42",
+      "name": "Rai Gulp",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raigulp.png",
+      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746953&output=7&forceUserAgent=raiplayappletv",
+      "category": "Rai"
+    },
+    {
+      "id": "43",
+      "name": "Rai Yoyo",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raiyoyo.png",
+      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746899&output=7&forceUserAgent=raiplayappletv",
+      "category": "Rai"
+    },
+    {
+      "id": "44",
+      "name": "Frisbee",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/frisbee.png",
+      "streamUrl": "https://amg16146-wbdi-amg16146c7-samsung-it-1840.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-frisbee-samsungit/playlist.m3u8",
+      "category": "Discovery"
+    },
+    {
+      "id": "46",
+      "name": "Cartoonito",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/cartoonito.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-la/la-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "47",
+      "name": "Super!",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/super.png",
+      "streamUrl": "https://vimnitaly.akamaized.net/hls/live/2094034/super/master.m3u8",
+      "category": "Altro"
+    },
+    {
+      "id": "48",
+      "name": "Rai News 24",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rainews24.png",
+      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=1&output=7&forceUserAgent=raiplayappletv",
+      "category": "Rai"
+    },
+    {
+      "id": "49",
+      "name": "Italia 2",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/italia2.png",
+      "streamUrl": "https://live03-col.msf.cdn.mediaset.net/live/ch-i2/i2-clr.isml/manifest.mpd",
+      "category": "Mediaset"
+    },
+    {
+      "id": "50",
+      "name": "Sky TG24",
+      "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/skytg24.png",
+      "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/12221/web/master.m3u8?hdnts=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
+      "category": "Sky"
+    },
     ];
 
   const filteredChannels = channels.filter(channel => {
