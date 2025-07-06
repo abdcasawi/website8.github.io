@@ -181,9 +181,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
     // Strategy 1: HLS.js for .m3u8 streams or HLS type
     if (resolvedUrl.includes('.m3u8') || type === 'hls') {
       strategies.push({
-        name: 'HLS.js',
+        name: 'HLS.js Enhanced',
         execute: async () => {
-          console.log('Loading with HLS.js strategy');
+          console.log('Loading with Enhanced HLS.js strategy');
           const { default: Hls } = await import('hls.js');
           
           if (!Hls.isSupported()) {
@@ -192,22 +192,22 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
 
           const hls = new Hls({
             enableWorker: false,
-            lowLatencyMode: true,
+            lowLatencyMode: false,
             backBufferLength: 90,
             maxBufferLength: 30,
-            maxMaxBufferLength: 1000,
-            maxBufferSize: 100* 1000 * 1000,
-            maxBufferHole: 1,
+            maxMaxBufferLength: 600,
+            maxBufferSize: 60 * 1000 * 1000,
+            maxBufferHole: 0.5,
             highBufferWatchdogPeriod: 2,
             nudgeOffset: 0.1,
-            nudgeMaxRetry: 5,
+            nudgeMaxRetry: 3,
             maxFragLookUpTolerance: 0.25,
             liveSyncDurationCount: 3,
             liveMaxLatencyDurationCount: 10,
             liveDurationInfinity: true,
             enableSoftwareAES: true,
-            manifestLoadingTimeOut: 15000,
-            manifestLoadingMaxRetry: 6,
+            manifestLoadingTimeOut: 20000,
+            manifestLoadingMaxRetry: 4,
             manifestLoadingRetryDelay: 1000,
             fragLoadingTimeOut: 20000,
             fragLoadingMaxRetry: 6,
@@ -217,13 +217,26 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             progressive: false,
             xhrSetup: (xhr: XMLHttpRequest, url: string) => {
               xhr.withCredentials = false;
-              xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
+              xhr.timeout = 20000;
+              
+              // Enhanced headers for better compatibility
+              xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
               xhr.setRequestHeader('Accept', '*/*');
               xhr.setRequestHeader('Accept-Language', 'en-US,en;q=0.9');
+              xhr.setRequestHeader('Accept-Encoding', 'gzip, deflate, br');
+              xhr.setRequestHeader('Cache-Control', 'no-cache');
+              xhr.setRequestHeader('Pragma', 'no-cache');
               
-              if (url.includes('elahmad.com')) {
+              // Domain-specific headers
+              if (url.includes('akamaized.net')) {
+                xhr.setRequestHeader('Origin', 'https://www.raiplay.it');
+                xhr.setRequestHeader('Referer', 'https://www.raiplay.it/');
+              } else if (url.includes('elahmad.com')) {
                 xhr.setRequestHeader('Referer', 'https://www.elahmad.com/');
                 xhr.setRequestHeader('Origin', 'https://www.elahmad.com');
+              } else if (url.includes('rai.it')) {
+                xhr.setRequestHeader('Origin', 'https://www.raiplay.it');
+                xhr.setRequestHeader('Referer', 'https://www.raiplay.it/');
               }
             }
           });
@@ -232,21 +245,31 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
           
           return new Promise<void>((resolve, reject) => {
             let resolved = false;
+            let manifestParsed = false;
             
             const cleanup = () => {
               if (!resolved && hls) {
                 hls.off(Hls.Events.MANIFEST_PARSED);
                 hls.off(Hls.Events.ERROR);
                 hls.off(Hls.Events.FRAG_LOADED);
+                hls.off(Hls.Events.LEVEL_LOADED);
               }
             };
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
               if (!resolved) {
+                manifestParsed = true;
+                setLoadingProgress(70);
+                console.log('HLS manifest parsed successfully');
+              }
+            });
+
+            hls.on(Hls.Events.LEVEL_LOADED, () => {
+              if (!resolved && manifestParsed) {
                 resolved = true;
                 cleanup();
-                setLoadingProgress(80);
-                console.log('HLS manifest parsed successfully');
+                setLoadingProgress(90);
+                console.log('HLS level loaded successfully');
                 resolve();
               }
             });
@@ -254,6 +277,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             hls.on(Hls.Events.FRAG_LOADED, () => {
               setConnectionStatus('connected');
               setLoadingProgress(100);
+              if (!resolved && manifestParsed) {
+                resolved = true;
+                cleanup();
+                resolve();
+              }
             });
 
             hls.on(Hls.Events.ERROR, (event, data) => {
@@ -265,19 +293,39 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 
                 let errorMsg = 'HLS streaming error';
                 if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-                  errorMsg = 'Network error - Stream may be offline';
+                  if (data.details === Hls.ErrorDetails.MANIFEST_LOAD_ERROR) {
+                    errorMsg = 'Stream manifest not accessible - May be geo-blocked or offline';
+                  } else if (data.details === Hls.ErrorDetails.FRAG_LOAD_ERROR) {
+                    errorMsg = 'Stream fragments not accessible - Connection issue';
+                  } else {
+                    errorMsg = 'Network error - Stream may be offline or geo-blocked';
+                  }
                 } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-                  errorMsg = 'Media format error';
+                  errorMsg = 'Media format error - Stream may be corrupted';
+                } else if (data.type === Hls.ErrorTypes.MUX_ERROR) {
+                  errorMsg = 'Stream multiplexing error';
                 }
                 
                 reject(new Error(errorMsg));
+              } else if (!data.fatal) {
+                // Non-fatal error, try to recover
+                console.log('Non-fatal HLS error, attempting recovery:', data.details);
+                try {
+                  if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+                    hls.recoverMediaError();
+                  } else if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+                    hls.startLoad();
+                  }
+                } catch (recoveryError) {
+                  console.error('HLS recovery failed:', recoveryError);
+                }
               }
             });
 
             try {
               hls.loadSource(resolvedUrl);
               hls.attachMedia(videoRef.current!);
-              setLoadingProgress(60);
+              setLoadingProgress(50);
             } catch (hlsError) {
               if (!resolved) {
                 resolved = true;
@@ -286,54 +334,112 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
               }
             }
             
-            // Timeout
+            // Extended timeout for problematic streams
             setTimeout(() => {
               if (!resolved) {
                 resolved = true;
                 cleanup();
-                reject(new Error('HLS loading timeout'));
+                reject(new Error('HLS loading timeout - Stream may be slow or inaccessible'));
               }
-            }, 20000);
+            }, 30000);
           });
         }
       });
     }
 
-    // Strategy 2: Native video element (for direct streams and as fallback)
+    // Strategy 2: Native video element with enhanced headers
     if (type === 'direct' || type === 'hls' || type === 'php') {
       strategies.push({
-        name: 'Native Video',
+        name: 'Native Video Enhanced',
         execute: async () => {
-          console.log('Loading with native video strategy');
+          console.log('Loading with enhanced native video strategy');
           const video = videoRef.current!;
+          
+          // Clear any existing source
+          video.src = '';
+          video.load();
+          
+          // Enhanced video element setup
           video.crossOrigin = 'anonymous';
+          video.preload = 'metadata';
+          
+          // Set source with enhanced error handling
           video.src = resolvedUrl;
           setLoadingProgress(60);
           
           return new Promise<void>((resolve, reject) => {
+            let resolved = false;
+            
+            const handleCanPlay = () => {
+              if (!resolved) {
+                resolved = true;
+                console.log('Native video can play');
+                cleanup();
+                setLoadingProgress(100);
+                resolve();
+              }
+            };
+            
             const handleLoadedData = () => {
-              console.log('Native video loaded successfully');
-              video.removeEventListener('loadeddata', handleLoadedData);
-              video.removeEventListener('error', handleError);
-              setLoadingProgress(100);
-              resolve();
+              if (!resolved) {
+                resolved = true;
+                console.log('Native video loaded data successfully');
+                cleanup();
+                setLoadingProgress(100);
+                resolve();
+              }
             };
             
             const handleError = (e: any) => {
-              console.log('Native video loading failed:', e);
-              video.removeEventListener('loadeddata', handleLoadedData);
-              video.removeEventListener('error', handleError);
-              reject(new Error('Native video loading failed'));
+              if (!resolved) {
+                resolved = true;
+                console.log('Native video loading failed:', e);
+                cleanup();
+                
+                let errorMsg = 'Native video loading failed';
+                if (video.error) {
+                  switch (video.error.code) {
+                    case MediaError.MEDIA_ERR_ABORTED:
+                      errorMsg = 'Video loading aborted';
+                      break;
+                    case MediaError.MEDIA_ERR_NETWORK:
+                      errorMsg = 'Network error - Stream may be offline or geo-blocked';
+                      break;
+                    case MediaError.MEDIA_ERR_DECODE:
+                      errorMsg = 'Video decode error - Unsupported format';
+                      break;
+                    case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                      errorMsg = 'Video format not supported';
+                      break;
+                    default:
+                      errorMsg = 'Unknown video error';
+                  }
+                }
+                
+                reject(new Error(errorMsg));
+              }
             };
 
+            const cleanup = () => {
+              video.removeEventListener('canplay', handleCanPlay);
+              video.removeEventListener('loadeddata', handleLoadedData);
+              video.removeEventListener('error', handleError);
+            };
+
+            video.addEventListener('canplay', handleCanPlay);
             video.addEventListener('loadeddata', handleLoadedData);
             video.addEventListener('error', handleError);
             
+            // Start loading
+            video.load();
+            
             setTimeout(() => {
-              video.removeEventListener('loadeddata', handleLoadedData);
-              video.removeEventListener('error', handleError);
-              reject(new Error('Native video timeout'));
-            }, 15000);
+              if (!resolved) {
+                resolved = true;
+                cleanup();
+                reject(new Error('Native video timeout'));
+              }
+            }, 20000);
           });
         }
       });
@@ -403,13 +509,23 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
 
       // Clean up previous instances
       if (hlsRef.current) {
-        hlsRef.current.destroy();
+        try {
+          hlsRef.current.destroy();
+        } catch (e) {
+          console.log('Error destroying previous HLS instance:', e);
+        }
         hlsRef.current = null;
       }
 
       // Clear retry timeout
       if (retryTimeoutRef.current) {
         clearTimeout(retryTimeoutRef.current);
+      }
+
+      // Hide iframe
+      if (iframeRef.current) {
+        iframeRef.current.style.display = 'none';
+        iframeRef.current.src = '';
       }
 
       console.log('Loading stream:', channel.streamUrl);
@@ -481,10 +597,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
           }
           
           video.src = '';
+          video.load();
           
           // Wait before next strategy
           if (i < strategies.length - 1) {
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise(resolve => setTimeout(resolve, 2000));
           }
         }
       }
@@ -497,7 +614,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       console.error('Stream loading error:', err);
       
       let errorMessage = 'Failed to load live stream';
-      if (channel.streamUrl.includes('.php')) {
+      if (channel.streamUrl.includes('akamaized.net')) {
+        errorMessage = 'Stream may be geo-blocked or require specific access permissions';
+      } else if (channel.streamUrl.includes('.php')) {
         errorMessage = 'PHP stream temporarily unavailable - Server may be restricting access';
       } else if (err instanceof Error) {
         errorMessage = err.message;
@@ -508,12 +627,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       setConnectionStatus('disconnected');
       setLoadingProgress(0);
       
-      // Auto-retry logic
+      // Auto-retry logic with exponential backoff
       if (retryCount < 3) {
-        console.log(`Auto-retry in 5 seconds (attempt ${retryCount + 1}/3)`);
+        const retryDelay = Math.min(5000 * Math.pow(2, retryCount), 20000);
+        console.log(`Auto-retry in ${retryDelay/1000} seconds (attempt ${retryCount + 1}/3)`);
         retryTimeoutRef.current = setTimeout(() => {
           setRetryCount(prev => prev + 1);
-        }, 5000);
+        }, retryDelay);
       }
     }
   }, [channel.streamUrl, retryCount, resolveStreamUrl, volume, isMuted, streamType, getStrategiesForStreamType]);
@@ -865,6 +985,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   </span>
                 </div>
                 
+                {channel.streamUrl.includes('akamaized.net') && (
+                  <p className="text-xs text-slate-500 max-w-sm">
+                    Akamai CDN streams may require specific access permissions or be geo-blocked
+                  </p>
+                )}
+                
                 {channel.streamUrl.includes('.php') && (
                   <p className="text-xs text-slate-500 max-w-sm">
                     PHP-based streams require additional processing and may take longer to load
@@ -900,7 +1026,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                     <span className="relative z-10">Back to Channels</span>
                   </button>
                   <p className="text-xs text-slate-500 mt-4">
-                    {channel.streamUrl.includes('.php') 
+                    {channel.streamUrl.includes('akamaized.net') 
+                      ? 'Akamai CDN streams may be geo-blocked or require specific access permissions'
+                      : channel.streamUrl.includes('.php') 
                       ? 'PHP streams may have server restrictions or require specific access methods'
                       : 'Live channels may experience temporary interruptions'
                     }
