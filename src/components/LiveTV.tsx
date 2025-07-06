@@ -36,33 +36,28 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       channels: []
     },
     {
-      id: 'News',
-      name: 'News',
+      id: 'NEWS',
+      name: 'NEWS',
       channels: []
     },
     {
-      id: 'Business',
-      name: 'Business',
+      id: 'MOROCCO',
+      name: 'MOROCCO',
       channels: []
     },
     {
-      id: 'Morocco',
-      name: 'Morocco',
+      id: 'ARABIC',
+      name: 'ARABIC',
       channels: []
     },
     {
-      id: 'arabic',
-      name: 'arabic',
+      id: 'RELIGIOUS',
+      name: 'RELIGIOUS',
       channels: []
     },
     {
-      id: 'Religious',
-      name: 'Religious',
-      channels: []
-    },
-    {
-      id: 'Italy',
-      name: 'Italy',
+      id: 'ITALY',
+      name: 'ITALY',
       channels: []
     },
     {
@@ -78,154 +73,154 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "2M Monde +1 (1080p)",
       "logo": "https://i.imgur.com/MvpntzA.png",
       "streamUrl": "https://d2qh3gh0k5vp3v.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-n6pess5lwbghr/2M_ES.m3u8",
-      "category": "Morocco"
+      "category": "MOROCCO"
     },
     {
       "id": "13",
       "name": "Al Aoula Inter (480p)",
       "logo": "https://i.imgur.com/nq53d2N.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/ts_corp/73_aloula_w1dqfwm/playlist_dvr.m3u8",
-      "category": "Morocco"
+      "category": "MOROCCO"
     },
     {
       "id": "14",
       "name": "Al Aoula Laâyoune (480p)",
       "logo": "https://www.snrt.ma/sites/default/files/2023-04/laayoune.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/abr_corp/73_laayoune_pgagr52/corp/73_laayoune_pgagr52_480p/chunks_dvr.m3u8",
-      "category": "Morocco"
+      "category": "MOROCCO"
     },
     {
       "id": "15",
       "name": "Al Arabiya (1080p)",
       "logo": "https://i.imgur.com/NXFkYFj.png",
       "streamUrl": "https://live.alarabiya.net/alarabiapublish/alarabiya.smil/playlist.m3u8",
-      "category": "News"
+      "category": "NEWS"
     },
     {
       "id": "16",
       "name": "Al Arabiya Al Hadath (1080p) [Not 24/7]",
       "logo": "https://i.imgur.com/De4SEWE.png",
       "streamUrl": "https://av.alarabiya.net/alarabiapublish/alhadath.smil/playlist.m3u8",
-      "category": "News"
+      "category": "NEWS"
     },
     {
       "id": "17",
       "name": "Al Arabiya Business (1080p)",
       "logo": "https://i.imgur.com/eEV4r6J.jpg",
       "streamUrl": "https://live.alarabiya.net/alarabiapublish/aswaaq.smil/playlist.m3u8",
-      "category": "Business"
+      "category": "NEWS"
     },
     {
       "id": "18",
       "name": "Al Arabiya Programs (1080p)",
       "logo": "https://i.imgur.com/Hoc3cfO.png",
       "streamUrl": "https://d1j4r34gq3qw9y.cloudfront.net/out/v1/96804f3a14864641a21c25e8ca9afb74/index.m3u8",
-      "category": "Undefined"
+      "category": "NEWS"
     },
     {
       "id": "19",
       "name": "Al Araby TV 2 (1080p)",
       "logo": "https://i.imgur.com/Gp5mNea.png",
       "streamUrl": "https://alarabyta.cdn.octivid.com/alaraby2n/smil:alaraby2n.stream.smil/chunklist.m3u8",
-      "category": "News"
+      "category": "NEWS"
     },
     {
       "id": "20",
       "name": "Al Araby TV (1080p)",
       "logo": "https://i.imgur.com/YMqWEe4.png",
       "streamUrl": "https://alarabyta.cdn.octivid.com/alaraby/smil:alaraby.stream.smil/chunklist.m3u8",
-      "category": "News"
+      "category": "ARABIC"
     },
     {
       "id": "22",
       "name": "Al Jazeera (1080p)",
       "logo": "https://i.imgur.com/7bRVpnu.png",
       "streamUrl": "https://live-hls-apps-aja-fa.getaj.net/AJA/index.m3u8",
-      "category": "News"
+      "category": "NEWS"
     },
     {
       "id": "24",
       "name": "Al Jazeera Mubasher 24 (1080p)",
       "logo": "https://yt3.googleusercontent.com/h0_bBdVgCAXIPJFnQ4hZtE87cDY_qO7rkDAue8qXdmOFxZ5NaO3AFD1uCUcst-EsBcGJ8zl8EQ=s160-c-k-c0x00ffffff-no-rj",
       "streamUrl": "https://live-hls-apps-ajm24-fa.getaj.net/AJM24/index.m3u8",
-      "category": "News"
+      "category": "NEWS"
     },
     {
       "id": "27",
       "name": "Al Maghribia (480p)",
       "logo": "https://i.imgur.com/7GaahYh.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/abr_corp/73_almaghribia_83tz85q/corp/73_almaghribia_83tz85q_480p/chunks_dvr.m3u8",
-      "category": "General"
+      "category": "MOROCCO"
     },
     {
       "id": "28",
       "name": "Al Qamar TV (1080p)",
       "logo": "https://i.imgur.com/zkBT0C8.png",
       "streamUrl": "https://streamer3.premio.link/alqamar/playlist.m3u8",
-      "category": "Undefined"
+      "category": "ARABIC"
     },
     {
       "id": "32",
       "name": "Arryadia (480p)",
       "logo": "https://i.imgur.com/XjzK3gZ.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/abr_corp/73_arryadia_k2tgcj0/corp/73_arryadia_k2tgcj0_480p/chunks_dvr.m3u8",
-      "category": "Morocco"
+      "category": "MOROCCO"
     },
     {
       "id": "33",
       "name": "Asharq Discovery (1080p) [Geo-blocked]",
       "logo": "https://i.imgur.com/CyS9r2n.png",
       "streamUrl": "https://svs.itworkscdn.net/asharqdiscoverylive/asharqd.smil/playlist_dvr.m3u8",
-      "category": "Documentary"
+      "category": "ARABIC"
     },
     {
       "id": "34",
       "name": "Asharq Documentary (1080p)",
       "logo": "https://i.imgur.com/x8ELmhM.png",
       "streamUrl": "https://svs.itworkscdn.net/asharqdocumentarylive/asharqdocumentary.smil/playlist_dvr.m3u8",
-      "category": "Documentary"
+      "category": "ARABIC"
     },
     {
       "id": "35",
       "name": "Assadissa (480p)",
       "logo": "https://i.imgur.com/un6qTGO.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/abr_corp/73_assadissa_7b7u5n1/corp/73_assadissa_7b7u5n1_480p/chunks_dvr.m3u8",
-      "category": "Religious"
+      "category": "MOROCCO"
     },
     {
       "id": "36",
       "name": "Athaqafia (480p)",
       "logo": "https://i.imgur.com/mrwFI2L.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/ts_corp/73_arrabia_hthcj4p/playlist_dvr.m3u8",
-      "category": "Culture"
+      "category": "MOROCCO"
     },
     {
       "id": "42",
       "name": "CGTN Arabic (1080p) [Not 24/7]",
       "logo": "https://i.imgur.com/AkFFrS7.png",
       "streamUrl": "https://arabic-livews.cgtn.com/hls/LSveq57bErWLinBnxosqjisZ220802LSTefTAS9zc9mpU08y3np9TH220802cd/playlist.m3u8",
-      "category": "News"
+      "category": "NEWS"
     },
     {
       "id": "43",
       "name": "Chada TV (720p)",
       "logo": "https://i.imgur.com/inJyJBN.png",
       "streamUrl": "https://chadatv.vedge.infomaniak.com/livecast/chadatv/playlist.m3u8",
-      "category": "General"
+      "category": "ARABIC"
     },
     {
       "id": "48",
       "name": "Dubai One (1080p)",
       "logo": "https://i.imgur.com/Dj16oKL.png",
       "streamUrl": "https://dminnvllta.cdn.mgmlcdn.com/dubaione/smil:dubaione.stream.smil/chunklist.m3u8",
-      "category": "General"
+      "category": "ARABIC"
     },
     {
       "id": "49",
       "name": "DW Arabic (1080p)",
       "logo": "https://i.imgur.com/8MRNFb9.png",
       "streamUrl": "https://dwamdstream103.akamaized.net/hls/live/2015526/dwstream103/index.m3u8",
-      "category": "News"
+      "category": "NEWS"
     },
     {
       "id": "56",
@@ -274,35 +269,35 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "Medi 1 TV Afrique (1080p) [Not 24/7]",
       "logo": "https://i.imgur.com/OioFepy.jpeg",
       "streamUrl": "https://streaming1.medi1tv.com/live/smil:medi1fr.smil/playlist.m3u8",
-      "category": "Morocco"
+      "category": "MOROCCO"
     },
     {
       "id": "66",
       "name": "Medi 1 TV Arabic (1080p) [Not 24/7]",
       "logo": "https://i.imgur.com/jWKH922.jpeg",
       "streamUrl": "https://streaming1.medi1tv.com/live/smil:medi1ar.smil/playlist.m3u8",
-      "category": "Morocco"
+      "category": "MOROCCO"
     },
     {
       "id": "67",
       "name": "Medi 1 TV Maghreb (1080p) [Not 24/7]",
       "logo": "https://i.imgur.com/LbeChWy.jpeg",
       "streamUrl": "https://streaming1.medi1tv.com/live/smil:medi1tv.smil/playlist.m3u8",
-      "category": "Morocco"
+      "category": "MOROCCO"
     },
     {
       "id": "75",
       "name": "Rai Italia",
       "logo": "https://i.imgur.com/1nN4rEP.png",
       "streamUrl": "https://ilglobotv-live.akamaized.net/channels/RAIItaliaSudAfrica/Live.m3u8",
-      "category": "Undefined"
+      "category": "ITALY"
     },
     {
       "id": "79",
       "name": "RT Arabic (1080p) [Geo-blocked]",
       "logo": "https://i.imgur.com/G8vGrn1.png",
       "streamUrl": "https://rt-arb.rttv.com/dvr/rtarab/playlist.m3u8",
-      "category": "News"
+      "category": "ARABIC"
     },
     {
       "id": "81",
@@ -316,84 +311,84 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "Sky News Arabia (Portrait) (1280p) [Not 24/7]",
       "logo": "https://i.imgur.com/FjtzQQs.png",
       "streamUrl": "https://stream.skynewsarabia.com/vertical/vertical.m3u8",
-      "category": "News"
+      "category": "NEWS"
     },
     {
       "id": "85",
       "name": "Tamazight TV (480p)",
       "logo": "https://i.imgur.com/fm6S7we.png",
       "streamUrl": "https://cdn.live.easybroadcast.io/ts_corp/73_tamazight_tccybxt/playlist_dvr.m3u8",
-      "category": "Morocco"
+      "category": "MOROCCO"
     },
     {
         "id": "87",
         "name": "Giallo",
         "logo": "https://i.imgur.com/jmogelp.png",
         "streamUrl": "https://amg16146-wbdi-amg16146c5-samsung-it-1838.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-giallo-samsungit/playlist.m3u8",
-        "category": "Italy"
+        "category": "ITALY"
     },
     {
         "id": "88",
         "name": "Real Time",
         "logo": "https://i.imgur.com/EuvIaWN.png",
         "streamUrl": "https://amg16146-wbdi-amg16146c2-samsung-it-1835.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-realtime-samsungit/playlist.m3u8",
-        "category": "Italy"
+        "category": "ITALY"
     },
     {
         "id": "89",
         "name": "Sky TG24",
         "logo": "https://i.imgur.com/GF8PBkV.png",
         "streamUrl": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/12221/web/master.m3u8?hdnts=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d",
-        "category": "Italy"
+        "category": "ITALY"
     },
     {
         "id": "90",
         "name": "DMAX",
         "logo": "https://i.imgur.com/ganRfEo.png",
         "streamUrl": "https://amg16146-wbdi-amg16146c8-samsung-it-1841.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-dmax-samsungit/playlist.m3u8",
-        "category": "Italy"
+        "category": "ITALY"
     },
     {
         "id": "91",
         "name": "France 24 Arabic",
         "logo": "https://i.imgur.com/Wlasx7Q.png",
         "streamUrl": "https://live.france24.com/hls/live/2037222-b/F24_AR_HI_HLS/master_5000.m3u8",
-        "category": "ARABIC"
+        "category": "NEWS"
     },
     {
         "id": "92",
         "name": "HGTV - Home&Garden",
         "logo": "https://i.imgur.com/f3Jn8ON.png",
         "streamUrl": "https://amg16146-wbdi-amg16146c9-samsung-it-1842.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-hgtv-samsungit/playlist.m3u8",
-        "category": "Italy"
+        "category": "ARABIC"
     },
     {
         "id": "93",
         "name": "L'Equipe Live 1",
         "logo": "https://i.imgur.com/U8fIwyQ.png",
         "streamUrl": "https://d3awaj0f2u3w26.cloudfront.net/4/media.m3u8",
-        "category": "ALL"
+        "category": "FRANCE"
     },
     {
         "id": "95",
         "name": "L'Equipe Live 2",
         "logo": "https://i.imgur.com/U8fIwyQ.png",
         "streamUrl": "https://d2l55nvfkhk4sg.cloudfront.net/4/media.m3u8",
-        "category": "ALL"
+        "category": "FRANCE"
     },
     {
         "id": "94",
         "name": "RMC Découverte ",
         "logo": "https://i.imgur.com/fRxPRBv.png",
         "streamUrl": "https://d2mt8for1pddy4.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-6uronj7gzvy4j/index.m3u8",
-        "category": "ALL"
+        "category": "FRANCE"
     },
     {
         "id": "96",
         "name": "Rai News 24",
         "logo": "https://i.imgur.com/KWteU9B.png",
         "streamUrl": "https://ilglobotv-live.akamaized.net/channels/RAINews24/Live.m3u8",
-        "category": "ALL"
+        "category": "ITALY"
     },
     ];
 
