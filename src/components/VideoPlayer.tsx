@@ -184,6 +184,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
         name: 'HLS.js Enhanced',
         execute: async () => {
           console.log('Loading with Enhanced HLS.js strategy');
+          
+          // Check if video element exists
+          if (!videoRef.current) {
+            throw new Error('Video element not available');
+          }
+
           const { default: Hls } = await import('hls.js');
           
           if (!Hls.isSupported()) {
@@ -323,8 +329,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             });
 
             try {
+              // Double-check video element exists before attaching
+              if (!videoRef.current) {
+                throw new Error('Video element not available for HLS attachment');
+              }
+              
               hls.loadSource(resolvedUrl);
-              hls.attachMedia(videoRef.current!);
+              hls.attachMedia(videoRef.current);
               setLoadingProgress(50);
             } catch (hlsError) {
               if (!resolved) {
@@ -353,7 +364,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
         name: 'Native Video Enhanced',
         execute: async () => {
           console.log('Loading with enhanced native video strategy');
-          const video = videoRef.current!;
+          
+          // Check if video element exists
+          const video = videoRef.current;
+          if (!video) {
+            throw new Error('Video element not available');
+          }
           
           // Clear any existing source
           video.src = '';
@@ -498,7 +514,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   // Enhanced video loading with dynamic strategy selection
   const loadVideo = useCallback(async () => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video) {
+      console.error('Video element not available for loading');
+      setError('Video player not initialized');
+      setIsLoading(false);
+      return;
+    }
 
     try {
       setIsLoading(true);
@@ -563,7 +584,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
           success = true;
           
           // Auto-play for video streams (not iframe)
-          if (streamType !== 'iframe') {
+          if (streamType !== 'iframe' && video) {
             try {
               video.volume = volume;
               video.muted = isMuted;
@@ -596,8 +617,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             iframeRef.current.src = '';
           }
           
-          video.src = '';
-          video.load();
+          if (video) {
+            video.src = '';
+            video.load();
+          }
           
           // Wait before next strategy
           if (i < strategies.length - 1) {
@@ -640,9 +663,14 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
 
   // Load video on mount and URL change
   useEffect(() => {
-    loadVideo();
+    // Add a small delay to ensure video element is mounted
+    const timer = setTimeout(() => {
+      loadVideo();
+    }, 100);
     
     return () => {
+      clearTimeout(timer);
+      
       if (hlsRef.current) {
         try {
           hlsRef.current.destroy();
