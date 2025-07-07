@@ -27,8 +27,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   const [currentVideoTime, setCurrentVideoTime] = useState(0);
   const [buffered, setBuffered] = useState(0);
   const [retryCount, setRetryCount] = useState(0);
-  const [streamType, setStreamType] = useState<'hls' | 'direct'>('direct');
+  const [streamType, setStreamType] = useState<'hls' | 'direct' | 'rai'>('direct');
   const [playerType, setPlayerType] = useState<'native' | 'hlsjs' | 'unknown'>('unknown');
+  const [resolvedUrl, setResolvedUrl] = useState<string>('');
 
   const buttonBackgroundStyle = {
     backgroundImage: 'url(/background1.jpg)',
@@ -81,6 +82,76 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
            video.canPlayType('application/x-mpegURL') !== '';
   }, []);
 
+  // Resolve RAI relinker URLs
+  const resolveRaiUrl = useCallback(async (url: string): Promise<string> => {
+    try {
+      console.log('Resolving RAI relinker URL:', url);
+      
+      // Create a proxy request to avoid CORS issues
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+      
+      const response = await fetch(proxyUrl, {
+        method: 'GET',
+        headers: {
+          'User-Agent': 'raiplayappletv',
+          'Accept': '*/*',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const resolvedUrl = response.url;
+      console.log('RAI URL resolved to:', resolvedUrl);
+      
+      // If the response is a redirect, get the final URL
+      if (resolvedUrl && resolvedUrl !== proxyUrl) {
+        return resolvedUrl;
+      }
+
+      // Try alternative resolution method
+      const text = await response.text();
+      
+      // Look for m3u8 URLs in the response
+      const m3u8Match = text.match(/https?:\/\/[^\s"'<>]+\.m3u8[^\s"'<>]*/);
+      if (m3u8Match) {
+        console.log('Found m3u8 URL in response:', m3u8Match[0]);
+        return m3u8Match[0];
+      }
+
+      // Try direct URL construction for RAI
+      const contMatch = url.match(/cont=(\d+)/);
+      if (contMatch) {
+        const cont = contMatch[1];
+        const directUrl = `https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=${cont}&output=7&forceUserAgent=raiplayappletv`;
+        console.log('Trying direct RAI URL:', directUrl);
+        return directUrl;
+      }
+
+      throw new Error('Could not resolve RAI relinker URL');
+    } catch (error) {
+      console.error('RAI URL resolution failed:', error);
+      
+      // Fallback: try to construct a direct stream URL
+      const contMatch = url.match(/cont=(\d+)/);
+      if (contMatch) {
+        const cont = contMatch[1];
+        // Try known RAI stream patterns
+        const fallbackUrls = [
+          `https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=${cont}&output=7`,
+          `https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=${cont}&output=25`,
+          `https://relinker.rai.it/relinkerServlet.htm?cont=${cont}&output=7`,
+        ];
+        
+        console.log('Trying fallback URLs:', fallbackUrls);
+        return fallbackUrls[0]; // Return first fallback
+      }
+      
+      throw error;
+    }
+  }, []);
+
   // Load stream with HLS.js fallback
   const loadStreamWithHLSJS = useCallback(async (url: string) => {
     const video = videoRef.current;
@@ -103,24 +174,27 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
         maxBufferHole: 0.5,
         nudgeOffset: 0.1,
         nudgeMaxRetry: 3,
-        manifestLoadingTimeOut: 20000,
-        manifestLoadingMaxRetry: 3,
-        manifestLoadingRetryDelay: 1000,
-        fragLoadingTimeOut: 20000,
-        fragLoadingMaxRetry: 3,
-        fragLoadingRetryDelay: 1000,
-        xhrSetup: (xhr: XMLHttpRequest, url: string) => {
+        manifestLoadingTimeOut: 30000,
+        manifestLoadingMaxRetry: 5,
+        manifestLoadingRetryDelay: 2000,
+        fragLoadingTimeOut: 30000,
+        fragLoadingMaxRetry: 5,
+        fragLoadingRetryDelay: 2000,
+        xhrSetup: (xhr: XMLHttpRequest, requestUrl: string) => {
           xhr.withCredentials = false;
-          xhr.timeout = 20000;
-          xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
-          xhr.setRequestHeader('Accept', '*/*');
-          xhr.setRequestHeader('Accept-Language', 'en-US,en;q=0.9');
+          xhr.timeout = 30000;
           
-          // Domain-specific headers
-          if (url.includes('akamaized.net') || url.includes('rai.it')) {
+          // Set headers based on the stream source
+          if (requestUrl.includes('rai.it') || requestUrl.includes('mediapolis')) {
+            xhr.setRequestHeader('User-Agent', 'raiplayappletv');
             xhr.setRequestHeader('Origin', 'https://www.raiplay.it');
             xhr.setRequestHeader('Referer', 'https://www.raiplay.it/');
+          } else {
+            xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
           }
+          
+          xhr.setRequestHeader('Accept', '*/*');
+          xhr.setRequestHeader('Accept-Language', 'en-US,en;q=0.9');
         }
       });
 
@@ -178,12 +252,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
             let errorMsg = 'HLS streaming error';
             if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
               if (data.details === Hls.ErrorDetails.MANIFEST_LOAD_ERROR) {
-                errorMsg = 'Stream not accessible - May be geo-blocked or offline';
+                errorMsg = 'Stream not accessible - May be geo-blocked, offline, or require authentication';
               } else {
-                errorMsg = 'Network error - Stream may be offline';
+                errorMsg = 'Network error - Stream may be offline or unreachable';
               }
             } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-              errorMsg = 'Media format error - Stream may be corrupted';
+              errorMsg = 'Media format error - Stream may be corrupted or incompatible';
             }
             
             reject(new Error(errorMsg));
@@ -217,9 +291,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
           if (!resolved) {
             resolved = true;
             cleanup();
-            reject(new Error('HLS.js loading timeout'));
+            reject(new Error('HLS.js loading timeout - Stream may be slow or unavailable'));
           }
-        }, 30000);
+        }, 45000);
       });
     } catch (importError) {
       throw new Error(`Failed to load HLS.js: ${importError}`);
@@ -256,7 +330,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
           if (video.error) {
             switch (video.error.code) {
               case MediaError.MEDIA_ERR_NETWORK:
-                errorMsg = 'Network error - Stream may be offline or geo-blocked';
+                errorMsg = 'Network error - Stream may be offline, geo-blocked, or require authentication';
                 break;
               case MediaError.MEDIA_ERR_DECODE:
                 errorMsg = 'Video decode error - Format may not be supported';
@@ -281,9 +355,16 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       video.addEventListener('canplay', handleCanPlay);
       video.addEventListener('error', handleError);
 
-      // Configure video
+      // Configure video for RAI streams
       video.crossOrigin = 'anonymous';
       video.preload = 'metadata';
+      
+      // Set special attributes for RAI streams
+      if (url.includes('rai.it') || url.includes('mediapolis')) {
+        video.setAttribute('webkit-playsinline', 'true');
+        video.setAttribute('playsinline', 'true');
+      }
+      
       video.src = url;
       video.load();
 
@@ -292,9 +373,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
         if (!resolved) {
           resolved = true;
           cleanup();
-          reject(new Error('Native video timeout'));
+          reject(new Error('Native video timeout - Stream may be slow or unavailable'));
         }
-      }, 20000);
+      }, 30000);
     });
   }, []);
 
@@ -327,33 +408,58 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       video.src = '';
       video.load();
 
-      const url = channel.streamUrl;
+      let url = channel.streamUrl;
+      let finalUrl = url;
+
+      // Check if this is a RAI relinker URL
+      const isRaiRelinker = url.includes('mediapolis.rai.it/relinker') || url.includes('relinker.rai.it');
       const isHLS = url.includes('.m3u8');
-      setStreamType(isHLS ? 'hls' : 'direct');
+      
+      if (isRaiRelinker) {
+        setStreamType('rai');
+        console.log('Detected RAI relinker URL, attempting to resolve...');
+        
+        try {
+          finalUrl = await resolveRaiUrl(url);
+          setResolvedUrl(finalUrl);
+          console.log('RAI URL resolved successfully:', finalUrl);
+        } catch (resolveError) {
+          console.error('RAI URL resolution failed:', resolveError);
+          // Try to use the original URL as fallback
+          finalUrl = url;
+        }
+      } else if (isHLS) {
+        setStreamType('hls');
+      } else {
+        setStreamType('direct');
+      }
 
-      console.log(`Loading ${isHLS ? 'HLS' : 'direct'} stream:`, url);
+      console.log(`Loading ${streamType} stream:`, finalUrl);
 
-      if (isHLS) {
-        // For HLS streams, try native first, then HLS.js
+      // Determine if the final URL is HLS
+      const finalIsHLS = finalUrl.includes('.m3u8') || isRaiRelinker;
+
+      if (finalIsHLS) {
+        // For HLS streams (including resolved RAI streams), try native first, then HLS.js
         if (supportsNativeHLS()) {
           console.log('Trying native HLS support first...');
           try {
-            await loadStreamNative(url);
+            await loadStreamNative(finalUrl);
             console.log('Native HLS successful');
           } catch (nativeError) {
             console.log('Native HLS failed, trying HLS.js...', nativeError);
-            await loadStreamWithHLSJS(url);
+            await loadStreamWithHLSJS(finalUrl);
             console.log('HLS.js successful');
           }
         } else {
           console.log('No native HLS support, using HLS.js...');
-          await loadStreamWithHLSJS(url);
+          await loadStreamWithHLSJS(finalUrl);
           console.log('HLS.js successful');
         }
       } else {
         // For direct streams, use native video
         console.log('Loading direct stream with native video...');
-        await loadStreamNative(url);
+        await loadStreamNative(finalUrl);
         console.log('Native video successful');
       }
 
@@ -364,7 +470,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       console.error('Stream loading failed:', err);
       handleStreamError(err);
     }
-  }, [channel.streamUrl, supportsNativeHLS, loadStreamNative, loadStreamWithHLSJS]);
+  }, [channel.streamUrl, supportsNativeHLS, loadStreamNative, loadStreamWithHLSJS, resolveRaiUrl, streamType]);
 
   // Handle stream errors
   const handleStreamError = useCallback((err: any) => {
@@ -375,10 +481,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
     }
     
     // Add specific guidance for common issues
-    if (streamType === 'hls') {
-      if (channel.streamUrl.includes('rai.it')) {
-        errorMessage += ' RAI streams may require Italian IP address or specific authentication.';
-      } else if (channel.streamUrl.includes('akamaized.net')) {
+    if (streamType === 'rai') {
+      errorMessage += ' RAI streams may require Italian IP address, specific authentication, or may be temporarily offline.';
+    } else if (streamType === 'hls') {
+      if (channel.streamUrl.includes('akamaized.net')) {
         errorMessage += ' This stream may have geo-restrictions or authentication requirements.';
       }
       
@@ -610,7 +716,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       case 'connected':
         return isFinite(duration) && duration > 0 ? 'Playing' : 'Live';
       case 'connecting':
-        return 'Connecting';
+        return streamType === 'rai' ? 'Resolving RAI URL' : 'Connecting';
       case 'buffering':
         return 'Buffering';
       case 'disconnected':
@@ -647,7 +753,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
                   <span className="text-sm font-bold text-red-400">
-                    {isLiveStream ? 'LIVE' : 'VIDEO'}
+                    {streamType === 'rai' ? 'RAI' : isLiveStream ? 'LIVE' : 'VIDEO'}
                   </span>
                 </div>
                 <div className="w-px h-6 bg-white/30"></div>
@@ -678,7 +784,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 <div className="relative z-10">
                   <div className="text-lg font-bold">{formatTime(currentTime)}</div>
                   <div className="text-xs text-slate-300">
-                    {isLiveStream ? 'Live TV' : 'Video Player'}
+                    {streamType === 'rai' ? 'RAI Player' : isLiveStream ? 'Live TV' : 'Video Player'}
                   </div>
                 </div>
               </div>
@@ -741,6 +847,16 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   <span className="ml-2 font-medium">{streamType.toUpperCase()}</span>
                 </div>
                 <div>
+                  <span className="text-slate-400">Original URL:</span>
+                  <span className="ml-2 font-medium text-xs break-all">{channel.streamUrl}</span>
+                </div>
+                {resolvedUrl && resolvedUrl !== channel.streamUrl && (
+                  <div>
+                    <span className="text-slate-400">Resolved URL:</span>
+                    <span className="ml-2 font-medium text-xs break-all text-green-400">{resolvedUrl}</span>
+                  </div>
+                )}
+                <div>
                   <span className="text-slate-400">Duration:</span>
                   <span className="ml-2 font-medium">{formatDuration(duration)}</span>
                 </div>
@@ -775,17 +891,22 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   <Tv className="w-10 h-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-400" />
                 </div>
                 <p className="text-2xl font-semibold mb-2">
-                  {connectionStatus === 'buffering' ? 'Buffering' : 'Loading Stream'}
+                  {streamType === 'rai' ? 'Resolving RAI Stream' : 
+                   connectionStatus === 'buffering' ? 'Buffering' : 'Loading Stream'}
                 </p>
-                <p className="text-slate-400 mb-4">Connecting to {channel.name}...</p>
+                <p className="text-slate-400 mb-4">
+                  {streamType === 'rai' ? 'Resolving RAI relinker URL...' : `Connecting to ${channel.name}...`}
+                </p>
                 <div className="flex items-center justify-center gap-2 mb-2">
                   {getSignalIcon()}
                   <span className="text-sm text-yellow-400">
-                    {connectionStatus === 'buffering' ? 'Buffering content' : 'Establishing connection'}
+                    {streamType === 'rai' ? 'Processing RAI redirect' :
+                     connectionStatus === 'buffering' ? 'Buffering content' : 'Establishing connection'}
                   </span>
                 </div>
                 <p className="text-xs text-slate-500">
-                  {streamType === 'hls' ? 
+                  {streamType === 'rai' ? 'RAI streams require special handling' :
+                   streamType === 'hls' ? 
                     (supportsNativeHLS() ? 'Trying native HLS, fallback to HLS.js' : 'Using HLS.js player') :
                     'Using native video player'
                   }
@@ -800,6 +921,16 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 <AlertCircle className="w-24 h-24 text-red-500 mx-auto mb-6" />
                 <h3 className="text-2xl font-bold mb-4">Stream Unavailable</h3>
                 <p className="text-slate-400 mb-6 text-sm leading-relaxed">{error}</p>
+                
+                {streamType === 'rai' && (
+                  <div className="bg-yellow-900/30 border border-yellow-600/50 rounded-lg p-4 mb-6">
+                    <h4 className="text-yellow-400 font-semibold mb-2">RAI Stream Notice</h4>
+                    <p className="text-xs text-yellow-200 leading-relaxed">
+                      RAI streams use special relinker URLs that may require Italian IP addresses or specific authentication. 
+                      Some RAI content may only be available within Italy or to authenticated users.
+                    </p>
+                  </div>
+                )}
                 
                 <div className="space-y-4">
                   <button
@@ -887,7 +1018,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   <div className="flex items-center gap-3 justify-center mb-1">
                     <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
                     <span className="text-lg font-bold">
-                      {isLiveStream ? 'LIVE TV' : 'VIDEO'}
+                      {streamType === 'rai' ? 'RAI TV' : isLiveStream ? 'LIVE TV' : 'VIDEO'}
                     </span>
                     {getSignalIcon()}
                   </div>
@@ -943,7 +1074,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 <div className="relative z-10 flex flex-col items-center gap-3">
                   <Play className="w-20 h-20 ml-2" />
                   <span className="text-lg font-semibold">
-                    {isLiveStream ? 'Start Live TV' : 'Play Video'}
+                    {streamType === 'rai' ? 'Start RAI Stream' : isLiveStream ? 'Start Live TV' : 'Play Video'}
                   </span>
                   <span className="text-sm text-slate-300">
                     {playerType.toUpperCase()} Player
