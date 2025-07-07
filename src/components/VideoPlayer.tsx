@@ -170,7 +170,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
         backBufferLength: 10,
         maxBufferLength: 10,
         maxMaxBufferLength: 15,
-        maxBufferSize: 10 * 1000 * 1000,
+        maxBufferSize: 100* 1000 * 1000,
         maxBufferHole: 1,
         nudgeOffset: 1,
         nudgeMaxRetry: 3,
