@@ -74,6 +74,13 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
 
   const channels: Channel[] = [
     {
+      "id": "2",
+      "name": "QURAN (1080p)",
+      "logo": "https://i.imgur.com/MvpntzA.png",
+      "streamUrl": "https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8",
+      "category": "ARbic"
+    },
+    {
       "id": "3",
       "name": "2M Monde +1 (1080p)",
       "logo": "https://i.imgur.com/MvpntzA.png",
