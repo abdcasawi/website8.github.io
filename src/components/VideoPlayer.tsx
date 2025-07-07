@@ -96,9 +96,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       const hls = new Hls({
         enableWorker: false,
         lowLatencyMode: false,
-        backBufferLength: 90,
-        maxBufferLength: 30,
-        maxMaxBufferLength: 600,
+        backBufferLength: 1000,
+        maxBufferLength: 1000,
+        maxMaxBufferLength: 1500,
         maxBufferSize: 60 * 1000 * 1000,
         maxBufferHole: 0.5,
         nudgeOffset: 0.1,
