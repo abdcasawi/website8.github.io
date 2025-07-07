@@ -227,16 +227,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
           if (requestUrl.includes('rai.it') || requestUrl.includes('mediapolis')) {
             // RAI-specific headers
             xhr.setRequestHeader('User-Agent', 'raiplayappletv');
-            xhr.setRequestHeader('Origin', 'https://www.raiplay.it');
             xhr.setRequestHeader('Referer', 'https://www.raiplay.it/');
           } else if (requestUrl.includes('mediaset.net')) {
             // Mediaset-specific headers
             xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Smart TV; Linux; Tizen 2.4.0) AppleWebKit/538.1');
-            xhr.setRequestHeader('Origin', 'https://www.mediasetplay.mediaset.it');
           } else if (requestUrl.includes('akamaized.net')) {
             // Akamai CDN headers
             xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
-            xhr.setRequestHeader('Origin', 'https://www.example.com');
           } else {
             // Generic headers for other sources
             xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
