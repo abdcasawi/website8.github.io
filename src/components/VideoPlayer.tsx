@@ -164,37 +164,88 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
         throw new Error('HLS.js not supported in this browser');
       }
 
+      // Optimized HLS.js configuration for IPTV streaming
       const hls = new Hls({
-        enableWorker: false,
-        lowLatencyMode: false,
-        backBufferLength: 10,
-        maxBufferLength: 10,
-        maxMaxBufferLength: 15,
-        maxBufferSize: 60* 1000 * 1000,
-        maxBufferHole: 1,
-        nudgeOffset: 1,
-        nudgeMaxRetry: 3,
-        manifestLoadingTimeOut: 30000,
-        manifestLoadingMaxRetry: 5,
-        manifestLoadingRetryDelay: 2000,
-        fragLoadingTimeOut: 3000,
-        fragLoadingMaxRetry: 5,
-        fragLoadingRetryDelay: 20000,
+        // Performance optimizations
+        enableWorker: true, // Enable web workers for better performance
+        lowLatencyMode: true, // Enable low latency mode for live streams
+        
+        // Buffer management - optimized for live streaming
+        backBufferLength: 30, // Keep 30 seconds of back buffer
+        maxBufferLength: 20, // Target 20 seconds forward buffer
+        maxMaxBufferLength: 40, // Maximum 40 seconds forward buffer
+        maxBufferSize: 60 * 1000 * 1000, // 60MB max buffer size
+        maxBufferHole: 0.3, // Allow 300ms buffer holes
+        
+        // Seeking and nudging
+        nudgeOffset: 0.1, // Small nudge offset for better sync
+        nudgeMaxRetry: 5, // More retries for nudging
+        
+        // Manifest loading - optimized for reliability
+        manifestLoadingTimeOut: 20000, // 20 second timeout
+        manifestLoadingMaxRetry: 6, // More retries for manifests
+        manifestLoadingRetryDelay: 1000, // 1 second between retries
+        
+        // Fragment loading - optimized for various network conditions
+        fragLoadingTimeOut: 15000, // 15 second timeout for fragments
+        fragLoadingMaxRetry: 6, // More retries for fragments
+        fragLoadingRetryDelay: 1000, // 1 second between fragment retries
+        
+        // Level loading
+        levelLoadingTimeOut: 10000, // 10 second timeout for levels
+        levelLoadingMaxRetry: 4, // Retry levels 4 times
+        levelLoadingRetryDelay: 1000, // 1 second between level retries
+        
+        // Adaptive bitrate settings
+        abrEwmaFastLive: 3.0, // Fast adaptation for live streams
+        abrEwmaSlowLive: 9.0, // Slow adaptation for live streams
+        abrEwmaFastVoD: 3.0, // Fast adaptation for VoD
+        abrEwmaSlowVoD: 9.0, // Slow adaptation for VoD
+        abrEwmaDefaultEstimate: 500000, // Default bandwidth estimate (500kbps)
+        abrBandWidthFactor: 0.95, // Conservative bandwidth factor
+        abrBandWidthUpFactor: 0.7, // Factor for switching up
+        
+        // Fragment retry and loading
+        fragLoadingMaxRetryTimeout: 64000, // Max timeout for fragment retries
+        manifestLoadingMaxRetryTimeout: 64000, // Max timeout for manifest retries
+        
+        // Live sync
+        liveSyncDurationCount: 3, // Keep 3 segments for live sync
+        liveMaxLatencyDurationCount: 10, // Max 10 segments latency
+        liveDurationInfinity: false, // Don't allow infinite duration
+        
+        // Error recovery
+        enableSoftwareAES: true, // Enable software AES decryption
+        enableCEA708Captions: false, // Disable captions for performance
+        
+        // Custom XHR setup for different stream sources
         xhrSetup: (xhr: XMLHttpRequest, requestUrl: string) => {
           xhr.withCredentials = false;
-          xhr.timeout = 30000;
+          xhr.timeout = 20000; // 20 second timeout
           
           // Set headers based on the stream source
           if (requestUrl.includes('rai.it') || requestUrl.includes('mediapolis')) {
+            // RAI-specific headers
             xhr.setRequestHeader('User-Agent', 'raiplayappletv');
             xhr.setRequestHeader('Origin', 'https://www.raiplay.it');
             xhr.setRequestHeader('Referer', 'https://www.raiplay.it/');
-          } else {
+          } else if (requestUrl.includes('mediaset.net')) {
+            // Mediaset-specific headers
+            xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Smart TV; Linux; Tizen 2.4.0) AppleWebKit/538.1');
+            xhr.setRequestHeader('Origin', 'https://www.mediasetplay.mediaset.it');
+          } else if (requestUrl.includes('akamaized.net')) {
+            // Akamai CDN headers
             xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
+            xhr.setRequestHeader('Origin', 'https://www.example.com');
+          } else {
+            // Generic headers for other sources
+            xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
           }
           
           xhr.setRequestHeader('Accept', '*/*');
-          xhr.setRequestHeader('Accept-Language', 'en-US,en;q=0.9');
+          xhr.setRequestHeader('Accept-Language', 'en-US,en;q=0.9,it;q=0.8');
+          xhr.setRequestHeader('Cache-Control', 'no-cache');
+          xhr.setRequestHeader('Pragma', 'no-cache');
         }
       });
 
