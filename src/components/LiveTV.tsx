@@ -76,7 +76,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     {
       "id": "2",
       "name": "QURAN (1080p)",
-      "logo": "https://i.imgur.com/MvpntzA.png",
+      "logo": "https://i.imgur.com/FdXu8VB.png",
       "streamUrl": "https://5c7b683162943.streamlock.net/live/ngrp:bahrainquran_all/playlist.m3u8",
       "category": "ARABIC"
     },
