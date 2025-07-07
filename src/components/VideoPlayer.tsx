@@ -170,7 +170,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
         
         // Buffer management - optimized for live streaming
         backBufferLength: 30, // Keep 30 seconds of back buffer
-        maxBufferLength: 100, // Target 20 seconds forward buffer
+        maxBufferLength: 1000, // Target 20 seconds forward buffer
         maxMaxBufferLength: 40, // Maximum 40 seconds forward buffer
         maxBufferSize: 60 * 1000 * 1000, // 60MB max buffer size
         maxBufferHole: 0.3, // Allow 300ms buffer holes
