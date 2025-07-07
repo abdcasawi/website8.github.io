@@ -395,7 +395,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "Mytime Movies",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai1.png",
 "streamUrl":
-  "https://mytimefrance-rakuten-samsung.amagi.tv/playlist.m3u8": "Rai"
+  "https://mytimefrance-rakuten-samsung.amagi.tv/playlist.m3u8", "category": "Rai"
     },
     {
       "id": "98",
