@@ -65,6 +65,11 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       name: 'MBC',
       channels: []
     },
+    {
+      id: 'RAI',
+      name: 'RAI',
+      channels: []
+    },
   ];
 
   const channels: Channel[] = [
@@ -392,24 +397,24 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     },
     {
       "id": "97",
-      "name": "Mytime Movies",
+      "name": "Rai 1",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai1.png",
-"streamUrl":
-  "https://mytimefrance-rakuten-samsung.amagi.tv/playlist.m3u8", "category": "Rai"
+      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=2606803&output=7&forceUserAgent=raiplayappletv",
+      "category": "RAI"
     },
     {
       "id": "98",
       "name": "Rai 2",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai2.png",
       "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308718&output=7&forceUserAgent=raiplayappletv",
-      "category": "Rai"
+      "category": "RAI"
     },
     {
       "id": "99",
       "name": "Rai 3",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai3.png",
       "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308709&output=7&forceUserAgent=raiplayappletv",
-      "category": "Rai"
+      "category": "RAI"
     },
     {
       "id": "100",
@@ -465,7 +470,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "Rai 4",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai4.png",
       "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746966&output=7&forceUserAgent=raiplayappletv",
-      "category": "Rai"
+      "category": "RAI"
     },
     {
       "id": "22",
@@ -479,21 +484,21 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "Rai 5",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai5.png",
       "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=395276&output=7&forceUserAgent=raiplayappletv",
-      "category": "Rai"
+      "category": "RAI"
     },
     {
       "id": "24",
       "name": "Rai Movie",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raimovie.png",
       "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=747002&output=7&forceUserAgent=raiplayappletv",
-      "category": "Rai"
+      "category": "RAI"
     },
     {
       "id": "25",
       "name": "Rai Premium",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raipremium.png",
       "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746992&output=7&forceUserAgent=raiplayappletv",
-      "category": "Rai"
+      "category": "RAI"
     },
     {
       "id": "26",
@@ -612,14 +617,14 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "Rai Gulp",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raigulp.png",
       "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746953&output=7&forceUserAgent=raiplayappletv",
-      "category": "Rai"
+      "category": "RAI"
     },
     {
       "id": "43",
       "name": "Rai Yoyo",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raiyoyo.png",
       "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746899&output=7&forceUserAgent=raiplayappletv",
-      "category": "Rai"
+      "category": "RAI"
     },
     {
       "id": "44",
@@ -647,7 +652,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "name": "Rai News 24",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rainews24.png",
       "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=1&output=7&forceUserAgent=raiplayappletv",
-      "category": "Rai"
+      "category": "RAI"
     },
     {
       "id": "49",
