@@ -177,7 +177,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
         manifestLoadingTimeOut: 30000,
         manifestLoadingMaxRetry: 5,
         manifestLoadingRetryDelay: 2000,
-        fragLoadingTimeOut: 30000,
+        fragLoadingTimeOut: 3000,
         fragLoadingMaxRetry: 5,
         fragLoadingRetryDelay: 2000,
         xhrSetup: (xhr: XMLHttpRequest, requestUrl: string) => {
