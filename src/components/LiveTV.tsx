@@ -420,7 +420,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "id": "99",
       "name": "Rai 3",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai3.png",
-      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308709&output=7&forceUserAgent=raiplayappletv",
+      "streamUrl": "https://wzstreaming.rai.it/TVlive/liveStream/playlist.m3u8",
       "category": "RAI"
     },
     {
