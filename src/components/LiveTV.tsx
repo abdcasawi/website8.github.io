@@ -411,10 +411,9 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     },
     {
       "id": "98",
-      "name": "Rai 2",
+      "name": "trtsport",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai2.png",
-      "streamUrl": "https://dash2.antik.sk/live/test_rai_uno_tizen/playlist.m3u8",
-      "category": "RAI"
+      "http://mag.ukhd.tv:80/play/live.php?mac=00:1A:79:BB:EE:72&stream=182966&extension=ts&play_token=xYKShjh13f": "RAI"
     },
     {
       "id": "99",
