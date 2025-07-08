@@ -413,7 +413,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
       "id": "98",
       "name": "Rai 2",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai2.png",
-      "streamUrl": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308718&output=7&forceUserAgent=raiplayappletv",
+      "streamUrl": "https://dash2.antik.sk/live/test_rai_uno_tizen/playlist.m3u8",
       "category": "RAI"
     },
     {
