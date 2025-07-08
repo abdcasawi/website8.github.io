@@ -36,7 +36,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   const [availableEngines, setAvailableEngines] = useState<PlayerEngine[]>(['native']);
 
   const buttonBackgroundStyle = {
-    backgroundImage: 'url(/background1.jpg)',
+    backgroundImage: 'url(/cinema.jpg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat'

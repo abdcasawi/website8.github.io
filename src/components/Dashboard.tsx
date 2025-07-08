@@ -7,7 +7,7 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   const buttonBackgroundStyle = {
-    backgroundImage: 'url(/background1.jpg)',
+    backgroundImage: 'url(/cinema.jpg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat'

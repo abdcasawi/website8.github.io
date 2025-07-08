@@ -12,7 +12,7 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const buttonBackgroundStyle = {
-    backgroundImage: 'url(/background1.jpg)',
+    backgroundImage: 'url(/cinema.jpg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat'
