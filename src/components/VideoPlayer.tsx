@@ -8,7 +8,7 @@ interface VideoPlayerProps {
 }
 
 type PlayerEngine = 'native' | 'hlsjs' | 'videojs' | 'dashjs' | 'shaka';
-type StreamFormat = 'hls' | 'dash' | 'mp4' | 'webm' | 'avi' | 'mkv' | 'flv' | 'rai' | 'rtmp' | 'unknown';
+type StreamFormat = 'hls' | 'dash' | 'mp4' | 'webm' | 'avi' | 'mkv' | 'flv' | 'rai' | 'rtmp' | 'adts' | 'aac' | 'unknown';
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -85,6 +85,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
     
     if (url.includes('mediapolis.rai.it/relinker') || url.includes('relinker.rai.it')) {
       return 'rai';
+    }
+    if (urlLower.includes('.adts') || urlLower.includes('adts') || urlLower.includes('audio/aac')) {
+      return 'adts';
+    }
+    if (urlLower.includes('.aac') || urlLower.includes('audio/aacp')) {
+      return 'aac';
     }
     if (urlLower.includes('.m3u8')) {
       return 'hls';
@@ -290,11 +296,19 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
       manifestLoadingMaxRetry: 6,
       fragLoadingTimeOut: 15000,
       fragLoadingMaxRetry: 6,
+      abrEwmaDefaultEstimate: 500000,
+      abrBandWidthFactor: 0.95,
+      abrBandWidthUpFactor: 0.7,
       xhrSetup: (xhr: XMLHttpRequest, requestUrl: string) => {
         xhr.withCredentials = false;
         xhr.timeout = 20000;
         xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
         xhr.setRequestHeader('Accept', '*/*');
+        xhr.setRequestHeader('Accept-Encoding', 'gzip, deflate');
+        // Add ADTS/AAC specific headers
+        if (requestUrl.includes('adts') || requestUrl.includes('aac')) {
+          xhr.setRequestHeader('Accept', 'audio/aac, audio/aacp, audio/x-aac, */*');
+        }
       }
     });
 
@@ -471,6 +485,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
     switch (format) {
       case 'hls':
       case 'rai':
+      case 'adts':
+      case 'aac':
         if (engines.includes('hlsjs')) return 'hlsjs';
         if (engines.includes('videojs')) return 'videojs';
         if (engines.includes('shaka')) return 'shaka';
@@ -625,6 +641,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
     // Add format-specific guidance
     if (streamFormat === 'rai') {
       errorMessage += ' - RAI streams may require Italian IP or authentication';
+    } else if (streamFormat === 'adts' || streamFormat === 'aac') {
+      errorMessage += ' - ADTS/AAC audio streams require compatible browser codec support';
     } else if (streamFormat === 'dash') {
       errorMessage += ' - DASH streams require modern browser support';
     } else if (streamFormat === 'flv' || streamFormat === 'avi' || streamFormat === 'mkv') {
@@ -878,6 +896,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
         return '🌐';
       case 'rai':
         return '🇮🇹';
+      case 'adts':
+      case 'aac':
+        return '🎵';
       default:
         return '📹';
     }
@@ -1073,7 +1094,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                   </span>
                 </div>
                 <p className="text-xs text-slate-500">
-                  Universal player supports: HLS, DASH, MP4, WebM, AVI, MKV, FLV, RAI
+                  Universal player supports: HLS, DASH, MP4, WebM, AVI, MKV, FLV, RAI, ADTS, AAC
                 </p>
               </div>
             </div>
@@ -1089,8 +1110,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ channel, onClose }) => {
                 <div className="bg-blue-900/30 border border-blue-600/50 rounded-lg p-4 mb-6">
                   <h4 className="text-blue-400 font-semibold mb-2">Universal Player</h4>
                   <p className="text-xs text-blue-200 leading-relaxed">
-                    This player automatically detects stream formats and uses the best available engine:
-                    Native HTML5, HLS.js, Video.js, Dash.js, or Shaka Player.
+                    This player automatically detects stream formats (including ADTS/AAC audio) and uses the best available engine:
+                    Native HTML5, HLS.js, Video.js, Dash.js, or Shaka Player with enhanced codec support.
                   </p>
                   <div className="mt-2 text-xs">
                     <span className="text-slate-400">Tried engines: </span>
