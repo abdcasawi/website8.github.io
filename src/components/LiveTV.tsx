@@ -411,9 +411,9 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
     },
     {
       "id": "98",
-      "name": "trtsport",
+      "name": "natgeowild",
       "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai2.png",
-      "http://mag.ukhd.tv:80/play/live.php?mac=00:1A:79:BB:EE:72&stream=182966&extension=m3u8&play_token=xYKShjh13f": "RAI"
+      "http://mag.ukhd.tv:80/play/live.php?mac=00:1A:79:BB:EE:72&stream=7676&extension=m3u8": "RAI"
     },
     {
       "id": "99",
