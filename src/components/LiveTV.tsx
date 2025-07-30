@@ -74,6 +74,13 @@ const LiveTV: React.FC<LiveTVProps> = ({ onChannelSelect }) => {
 
   const channels: Channel[] = [
     {
+      "id": "1",
+      "name": "animal planet (1080p)",
+      "logo": "https://i.imgur.com/FdXu8VB.png",
+      "streamUrl": "https://nfsnew.newkso.ru/nfs/premium304/mono.m3u8",
+      "category": "ARABIC"
+    },
+    {
       "id": "2",
       "name": "QURAN (1080p)",
       "logo": "https://i.imgur.com/FdXu8VB.png",
